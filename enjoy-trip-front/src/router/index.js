@@ -4,6 +4,7 @@ import TravelPage from '@/components/travel/TravelPage.vue'
 import AuthPage from '@/components/user/AuthPage.vue'
 import UserInfoPage from '@/components/user/UserInfoPage.vue'
 import MeetingPage from '@/components/meeting/MeetingPage.vue'
+import CommunityPage from '@/components/community/CommunityPage.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
             path: '/meeting',
             name: 'meeting',
             component: MeetingPage
+        },
+        {
+            path: '/community',
+            name: 'community',
+            component: CommunityPage
         }
     ]
 })

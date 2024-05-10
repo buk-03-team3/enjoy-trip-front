@@ -18,7 +18,7 @@
                     <RouterLink to="/auth"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">회원가입</a> </RouterLink>
                     <RouterLink to="/travel"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </RouterLink>
                     <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
+                    <RouterLink to="/community"> <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a></RouterLink>
                     <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
                 </div>
 
@@ -26,7 +26,7 @@
                     <RouterLink to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></RouterLink>
                     <RouterLink to="/travel"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </RouterLink>
                     <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
-                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
+                    <RouterLink to="/community"> <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a></RouterLink>
                     <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="nav-item dropdown">
