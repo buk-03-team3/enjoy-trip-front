@@ -1,5 +1,5 @@
 <template>
-    <div class = "ExploreTour">
+    <div class = "ExploreTour my-5">
         <div class="tab-class text-center ">
             <ul class="nav nav-pills d-inline-flex justify-content-center mb-5">
                 <li class="nav-item">
