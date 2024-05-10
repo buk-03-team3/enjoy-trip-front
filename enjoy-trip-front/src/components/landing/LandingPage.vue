@@ -2,11 +2,10 @@
 import LandingRightComponent from './content1/LandingRightComponent.vue'
 import LandingTopLeftComponent from './content1/LandingTopLeftComponent.vue'
 import LandingBottomLeftComponent from './content1/LandingBottomLeftComponent.vue.vue'
-import BlogContent from './content2/BlogComponent.vue'
 </script>
 <template>
     <!-- Explore Tour Start -->
-    <div class="container-fluid ExploreTour py-1">
+    <div class="container-fluid ExploreTour">
         <div class="row">
             <div class="col-md-6">
                 <LandingTopLeftComponent />
@@ -15,7 +14,6 @@ import BlogContent from './content2/BlogComponent.vue'
             <div class="col-md-6">
                 <LandingRightComponent />
             </div>
-            <BlogContent />
         </div>
     </div>
     <!-- Explore Tour End -->

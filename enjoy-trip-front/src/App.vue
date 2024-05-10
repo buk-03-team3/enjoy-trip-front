@@ -1,8 +1,7 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import LandingPage from './components/landing/LandingPage.vue'
+import { RouterView } from 'vue-router'
 
-import NavBar from './layout/NavBar.vue';
+import NavBar from './layout/NavBar.vue'
 </script>
 
 <template>

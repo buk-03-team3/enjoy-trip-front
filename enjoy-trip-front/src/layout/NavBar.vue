@@ -13,26 +13,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0" v-show="!isLogin">
-                   <router-link to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></router-link>
-                    <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">로그인</a> 
-                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">회원가입</a> 
-                 <router-link to="/TravelPage"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </router-link>                       
-                    <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
-                    <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
-                    <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
+                    <RouterLink to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></RouterLink>
+                    <RouterLink to="/auth"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">로그인</a> </RouterLink>
+                    <RouterLink to="/auth"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">회원가입</a> </RouterLink>
+                    <RouterLink to="/travel"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </RouterLink>
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
+                    <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
                 </div>
 
                 <div class="navbar-nav ms-auto py-0" v-show="isLogin">
-                   <router-link to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></router-link>
-                    <router-link to="/TravelPage"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </router-link>           
-                    <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
-                    <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
-                    <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
-                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active " data-bs-toggle="dropdown"> 이현수 님</a>
+                    <RouterLink to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></RouterLink>
+                    <RouterLink to="/travel"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </RouterLink>
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
+                    <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"> 이현수 님</a>
                             <div class="dropdown-menu m-0">
-                              <router-link to='/UserInfoPage'> <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></router-link>
+                                <RouterLink to="/user/info"
+                                    ><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
+                                >
                                 <a href="#/logout" class="dropdown-item"><i class="fas fa-power-off me-2"></i> 로그아웃</a>
                             </div>
                         </div>
@@ -69,7 +71,7 @@
 <style scope></style>
 
 <script setup>
-    import { ref } from 'vue'
-    const isLogin = ref(true);
-    
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+const isLogin = ref(true)
 </script>
