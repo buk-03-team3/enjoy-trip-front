@@ -38,6 +38,38 @@ const router = createRouter({
             path: '/community',
             name: 'community',
             component: CommunityPage
+        },
+        {
+            path: '/board',
+            name: 'board',
+            // component: TheBoardView,
+            // route level code-splitting
+            // this generates a separate chunk (About.[hash].js) for this route
+            // which is lazy-loaded when the route is visited.
+            component: () => import('@/views/TheBoardView.vue'),
+            redirect: { name: 'article-list' },
+            children: [
+                {
+                    path: 'list',
+                    name: 'article-list',
+                    component: () => import('@/components/notice/BoardList.vue')
+                },
+                {
+                    path: 'view/:articleno',
+                    name: 'article-view',
+                    component: () => import('@/components/notice/BoardDetail.vue')
+                },
+                {
+                    path: 'write',
+                    name: 'article-write',
+                    component: () => import('@/components/notice/BoardWrite.vue')
+                },
+                {
+                    path: 'modify/:articleno',
+                    name: 'article-modify',
+                    component: () => import('@/components/notice/BoardModify.vue')
+                }
+            ]
         }
     ]
 })
