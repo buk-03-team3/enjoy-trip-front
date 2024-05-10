@@ -11,7 +11,7 @@
                     <a class="d-flex py-2 mx-3 border border-primary bg-light rounded-pill" data-bs-toggle="pill" href="#InternationalTab-2">
                         <span class="text-dark" style="width: 250px" @click="contentsSearch()">컨텐츠별 검색</span>
                     </a>
-                    <!-- dd -->
+                    <!-- ddd -->
                 </li>
             </ul>
             <div v-show="toggle"><RegionSearchBarComponent></RegionSearchBarComponent></div>

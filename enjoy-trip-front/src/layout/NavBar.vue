@@ -13,18 +13,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0" v-show="!isLogin">
-                    <a href="index.html"  class="nav-item nav-link" style="font-size: 1.5rem">홈</a>
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/">홈</router-link></a>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">로그인</a> 
                      <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">회원가입</a> 
-                    <a href="about.html" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a>                   
+                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/TravelPage">관광지</router-link></a>                   
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
                 </div>
 
                 <div class="navbar-nav ms-auto py-0" v-show="isLogin">
-                    <a href="index.html"  class="nav-item nav-link" style="font-size: 1.5rem">홈</a>
-                    <a href="about.html" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a>                   
+                   <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/">홈</router-link></a>
+                   <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/TravelPage">관광지</router-link></a>        
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
