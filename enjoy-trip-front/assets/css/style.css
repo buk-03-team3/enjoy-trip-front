@@ -335,6 +335,7 @@
         z-index: 999;
         background-color: dfffdd;
         animation: changeBackgroundColor3 30s infinite; /* 애니메이션 반복 설정 */
+        
     }
     .nvabar-light:hover {
         background-color: #000;
