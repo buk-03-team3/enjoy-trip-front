@@ -30,7 +30,7 @@
                             <option value="39" style="color: white">음식점</option>
                         </select>
                     </div>
-                    <!-- <button onclick="fetchTravelInfo()" type="button" class="btn btn-primary rounded-pill col md-4">검색</button> -->
+                    <button onclick="#" type="button" class="btn btn-primary rounded-pill col md-4">검색</button>
                 </div>
             </div>
         </div>
