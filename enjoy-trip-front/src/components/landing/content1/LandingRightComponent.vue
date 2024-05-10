@@ -1,9 +1,9 @@
 <template>
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px">
-            <h5 class="section-title px-3">SSAFY</h5>
-            <h1 class="mb-4 kakao-bold">인기 관광지</h1>
-            <p class="mb-0 kakao-regular">어쩌구저쩌구</p>
+            <h5 class="section-title px-3 kakao-bold">SSAFY</h5>
+            <h1 class="mb-4 kakao-bold">SSAFY가 추천하는 여행지 🚝</h1>
+            <p class="mb-0 kakao-regular">Let's go</p>
         </div>
         <div id="carouselExampleInterval" class="carousel slide dongle" data-bs-ride="carousel" style="border-radius: 30px; overflow: hidden">
             <div class="carousel-inner">

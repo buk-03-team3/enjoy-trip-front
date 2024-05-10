@@ -1,9 +1,9 @@
 <template>
     <div class="container py-5">
         <div class="mx-auto text-center mb-5" style="max-width: 900px">
-            <h5 class="section-title px-3">SSAFY</h5>
-            <h1 class="mb-4 kakao-bold">인기 관광지</h1>
-            <p class="mb-0 kakao-regular">어쩌구저쩌구</p>
+            <h5 class="section-title px-3 kakao-bold">Hot Attraction</h5>
+            <h1 class="mb-4 kakao-bold">🚀 인기 관광지 🚀</h1>
+            <p class="mb-0 kakao-regular">이번 주 가장 많은 조회 관심 기록</p>
         </div>
         <div class="tab-class text-center">
             <div class="tab-content">
