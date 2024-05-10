@@ -86,13 +86,14 @@
         }
 </style>
 <template>
-    <div class="container">
+    <div class="container my-3">
         <div class="row align-items-center">
             <div class="col-md-6">
                 <div class="mb-3">
                     <h5 class="card-title">Contact List <span class="text-muted fw-normal ms-2">(834)</span></h5>
                 </div>
             </div>
+            
             <div class="col-md-6">
                 <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 mb-3">
                     <div>
@@ -126,6 +127,22 @@
                 </div>
             </div>
         </div>
+        <!-- searchbar start -->
+        <div class="container-fluid py-2">
+            <div class="container text-center py-2">
+                <div class="mx-auto text-center" style="max-width: 900px;">
+                    <div class="position-relative mx-auto">
+                        <input class="form-control border-primary rounded-pill w-100 py-3 ps-4 pe-5" type="text"
+                            placeholder="검색어 입력">
+                        <button type="button"
+                            class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 px-4 mt-2 me-2">검색</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <!-- searchbar end -->
+
+        <!-- card start -->
         <div class="row">
             <div class="col-xl-3 col-sm-6">
                 <div class="card">
@@ -172,5 +189,33 @@
                 </div>
             </div>
         </div>
+        <!-- card end -->
+
+        <!-- pagenation start -->
+        <div class="row g-0 align-items-center pb-4">
+            <div class="col-sm-6">
+                <div>
+                    <p class="mb-sm-0">Showing 1 to 10 of 57 entries</p>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="float-sm-end">
+                    <ul class="pagination mb-sm-0">
+                        <li class="page-item disabled">
+                            <a href="#" class="page-link"><i class="mdi mdi-chevron-left"></i></a>
+                        </li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item"><a href="#" class="page-link">2</a></li>
+                        <li class="page-item"><a href="#" class="page-link">3</a></li>
+                        <li class="page-item"><a href="#" class="page-link">4</a></li>
+                        <li class="page-item"><a href="#" class="page-link">5</a></li>
+                        <li class="page-item">
+                            <a href="#" class="page-link"><i class="mdi mdi-chevron-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- pagenation end -->
         </div>
 </template>
