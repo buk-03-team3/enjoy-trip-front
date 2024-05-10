@@ -13,18 +13,18 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0" v-show="!isLogin">
-                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/">홈</router-link></a>
+                   <router-link to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></router-link>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">로그인</a> 
                      <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">회원가입</a> 
-                    <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/TravelPage">관광지</router-link></a>                   
+                 <router-link to="/TravelPage"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </router-link>                       
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
                 </div>
 
                 <div class="navbar-nav ms-auto py-0" v-show="isLogin">
-                   <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/">홈</router-link></a>
-                   <a href="#" class="nav-item nav-link" style="font-size: 1.5rem"><router-link to="/TravelPage">관광지</router-link></a>        
+                   <router-link to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></router-link>
+                    <router-link to="/TravelPage"> <a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a> </router-link>           
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a>
                     <a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a>
                     <a href="contact.html" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a>
@@ -32,7 +32,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle active " data-bs-toggle="dropdown"> 이현수 님</a>
                             <div class="dropdown-menu m-0">
-                                <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a>
+                              <router-link to='/UserInfoPage'> <a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></router-link>
                                 <a href="#/logout" class="dropdown-item"><i class="fas fa-power-off me-2"></i> 로그아웃</a>
                             </div>
                         </div>
