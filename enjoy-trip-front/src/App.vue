@@ -1,11 +1,11 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import LandingPage from './components/landing/LandingPage.vue'
-import travelPage from './components/travel/travelPage.vue'
+import TravelPage from './components/travel/TravelPage.vue';
 </script>
 
 <template>
     <LandingPage></LandingPage>
-    <travelPage></travelPage>
+    <TravelPage></TravelPage>
     <RouterView />
 </template>
