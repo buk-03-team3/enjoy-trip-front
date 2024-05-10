@@ -321,6 +321,9 @@
     .navbar-light .navbar-brand img {
         max-height: 45px;
     }
+    .navbar-light{
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
 }
 
 @media (min-width: 992px) {
