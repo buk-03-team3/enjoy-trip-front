@@ -23,4 +23,4 @@
 
 - [x]  NavBar 컴포넌트(Login)
 - [x]  NavBar 컴포넌트(Logout)
-- [ ]  Footer 컴포넌트
+- [x]  Footer 컴포넌트
