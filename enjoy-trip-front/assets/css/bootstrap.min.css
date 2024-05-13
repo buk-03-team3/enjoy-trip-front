@@ -67,16 +67,17 @@
     }
 }
 body {
+    height: 100%;
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
     color: #757575;
-    background-color: #f0f5fa;
+    background-color: white;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    animation: changeBackgroundColor 30s infinite; /* 애니메이션 반복 설정 */
+    /* animation: changeBackgroundColor 30s infinite; 애니메이션 반복 설정 */
 }
 hr {
     margin: 1rem 0;

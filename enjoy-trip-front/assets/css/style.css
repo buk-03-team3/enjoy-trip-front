@@ -215,7 +215,7 @@
 .navbar-light .navbar-nav .nav-link {
     font-family: 'KakaoRegular', KakaoRegular;
     position: relative;
-    padding: 35px 15px;
+    padding: 10px 10px;
     color: var(--bs-dark) !important;
     font-size: 17px;
     font-weight: 400;
@@ -299,7 +299,7 @@
     .navbar.navbar-expand-lg .navbar-toggler {
         padding: 10px 20px;
         border: 1px solid var(--bs-primary);
-        color: var(--bs-primary);
+        color: var(--bs-white);
     }
 
     .navbar-light .navbar-collapse {
@@ -321,7 +321,7 @@
     .navbar-light .navbar-brand img {
         max-height: 45px;
     }
-    .navbar-light{
+    .navbar-light {
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
 }
@@ -329,7 +329,7 @@
 @media (min-width: 992px) {
     .navbar-light {
         /*background-color: #000;*/
-        /* position: absolute; */
+        position: absolute;
         width: 100%;
         top: 0;
         left: 0;
@@ -337,7 +337,7 @@
         border-width: 1px;
         z-index: 999;
         background-color: dfffdd;
-        animation: changeBackgroundColor3 30s infinite; /* 애니메이션 반복 설정 */
+        /* animation: changeBackgroundColor3 30s infinite; 애니메이션 반복 설정 */
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
     }
     .nvabar-light:hover {
@@ -363,6 +363,7 @@
 
     .navbar-light .navbar-nav .nav-link:hover::before,
     .navbar-light .navbar-nav .nav-link.active::before {
+        /* 차오르는 애니메이션 효과 */
         height: calc(100% + 1px);
         left: 1px;
     }
