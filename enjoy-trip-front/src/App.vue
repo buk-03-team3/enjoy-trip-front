@@ -2,15 +2,12 @@
 import { RouterView } from 'vue-router'
 
 import NavBar from './layout/NavBar.vue'
-import KakaoMap from './components/map/KakaoMap.vue'
-import Footer from './layout/Footer.vue'
+import Footer from './layout/Footer.vue';
 </script>
 
 <template>
     <NavBar />
-    <!-- <KakaoMap></KakaoMap> -->
-    <!-- <LandingPage></LandingPage> -->
-    <br />
+    <div style="height: 2.5vmax;"></div>
     <RouterView />
-    <!-- <Footer></Footer> -->
+    <Footer></Footer>
 </template>

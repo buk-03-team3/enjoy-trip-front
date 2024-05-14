@@ -46,8 +46,8 @@ const router = createRouter({
             component: KakaoMap
         },
         {
-            path: '/board',
-            name: 'board',
+            path: '/notice',
+            name: 'notice',
             // component: TheBoardView,
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
