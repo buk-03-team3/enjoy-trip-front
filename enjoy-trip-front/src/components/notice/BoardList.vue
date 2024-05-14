@@ -52,7 +52,133 @@ const fillFakeArticles = () => {
             userId: 'user456',
             views: 80,
             createdAt: '2024-05-09'
-        }
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
+        {
+            articleNo: 1,
+            subject: '첫 번째 글 제목',
+            userId: 'user123',
+            views: 100,
+            createdAt: '2024-05-10'
+        },
+        {
+            articleNo: 2,
+            subject: '두 번째 글 제목',
+            userId: 'user456',
+            views: 80,
+            createdAt: '2024-05-09'
+        },
         // 다른 가짜 데이터 추가
     ]
     articles.value = fakeArticles

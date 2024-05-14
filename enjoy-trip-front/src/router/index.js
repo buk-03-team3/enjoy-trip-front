@@ -4,7 +4,6 @@ import TravelPage from '@/components/travel/TravelPage.vue'
 import AuthPage from '@/components/user/AuthPage.vue'
 import UserInfoPage from '@/components/user/UserInfoPage.vue'
 import MeetingPage from '@/components/meeting/MeetingPage.vue'
-import CommunityPage from '@/components/community/CommunityPage.vue'
 import KakaoMap from '@/components/map/KakaoMap.vue'
 
 const router = createRouter({
@@ -38,7 +37,30 @@ const router = createRouter({
         {
             path: '/community',
             name: 'community',
-            component: CommunityPage
+            component: () => import('@/views/TheCommunityView.vue'),
+            redirect: { name: 'meeting-article-list' },
+            children: [
+                {
+                    path: 'list',
+                    name: 'meeting-article-list',
+                    component: () => import('@/components/community/CommunityList.vue')
+                },
+                {
+                    path: 'view/:articleno',
+                    name: 'meeting-article-view',
+                    component: () => import('@/components/community/CommunityDetail.vue')
+                },
+                {
+                    path: 'write',
+                    name: 'meeting-article-write',
+                    component: () => import('@/components/community/CommunityWrite.vue')
+                },
+                {
+                    path: 'modify/:articleno',
+                    name: 'meeting-article-modify',
+                    component: () => import('@/components/community/CommunityModify.vue')
+                }
+            ]
         },
         {
             path: '/map',
