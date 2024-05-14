@@ -72,16 +72,18 @@ const getMarkersForPage = (pageNumber) => {
     </div>
 
     <div class="result-container">
-        <div class="container" style="position: relative">
-            <ul id="searchResults" class="list-group" style="position: absolute; top: 20%; left: -95%; z-index: -111">
+        <div class="container resultBox" style="position: relative; overflow: auto;">
+            <ul id="searchResults" class="list-group" style="position: absolute; top: 20%; left: -95%; z-index: 111; " >
                 <li class="list-group-item py-3" v-for="(mapList, index) in getMarkersForPage(currentPage)" v-bind:key="index">
-                    {{ mapList.lat }} | {{ mapList.lng }} | {{ mapList.infoWindow.content }}
+                   <div>{{ mapList.lat }}</div>
+                   <div>{{mapList.lng}}</div>
+                   <div>{{mapList.infoWindow.content}}</div>
                 </li>
             </ul>
         </div>
 
-        <div class="search-result-container">
-            <KakaoMap :lat="37.566826" :lng="126.9786567" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" z-index="1">
+        <div class="search-result-container" style="z-index: -1;">
+            <KakaoMap :lat="37.566826" :lng="126.9786567" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
                 <KakaoMapMarker
                     v-for="(marker, index) in getMarkersForPage(currentPage)"
                     :key="marker.key === undefined ? index : marker.key"
@@ -138,19 +140,20 @@ body {
     width: 100%;
 }
 
-.container {
-    z-index: 999;
-    opacity: 0.55;
+.container.resultBox {
+    z-index: 2;
+    opacity: 0.60;
     max-width: 30%;
 }
 
 #searchResults .list-group {
+
     left: -95%;
 }
 #searchResults .list-group-item {
     width: 40vmax;
     border: none;
-    border-radius: 10px;
+    /* border-radius: 10px; */
     /*left: -95%; */
     cursor: pointer;
     transition: background-color 0.3s;
