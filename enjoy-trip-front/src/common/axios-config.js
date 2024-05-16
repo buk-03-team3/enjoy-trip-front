@@ -7,5 +7,6 @@ export default axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
         'Content-Type': 'application/json' // json으로 request를 보내겠다. (form www-urlencoded로 보내지 않음..)
-    }
+    },
+    withCredentials: true
 })
