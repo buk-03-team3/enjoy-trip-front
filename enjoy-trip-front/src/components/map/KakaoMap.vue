@@ -62,28 +62,19 @@ const getMarkersForPage = (pageNumber) => {
         <h5 class="section-title px-3 kakao-bold">MAP</h5>
         <h1 class="mb-4 kakao-bold">카카오 Map</h1>
     </div>
-    <div class="container mt-3">
+
+        <div class="container mt-3" style="width: fit-content">
         <div class="search-container mb-4">
-            <div class="input-group">
-                <input type="text" class="form-control" v-model="searchKeyword" placeholder="검색어를 입력하세요" />
-                <button @click="search" class="btn btn-primary">검색</button>
+            <div class="input-group" style="width:25%" >
+                <input type="text" class="form-control kakao-bold" v-model="searchKeyword" placeholder="검색어를 입력하세요" />
+                <button @click="search" class="btn kakao-bold" style="background-color: #FEE500; color:black; border-color: #FEE500">검색</button>
             </div>
         </div>
     </div>
+    <div class="result-container container"  style="position:relative;">
 
-    <div class="result-container">
-        <div class="container resultBox" style="position: relative; overflow: auto;">
-            <ul id="searchResults" class="list-group" style="position: absolute; top: 20%; left: -95%; z-index: 111; " >
-                <li class="list-group-item py-3" v-for="(mapList, index) in getMarkersForPage(currentPage)" v-bind:key="index">
-                   <div>{{ mapList.lat }}</div>
-                   <div>{{mapList.lng}}</div>
-                   <div>{{mapList.infoWindow.content}}</div>
-                </li>
-            </ul>
-        </div>
-
-        <div class="search-result-container" style="z-index: -1;">
-            <KakaoMap :lat="37.566826" :lng="126.9786567" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
+        <div class="search-result-container"  style="position:absolute;">
+            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
                 <KakaoMapMarker
                     v-for="(marker, index) in getMarkersForPage(currentPage)"
                     :key="marker.key === undefined ? index : marker.key"
@@ -95,10 +86,18 @@ const getMarkersForPage = (pageNumber) => {
                 />
             </KakaoMap>
         </div>
-    </div>
+        
+    <div class="resultBox" style="position:absolute;" >
 
-    <div class="container mt-3">
-        <nav aria-label="Page navigation example">
+            <ul id="searchResults" class="list-group" >
+                <li class="list-group-item py-3 kakao-regular" v-for="(mapList, index) in getMarkersForPage(currentPage)" v-bind:key="index">
+                   <div>{{ mapList.lat }}</div>
+                   <div>{{mapList.lng}}</div>
+                   <div>{{mapList.infoWindow.content}}</div>
+                </li>
+            </ul>
+         <div class="container mt-3 mapNav" style="bottom: 0;">
+             <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: currentPage === 1 }">
                     <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
@@ -112,6 +111,11 @@ const getMarkersForPage = (pageNumber) => {
             </ul>
         </nav>
     </div>
+        </div>
+
+    </div>
+
+
 </template>
 
 <style scoped>
@@ -133,33 +137,45 @@ body {
 .search-container {
     justify-content: center;
     padding-top: 2vmax;
+     width: 90vmax;
+  
 }
 
 .result-container {
     justify-content: space-between;
-    width: 100%;
+    width: 90vmax;
+    height: 40vmax;
 }
 
-.container.resultBox {
-    z-index: 2;
-    opacity: 0.60;
+.resultBox {
+    height: 40vmax;
     max-width: 30%;
+    z-index: 3;
+    overflow: auto;
+    background-color: white;
 }
+.resultBox .list-group{
 
+}
 #searchResults .list-group {
-
     left: -95%;
 }
 #searchResults .list-group-item {
-    width: 40vmax;
     border: none;
     /* border-radius: 10px; */
     /*left: -95%; */
     cursor: pointer;
     transition: background-color 0.3s;
+    border-bottom : 1px;
 }
+
+.list-group-item.div{
+    color:black;
+}
+
 #searchResults .list-group-item:hover {
     background-color: #222;
     color: white;
 }
+
 </style>
