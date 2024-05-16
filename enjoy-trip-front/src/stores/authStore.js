@@ -7,15 +7,14 @@ import notLoginUserProfileImageUrl from '@/assets/default-user.png';
 export const useAuthStore = defineStore('authStore', () => {
   console.log(notLoginUserProfileImageUrl)
   const authStore = reactive({
-    // NavBar
-    isLogin: false,
+      // NavBar
+      isLogin: sessionStorage.getItem('isLogin') === 'true',
+      userName: sessionStorage.getItem('userName') != null ? sessionStorage.getItem('userName') : void 0,
+      userProfileImageUrl: notLoginUserProfileImageUrl,
 
-    userName: '',
-    userProfileImageUrl: notLoginUserProfileImageUrl,
-
-    // Login
-    email: "znight1020@naver.com",
-    password: "1Q2w3e4r!",
+      // Login
+      email: 'znight1020@naver.com',
+      password: '1Q2w3e4r!'
   })
 
   // getter 는 생략 직접 사용하는 걸로

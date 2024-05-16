@@ -48,61 +48,43 @@ const { authStore, setLogin } = useAuthStore()
 const router = useRouter()
 
 const login = async () => {
-      let loginObj = {
-        email: authStore.email,
-        password: authStore.password
-      }
+  let loginObj = {
+    email: authStore.email,
+    password: authStore.password
+  }
 
-      try {
-        let { data } = await http.post('/auth/login', null, { params: loginObj } )
-        if (data.result == 'success') {
-          setLogin({ isLogin: true, userName: data.user.name, userProfileImageUrl: data.user.userProfileImageUrl })
-        } else if (data.result == 'fail') {
-          alert('이메일 또는 비밀번호를 확인하세요.')
-        }
-      } catch (error) {
-        console.log('LoginVue: error : ', error)
-        alert('로그인 과정에서 오류가 발생했습니다.')
-      } finally {
-        
-        router.push("/");
-      }
+  try {
+    let { data } = await http.post('/auth/login', null, { params: loginObj })
+    if (data.result == 'success') {
+      setLogin({ isLogin: true, userName: data.user.name, userProfileImageUrl: data.user.userProfileImageUrl })
+      router.push("/")
+    } else if (data.result == 'fail') {
+      alert('이메일 또는 비밀번호를 확인하세요.')
     }
+  } catch (error) {
+    console.log('LoginVue: error : ', error)
+    alert('로그인 과정에서 오류가 발생했습니다.')
+  }
+}
 </script>
 <template>
-    <div class="container">
-        <!-- Heading -->
-        <h1 class="kakao-bold">로 그 인</h1>
-
-        <!-- Links -->
-        <ul class="links">
-            <li>
-                <a href="#" id="signin">로그인</a>
-            </li>
-            <li>
-                <a href="#" id="signup">회원가입</a>
-            </li>
-            <li>
-                <a href="#" id="reset">초기화</a>
-            </li>
-        </ul>
-
-        <!-- Form -->
-        <form v-on:submit.prevent="login">
-            <!-- email input -->
-            <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="계정" class="input" id="email" v-model="authStore.email"/>
-            </div>
-            <!-- password input -->
-            <div class="input__block">
-                <input type="password" placeholder="비밀번호" class="input" id="password" v-model="authStore.password"/>
-            </div>
-            
-            <button type="button" class="signin__btn" @click="login">로그인</button>                
-        </form>
-        
-        
-    </div>
+     <div class="container">
+    <h1 class="kakao-bold">로 그 인</h1>
+    <ul class="links">
+      <li><a href="#" id="signin">로그인</a></li>
+      <li><a href="#" id="signup">회원가입</a></li>
+      <li><a href="#" id="reset">초기화</a></li>
+    </ul>
+    <form v-on:submit.prevent="login">
+      <div class="first-input input__block first-input__block">
+        <input type="email" placeholder="계정" class="input" id="email" v-model="authStore.email" />
+      </div>
+      <div class="input__block">
+        <input type="password" placeholder="비밀번호" class="input" id="password" v-model="authStore.password" />
+      </div>
+      <button type="button" class="signin__btn" @click="login">로그인</button>
+    </form>
+  </div>
 </template>
 
 <style scoped>
