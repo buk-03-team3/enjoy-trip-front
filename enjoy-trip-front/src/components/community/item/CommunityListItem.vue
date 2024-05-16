@@ -8,17 +8,16 @@ defineProps({ article: Object })
             <div class="d-flex align-items-center">
                 <div>
                     <!-- 유저 썸네일 -->
-                    <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt class="avatar-md rounded-circle img-thumbnail" /> 
+                    <img src="../../../../assets/img/default.png" alt class="avatar-md rounded-circle " /> 
                 </div>
                 <div class="flex-1 ms-3">
-                    <h5 class="font-size-16 mb-1"><p class="text-dark kakao-regular">{{article.userId}}</p></h5>
-                    <span class="badge badge-soft-success mb-0">{{article.createdAt}}</span>
+                    <h5 class="font-size-16 mb-1 t-left" style="padding-top: 0.5vmax;"><p class="text-dark kakao-regular" style="margin-bottom: 0">{{article.userId}}</p></h5>
+                    <span class="badge badge-soft-success mb-0 t-left">{{article.createdAt}}</span>
                 </div>
             </div>
             <div class="mt-3 pt-1">
-                <p class="text-muted mb-0" style="margin-left: 3vmax; text-align: left;">
-                    
-                    <router-link :to="{ name: 'article-view', params: { articleno: article.articleNo } }" class="article-title link-dark subject-text kakao-bold">
+                <p class="text-muted mb-0 t-left" style="margin-left: 1vmax;">
+                    <router-link :to="{ name: 'article-view', params: { articleno: article.articleNo } }" class="link-dark subject-text kakao-bold">
                         {{ article.subject }}
                     </router-link>
                 </p>
@@ -45,8 +44,12 @@ a {
 }
 
 .subject-text {
-    font-size: 2vmax;
+    font-size: 1.5vmax;
     text-align: left;
 
+}
+
+.t-left {
+    text-align: left
 }
 </style>
