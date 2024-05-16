@@ -1,46 +1,73 @@
 <script setup>
-$(document).ready(function () {
-    let signup = $('.links').find('li').find('#signup')
-    let signin = $('.links').find('li').find('#signin')
-    let reset = $('.links').find('li').find('#reset')
-    let first_input = $('form').find('.first-input')
-    let hidden_input = $('form').find('.input__block').find('#repeat__password')
-    let signin_btn = $('form').find('.signin__btn')
+import { useAuthStore } from '@/stores/authStore';
+import http from '@/common/axios-config.js'
+import { useRouter } from 'vue-router'
+const { authStore, setLogin } = useAuthStore()
+// $(document).ready(function () {
+//     let signup = $('.links').find('li').find('#signup')
+//     let signin = $('.links').find('li').find('#signin')
+//     let reset = $('.links').find('li').find('#reset')
+//     let first_input = $('form').find('.first-input')
+//     let hidden_input = $('form').find('.input__block').find('#repeat__password')
+//     let signin_btn = $('form').find('.signin__btn')
 
-    //----------- sign up ---------------------
-    signup.on('click', function (e) {
-        e.preventDefault()
-        $(this).parent().parent().siblings('h1').text('회 원 가 입')
-        $(this).parent().css('opacity', '1')
-        $(this).parent().siblings().css('opacity', '.6')
-        first_input.removeClass('first-input__block').addClass('signup-input__block')
-        hidden_input.css({
-            opacity: '1',
-            display: 'block'
-        })
-        signin_btn.text('회 원 가 입')
-    })
+//     //----------- sign up ---------------------
+//     signup.on('click', function (e) {
+//         e.preventDefault()
+//         $(this).parent().parent().siblings('h1').text('회 원 가 입')
+//         $(this).parent().css('opacity', '1')
+//         $(this).parent().siblings().css('opacity', '.6')
+//         first_input.removeClass('first-input__block').addClass('signup-input__block')
+//         hidden_input.css({
+//             opacity: '1',
+//             display: 'block'
+//         })
+//         signin_btn.text('회 원 가 입')
+//     })
 
-    //----------- sign in ---------------------
-    signin.on('click', function (e) {
-        e.preventDefault()
-        $(this).parent().parent().siblings('h1').text('로 그 인')
-        $(this).parent().css('opacity', '1')
-        $(this).parent().siblings().css('opacity', '.6')
-        first_input.addClass('first-input__block').removeClass('signup-input__block')
-        hidden_input.css({
-            opacity: '0',
-            display: 'none'
-        })
-        signin_btn.text('로 그 인')
-    })
+//     //----------- sign in ---------------------
+//     signin.on('click', function (e) {
+//         e.preventDefault()
+//         $(this).parent().parent().siblings('h1').text('로 그 인')
+//         $(this).parent().css('opacity', '1')
+//         $(this).parent().siblings().css('opacity', '.6')
+//         first_input.addClass('first-input__block').removeClass('signup-input__block')
+//         hidden_input.css({
+//             opacity: '0',
+//             display: 'none'
+//         })
+//         signin_btn.text('로 그 인')
+//     })
 
-    //----------- reset ---------------------
-    reset.on('click', function (e) {
-        e.preventDefault()
-        $(this).parent().parent().siblings('form').find('.input__block').find('.input').val('')
-    })
-})
+//     //----------- reset ---------------------
+//     reset.on('click', function (e) {
+//         e.preventDefault()
+//         $(this).parent().parent().siblings('form').find('.input__block').find('.input').val('')
+//     })
+
+const router = useRouter()
+
+const login = async () => {
+      let loginObj = {
+        email: authStore.email,
+        password: authStore.password
+      }
+
+      try {
+        let { data } = await http.post('/auth/login', null, { params: loginObj } )
+        if (data.result == 'success') {
+          setLogin({ isLogin: true, userName: data.user.name, userProfileImageUrl: data.user.userProfileImageUrl })
+        } else if (data.result == 'fail') {
+          alert('이메일 또는 비밀번호를 확인하세요.')
+        }
+      } catch (error) {
+        console.log('LoginVue: error : ', error)
+        alert('로그인 과정에서 오류가 발생했습니다.')
+      } finally {
+        
+        router.push("/");
+      }
+    }
 </script>
 <template>
     <div class="container">
@@ -61,36 +88,20 @@ $(document).ready(function () {
         </ul>
 
         <!-- Form -->
-        <form action="" method="post">
+        <form v-on:submit.prevent="login">
             <!-- email input -->
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="계정" class="input" id="email" />
+                <input type="email" placeholder="계정" class="input" id="email" v-model="authStore.email"/>
             </div>
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="비밀번호" class="input" id="password" />
+                <input type="password" placeholder="비밀번호" class="input" id="password" v-model="authStore.password"/>
             </div>
-            <!-- repeat password input -->
-            <div class="input__block" style="border-radius: 1px solid">
-                <input type="password" placeholder="비밀번호 확인" class="input repeat__password" id="repeat__password" />
-            </div>
-            <!-- sign in button -->
-            <button class="signin__btn">로그인</button>
+            
+            <button type="button" class="signin__btn" @click="login">로그인</button>                
         </form>
-        <!-- separator -->
-        <!-- <div class="separator">
-            <p>OR</p>
-        </div> -->
-        <!-- google button -->
-        <!-- <button class="google__btn">
-            <i class="fa fa-google"></i>
-            Sign in with Google
-        </button> -->
-        <!-- google button -->
-        <!-- <button class="github__btn">
-            <i class="fa fa-github"></i>
-            Sign in with GitHub
-        </button> -->
+        
+        
     </div>
 </template>
 
@@ -336,3 +347,26 @@ footer {
     }
 }
 </style>
+
+
+
+<!-- repeat password input -->
+            <!-- <div class="input__block" style="border-radius: 1px solid">
+                <input type="password" placeholder="비밀번호 확인" class="input repeat__password" id="repeat__password" />
+            </div> -->
+            <!-- sign in button -->
+            
+        <!-- separator -->
+        <!-- <div class="separator">
+            <p>OR</p>
+        </div> -->
+        <!-- google button -->
+        <!-- <button class="google__btn">
+            <i class="fa fa-google"></i>
+            Sign in with Google
+        </button> -->
+        <!-- google button -->
+        <!-- <button class="github__btn">
+            <i class="fa fa-github"></i>
+            Sign in with GitHub
+        </button> -->

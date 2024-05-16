@@ -9,7 +9,8 @@ import KakaoMap from './components/map/KakaoMap.vue';
 <template>
     <NavBar />
     <div style="height: 2.5vmax;"></div>
-    <KakaoMap></KakaoMap>
-    <!-- <RouterView />
-    <Footer></Footer> -->
+    <!-- <KakaoMap></KakaoMap> -->
+    <RouterView />
+    <Footer></Footer>
+
 </template>
