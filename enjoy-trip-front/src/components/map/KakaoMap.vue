@@ -65,16 +65,15 @@ const getMarkersForPage = (pageNumber) => {
 
         <div class="container mt-3" style="width: fit-content">
         <div class="search-container mb-4">
-            <div class="input-group" style="width:25%" >
+            <div class="input-group" style="width:25%; left:-10%">
                 <input type="text" class="form-control kakao-bold" v-model="searchKeyword" placeholder="검색어를 입력하세요" />
                 <button @click="search" class="btn kakao-bold" style="background-color: #FEE500; color:black; border-color: #FEE500">검색</button>
             </div>
         </div>
     </div>
-    <div class="result-container container"  style="position:relative;">
-
+    <div class="result-container container"  style="position:relative; left:-10%" >
         <div class="search-result-container"  style="position:absolute;">
-            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
+            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="30vmax" >
                 <KakaoMapMarker
                     v-for="(marker, index) in getMarkersForPage(currentPage)"
                     :key="marker.key === undefined ? index : marker.key"
