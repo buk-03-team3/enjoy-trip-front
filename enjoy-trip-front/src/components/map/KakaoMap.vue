@@ -1,45 +1,101 @@
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
+import {useTravelStore} from '@/stores/travelStore'
 import { ref, computed } from 'vue'
+
+const travelStore = useTravelStore();
 
 const markersPerPage = 5
 let currentPage = ref(1)
 
 const map = ref()
 const markerList = ref([])
-const searchKeyword = ref('역삼역 맛집')
 
-const search = () => {
-    const ps = new kakao.maps.services.Places()
-    markerList.value = []
-    ps.keywordSearch(searchKeyword.value, placesSearchCB)
+const search = async () =>{
+    markerList.value = [];
+    //비동기적 데이터 로드 동안에 searchMap 함수가 호출되어 travelList가 업데이트 되지 않았을 수 있음.
+    //async-await를 사용해서 방지 
+    await travelStore.searchTravelKeyword(); 
+    searchMap(travelStore.travelList);   
 }
 
 const onLoadKakaoMap = (mapRef) => {
     map.value = mapRef
-    const ps = new kakao.maps.services.Places()
-    ps.keywordSearch(searchKeyword, placesSearchCB)
+    sidogugunSearchMap(travelStore.travelList);
 }
 
-const placesSearchCB = (data, status) => {
-    if (status === kakao.maps.services.Status.OK) {
-        const bounds = new kakao.maps.LatLngBounds()
+const searchMap = (data) => {
+    const bounds = new kakao.maps.LatLngBounds()
         for (let marker of data) {
             const markerItem = {
-                lat: marker.y,
-                lng: marker.x,
+                lat: marker.latitude, //y
+                lng: marker.longitude, //x
+                addr1: marker.addr1,
+                addr2: marker.addr2,
+                firstImage: marker.firstImage,
+                firstImage2 : marker.firstImage2,
                 infoWindow: {
-                    content: marker.place_name,
+                    content: marker.title,
                     visible: false
                 }
             }
             markerList.value.push(markerItem)
-            bounds.extend(new kakao.maps.LatLng(Number(marker.y), Number(marker.x)))
+            bounds.extend(new kakao.maps.LatLng(Number(marker.latitude), Number(marker.longitude)))
         }
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         map.value?.setBounds(bounds)
-    }
 }
 
+const sidogugunSearchMap = (data) => {
+    markerList.value = [];
+        const bounds = new kakao.maps.LatLngBounds()
+        for (let marker of data) {
+            const markerItem = {
+                lat: marker.latitude, //y
+                lng: marker.longitude, //x
+                addr1: marker.addr1,
+                addr2: marker.addr2,
+                firstImage: marker.firstImage,
+                firstImage2 : marker.firstImage2,
+                infoWindow: {
+                    content: marker.title,
+                    visible: false
+                }
+            }
+            markerList.value.push(markerItem)
+            bounds.extend(new kakao.maps.LatLng(Number(marker.latitude), Number(marker.longitude)))
+        }
+                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.value?.setBounds(bounds)
+        travelStore.regionOrContent();
+
+    }
+
+
+// // 키워드 검색 완료 시 호출되는 콜백함수 입니다
+// const placesSearchCB = (data, status) => {
+//     if (status === kakao.maps.services.Status.OK) {
+//                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+//         // LatLngBounds 객체에 좌표를 추가합니다
+//         const bounds = new kakao.maps.LatLngBounds()
+//         for (let marker of data) {
+//             const markerItem = {
+//                 lat: marker.y,
+//                 lng: marker.x,
+//                 infoWindow: {
+//                     content: marker.place_name,
+//                     visible: false
+//                 }
+//             }
+//             markerList.value.push(markerItem)
+//             bounds.extend(new kakao.maps.LatLng(Number(marker.y), Number(marker.x)))
+//         }
+//                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+//         map.value?.setBounds(bounds)
+//     }
+// }
+
+    //마커 클릭 시 인포윈도우의 visible 값을 반전시킵니다
 const onClickMapMarker = (markerItem) => {
     if (markerItem.infoWindow?.visible !== null && markerItem.infoWindow?.visible !== undefined) {
         markerItem.infoWindow.visible = !markerItem.infoWindow.visible
@@ -66,7 +122,7 @@ const getMarkersForPage = (pageNumber) => {
         <div class="container mt-3" style="width: fit-content">
         <div class="search-container mb-4">
             <div class="input-group" style="width:25%; left:-10%">
-                <input type="text" class="form-control kakao-bold" v-model="searchKeyword" placeholder="검색어를 입력하세요" />
+                <input type="text" class="form-control kakao-bold" v-model="travelStore.searchKeyword" placeholder="검색어를 입력하세요" />
                 <button @click="search" class="btn kakao-bold" style="background-color: #FEE500; color:black; border-color: #FEE500">검색</button>
             </div>
         </div>
