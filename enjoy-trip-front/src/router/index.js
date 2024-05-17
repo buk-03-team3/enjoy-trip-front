@@ -6,6 +6,7 @@ import UserInfoPage from '@/components/user/UserInfoPage.vue'
 import MeetingPage from '@/components/meeting/MeetingPage.vue'
 import KakaoMap from '@/components/map/KakaoMap.vue'
 import LoginPage from '@/components/user/LoginPage.vue'
+import RegisterPage from '@/components/user/RegisterPage.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
             path: '/login',
             name: 'login',
             component: LoginPage
+        },
+        {
+            path: '/register',
+            name: 'register',
+            component: RegisterPage
         },
         {
             path: '/meeting',
