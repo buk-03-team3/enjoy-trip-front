@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('authStore', () => {
 
   const logout = async () => {
     try {
-       let { data } = await http.get("/logout");
+       let { data } = await http.get('/auth/logout')
        console.log(data)
        if (data.result == "success") {
         setLogout()
