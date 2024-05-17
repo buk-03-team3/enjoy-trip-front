@@ -56,14 +56,12 @@ const password = ref('')
 const name = ref('')
 // Function to handle registration
 const register = async () => {
-    console.log(travelStore.sidoObj.sidoCode)
-    console.log(travelStore.gugunObj.gugunCode)
     const user = {
         email: email.value,
         password: password.value,
         name: name.value,
-        sido: travelStore.sidoObj.sidoCode,
-        gugun: travelStore.gugunObj.gugunCode
+        sido: cityBtnText.value,
+        gugun: townBtnText.value
     }
 
     try {
