@@ -1,6 +1,7 @@
 <script setup>
 import {useTravelStore} from '@/stores/travelStore'
 import { storeToRefs } from 'pinia';
+import KakaoMap from '@/components/map/KakaoMap.vue';
 const travelStore = useTravelStore();
 travelStore.getSidoList();
 
@@ -40,6 +41,9 @@ travelStore.getSidoList();
     <button onclick="#" type="button" class="btn btn-primary rounded-pill col md-4" @click="travelStore.searchTravel()">검색</button>
        </div>
     </div>
+
+    <KakaoMap></KakaoMap>
+    
 </template>
 
 <style scoped>

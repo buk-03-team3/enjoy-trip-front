@@ -1,7 +1,7 @@
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
 import {useTravelStore} from '@/stores/travelStore'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const travelStore = useTravelStore();
 
@@ -15,17 +15,18 @@ const search = async () =>{
     markerList.value = [];
     //비동기적 데이터 로드 동안에 searchMap 함수가 호출되어 travelList가 업데이트 되지 않았을 수 있음.
     //async-await를 사용해서 방지 
+    travelStore.searchCategory = 'keyword';
     await travelStore.searchTravelKeyword(); 
     searchMap(travelStore.travelList);   
 }
 
 const onLoadKakaoMap = (mapRef) => {
     map.value = mapRef
-    sidogugunSearchMap(travelStore.travelList);
 }
 
-const searchMap = (data) => {
+const searchMap = async () => {
     const bounds = new kakao.maps.LatLngBounds()
+     let data = await travelStore.travelList;
         for (let marker of data) {
             const markerItem = {
                 lat: marker.latitude, //y
@@ -46,8 +47,11 @@ const searchMap = (data) => {
         map.value?.setBounds(bounds)
 }
 
-const sidogugunSearchMap = (data) => {
-    markerList.value = [];
+const sidogugunSearchMap = async () => {
+    travelStore.searchCategory = 'region';
+        markerList.value = [];
+        let data = await travelStore.travelList;
+    console.log("=========",data)
         const bounds = new kakao.maps.LatLngBounds()
         for (let marker of data) {
             const markerItem = {
@@ -111,6 +115,23 @@ const getMarkersForPage = (pageNumber) => {
     const endIndex = startIndex + markersPerPage
     return markerList.value.slice(startIndex, endIndex)
 }
+
+watch(
+  () => travelStore.travelList,
+    (newValue, oldValue) => {
+        console.log("변경")
+        console.log(travelStore.searchCategory)
+        if (travelStore.searchCategory == 'keyword') { 
+            searchMap();
+        } else {
+             sidogugunSearchMap(travelStore.travelList);
+        }
+
+    // 속성 값이 변경될 때 실행되는 로직
+  }
+);
+
+
 </script>
 
 <template>
@@ -151,21 +172,21 @@ const getMarkersForPage = (pageNumber) => {
                    <div>{{mapList.infoWindow.content}}</div>
                 </li>
             </ul>
-         <div class="container mt-3 mapNav" style="bottom: 0;">
-             <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                    <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
-                </li>
-                <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                    <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
-                </li>
-                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                    <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
+            </li>
+            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
         </div>
 
     </div>
