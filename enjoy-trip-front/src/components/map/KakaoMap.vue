@@ -135,20 +135,19 @@ watch(
 </script>
 
 <template>
-    <div class="mx-auto text-center mb-5" style="max-width: 900px">
-        <h5 class="section-title px-3 kakao-bold">MAP</h5>
-        <h1 class="mb-4 kakao-bold">카카오 Map</h1>
+    <div class="mx-auto text-center mb-5 mt-5" style="max-width: 900px">
+        <h5 class="section-title px-3 kakao-bold">🎠</h5>
     </div>
 
-        <div class="container mt-3" style="width: fit-content">
+        <div class="" style="width: fit-content">
         <div class="search-container mb-4">
-            <div class="input-group" style="width:25%; left:-10%">
+            <div class="input-group" style="width:25%; margin-left: 8%;">
                 <input type="text" class="form-control kakao-bold" v-model="travelStore.searchKeyword" placeholder="검색어를 입력하세요" />
                 <button @click="search" class="btn kakao-bold" style="background-color: #FEE500; color:black; border-color: #FEE500">검색</button>
             </div>
         </div>
     </div>
-    <div class="result-container container"  style="position:relative; left:-10%" >
+    <div class="result-container"  style="position:relative; margin-left:5%" >
         <div class="search-result-container"  style="position:absolute;">
             <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="30vmax" >
                 <KakaoMapMarker
@@ -170,6 +169,9 @@ watch(
                    <div>{{ mapList.lat }}</div>
                    <div>{{mapList.lng}}</div>
                    <div>{{mapList.infoWindow.content}}</div>
+                   <div class="mx-auto text-center " style="max-width: 900px ">
+
+                </div>
                 </li>
             </ul>
 <div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
@@ -188,7 +190,6 @@ watch(
     </nav>
 </div>
         </div>
-
     </div>
 
 
