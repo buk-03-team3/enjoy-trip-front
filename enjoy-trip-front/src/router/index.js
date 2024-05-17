@@ -22,11 +22,6 @@ const router = createRouter({
             component: TravelPage
         },
         {
-            path: '/auth',
-            name: 'auth',
-            component: AuthPage
-        },
-        {
             path: '/user/info',
             name: 'user-info',
             component: UserInfoPage
