@@ -13,6 +13,8 @@ let townBtnText = ref('구, 군을 선택해주세요')
 let isActiveCity = ref(false)
 let isActiveTown = ref(false)
 
+let checkPassword = ref('')
+
 const cityActivechange = () => {
     isActiveCity.value = !isActiveCity.value
 }
@@ -49,15 +51,29 @@ const selectTown = (gugun) => {
     travelStore.gugunObj = gugun
 }
 
+const email = ref('')
+const password = ref('')
+const name = ref('')
 // Function to handle registration
 const register = async () => {
-    const loginObj = {
-        email: authStore.email,
-        password: authStore.password
+    console.log(travelStore.sidoObj.sidoCode)
+    console.log(travelStore.gugunObj.gugunCode)
+    const user = {
+        email: email.value,
+        password: password.value,
+        name: name.value,
+        sido: travelStore.sidoObj.sidoCode,
+        gugun: travelStore.gugunObj.gugunCode
     }
 
     try {
-        let { data } = await http.post('/user', null, { loginObj })
+        let { data } = await http.post('/user', user, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        console.log(data.result)
         if (data.result === 'success') {
             alert('회원가입 성공')
             router.push('/')
@@ -85,21 +101,21 @@ const register = async () => {
             <form v-on:submit.prevent="login">
                 <p class="kakao-regular sign-form-field-text">이름</p>
                 <div class="first-input kakao-regular input__block first-input__block">
-                    <input type="text" placeholder="이름" class="input login-form-input-text kakao-regular" id="name" />
+                    <input type="text" placeholder="이름" class="input login-form-input-text kakao-regular" id="name" v-model="name" />
                 </div>
 
                 <p class="kakao-regular sign-form-field-text">이메일</p>
                 <div class="first-input kakao-regular input__block first-input__block">
-                    <input type="email" placeholder="계정" class="input login-form-input-text kakao-regular" id="email" />
+                    <input type="email" placeholder="계정" class="input login-form-input-text kakao-regular" id="email" v-model="email" />
                 </div>
                 <br />
                 <p class="kakao-regular sign-form-field-text">비밀번호</p>
                 <div class="input__block">
-                    <input type="password" placeholder="비밀번호" class="input login-form-input-text kakao-regular" id="password" />
+                    <input type="password" placeholder="비밀번호" class="input login-form-input-text kakao-regular" id="password" v-model="password" />
                 </div>
                 <p class="kakao-regular sign-form-field-text">비밀번호 확인</p>
                 <div class="input__block">
-                    <input type="check-password" placeholder="비밀번호 확인" class="input login-form-input-text kakao-regular" id="check-password" />
+                    <input type="password" placeholder="비밀번호 확인" class="input login-form-input-text kakao-regular" id="check-password" v-model="checkPassword" />
                 </div>
             </form>
 
@@ -138,7 +154,7 @@ const register = async () => {
                         </div>
                     </div>
                 </div>
-                <button type="button" class="signup__btn kakao-regular" @click="login" style="margin-top: 14.8vmax">회원등록</button>
+                <button type="button" class="signup__btn kakao-regular" @click="register" style="margin-top: 14.8vmax">회원등록</button>
             </form>
         </div>
     </div>
