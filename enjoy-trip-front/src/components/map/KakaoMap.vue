@@ -37,6 +37,8 @@ const searchMap = async () => {
                 firstImage2 : marker.firstImage2,
                 infoWindow: {
                     content: marker.title,
+                    firstImage: marker.firstImage,
+                    addr1: marker.addr1,
                     visible: false
                 }
             }
@@ -63,6 +65,8 @@ const sidogugunSearchMap = async () => {
                 firstImage2 : marker.firstImage2,
                 infoWindow: {
                     content: marker.title,
+                    addr1: marker.addr1,
+                    firstImage: marker.firstImage,
                     visible: false
                 }
             }
@@ -149,7 +153,7 @@ watch(
     </div>
     <div class="result-container"  style="position:relative; margin-left:5%" >
         <div class="search-result-container"  style="position:absolute;">
-            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="30vmax" >
+            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
                 <KakaoMapMarker
                     v-for="(marker, index) in getMarkersForPage(currentPage)"
                     :key="marker.key === undefined ? index : marker.key"
@@ -165,13 +169,17 @@ watch(
     <div class="resultBox" style="position:absolute;" >
 
             <ul id="searchResults" class="list-group" >
-                <li class="list-group-item py-3 kakao-regular" v-for="(mapList, index) in getMarkersForPage(currentPage)" v-bind:key="index">
-                   <div>{{ mapList.lat }}</div>
-                   <div>{{mapList.lng}}</div>
-                   <div>{{mapList.infoWindow.content}}</div>
-                   <div class="mx-auto text-center " style="max-width: 900px ">
-
-                </div>
+                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index">
+                    <!-- 이미지를 왼쪽에 배치 -->
+                    <div>
+                        <img :src="mapList.firstImage" style="width: 100px; height: 50px; margin-right:20px">
+                    </div>
+                    <!-- 나머지 div들을 오른쪽에 배치 -->
+                    <div class="ml-3">
+                        <div>{{ mapList.lat }}</div>
+                        <div>{{ mapList.lng }}</div>
+                        <div>{{ mapList.infoWindow.content }}</div>
+                    </div>
                 </li>
             </ul>
 <div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
@@ -255,4 +263,19 @@ body {
     color: white;
 }
 
+    .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
+    .wrap * {padding: 0;margin: 0;}
+    .wrap .info {width: 286px;height: 120px;border-radius: 5px;border-bottom: 2px solid #ccc;border-right: 1px solid #ccc;overflow: hidden;background: #fff;}
+    .wrap .info:nth-child(1) {border: 0;box-shadow: 0px 1px 2px #888;}
+    .info .title {padding: 5px 0 0 10px;height: 30px;background: #eee;border-bottom: 1px solid #ddd;font-size: 18px;font-weight: bold;}
+    .info .close {position: absolute;top: 10px;right: 10px;color: #888;width: 17px;height: 17px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');}
+    .info .close:hover {cursor: pointer;}
+    .info .body {position: relative;overflow: hidden;}
+    .info .desc {position: relative;margin: 13px 0 0 90px;height: 75px;}
+    .desc .ellipsis {overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+    .desc .jibun {font-size: 11px;color: #888;margin-top: -2px;}
+    .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
+    .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    .info .link {color: #5085BB;}
 </style>
+
