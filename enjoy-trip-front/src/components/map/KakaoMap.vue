@@ -172,21 +172,21 @@ watch(
                    <div>{{mapList.infoWindow.content}}</div>
                 </li>
             </ul>
-         <div class="container mt-3 mapNav" style="bottom: 0;">
-             <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                    <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
-                </li>
-                <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                    <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
-                </li>
-                <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                    <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+<div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
+            </li>
+            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+                <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
         </div>
 
     </div>
