@@ -27,15 +27,15 @@ defineProps({
                 </div>
             </div>
             <div class="blog-content border border-top-0 rounded-bottom p-4">
-                <small class="flex-fill text-center border-end py-2">
+                <small class="flex-fill text-center py-2">
                     <i class="fa fa-calendar-alt text-primary me-2"></i>출발일: {{ meeting.startDate }}
                 </small>
                 <br />
-                <small class="flex-fill text-center border-end py-2">
+                <small class="flex-fill text-center py-2">
                     <i class="fa fa-calendar-alt text-primary me-2"></i>종료일: {{ meeting.endDate }}
                 </small>
                 <br />
-                <small class="flex-fill text-center border-end py-2">
+                <small class="flex-fill text-center py-2">
                     <i class="fa fa-calendar-alt text-primary me-2"></i>목적지: {{ meeting.destination }}
                 </small>
                 <br />
