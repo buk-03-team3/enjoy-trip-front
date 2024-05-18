@@ -26,7 +26,9 @@ export const useRecommendStore = defineStore('recommendStore', () => {
             alert('여행지 추천 과정에서 오류가 발생했습니다.')
         }
     }
-    const recommendList = ref([]);
+    const recommendList = ref(['']);
+    const recommendListWithFavoriteAddr  = ref(['']);
+    const recommendListWithFavoriteContent = ref(['']);
     // 사용자 주거 지역 근처 추천
     const recommendWithUserAddr = async () => {
         await getUserId();
@@ -50,7 +52,7 @@ export const useRecommendStore = defineStore('recommendStore', () => {
         try {
             await axios.get(url).then((response) => {
                 let { data } = response //destructuring 문법.. responce에 data 객체만 빼서 할당받겠다.
-                recommendList.value = data.list;
+                recommendListWithFavoriteAddr.value = data.list;
                 console.log(recommendList.value)
             })
         } catch (error) {
@@ -65,7 +67,7 @@ export const useRecommendStore = defineStore('recommendStore', () => {
         try {
             await axios.get(url).then((response) => {
                 let { data } = response //destructuring 문법.. responce에 data 객체만 빼서 할당받겠다.
-                recommendList.value = data.list;
+                recommendListWithFavoriteContent.value = data.list;
                 console.log(recommendList.value)
             })
         } catch (error) {
@@ -73,5 +75,6 @@ export const useRecommendStore = defineStore('recommendStore', () => {
         }
     }
     
-    return { recommendWithUserAddr , recommendWithFavoriteAddr,recommendWithFavoriteContent, getUserId , recommendList}
+    return { recommendWithUserAddr , recommendWithFavoriteAddr,recommendWithFavoriteContent, getUserId ,
+        recommendListWithFavoriteContent, recommendListWithFavoriteAddr, recommendList}
 })

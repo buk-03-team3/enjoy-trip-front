@@ -1,8 +1,11 @@
 <script setup>
 import {useRecommendStore} from '@/stores/recommendStore'
 import { ref, computed, watch } from 'vue'
+import RecommendSilder from './RecommendSilder.vue';
 const recommendStore = useRecommendStore();
 recommendStore.recommendWithUserAddr();
+recommendStore.recommendWithFavoriteAddr();
+recommendStore.recommendWithFavoriteContent();
 /*
 "attractionId": 2786896,
             "contentTypeId": 12,
@@ -25,18 +28,5 @@ recommendStore.recommendWithUserAddr();
 </script>
 
 <template>
-    <ol>
-        <il v-for="(recommendElement, index) in recommendStore.recommendList" :key="index">
-            {{ recommendElement.title }} | {{ recommendElement.addr1 }}
-            <br>
-        </il>
-    </ol>
-
-    <div>==================================</div>
-    <button @click="recommendStore.recommendWithFavoriteAddr">즐겨찾기 주소</button>
-
-    <div>==================================</div>
-    <button @click="recommendStore.recommendWithFavoriteContent">즐겨찾기 컨텐츠</button>
-
-
+    <RecommendSilder></RecommendSilder>
 </template>
