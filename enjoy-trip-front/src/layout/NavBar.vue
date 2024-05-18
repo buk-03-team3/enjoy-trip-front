@@ -34,7 +34,7 @@
                             <RouterLink to="/user/info"
                                 ><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
                             >
-                            <a type="button" @click="logout" class="dropdown-item"><i class="fas fa-power-off me-2"></i> 로그아웃</a>
+                            <a type="button" @click="userLogout" class="dropdown-item"><i class="fas fa-power-off me-2"></i> 로그아웃</a>
                         </div>
                     </div>
                 </div>
@@ -46,8 +46,15 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
 import { RouterLink } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const { authStore, logout } = useAuthStore()
+const router = useRouter()
+
+const userLogout = () => {
+    logout();
+    router.push('/')
+}
 </script>
 
 <style scoped>
