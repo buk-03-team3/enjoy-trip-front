@@ -25,8 +25,8 @@ const updateUser = async () => {
     try {
         const response = await http.put(`/user/${authStore.userId}`, {
             name: authStore.name,
-            sido: authStore.sido,
-            gugun: authStore.gugun
+            sido: cityBtnText.value,
+            gugun: townBtnText.value
         })
 
         console.log(response.data)
@@ -169,7 +169,7 @@ const uploadProfileImage = async (files) => {
                                         id="email"
                                         placeholder="이메일"
                                         v-model="authStore.email"
-                                        :disabled="!isEditMode"
+                                        disabled
                                     />
                                     <label class="kakao-bold" for="email">이메일</label>
                                 </div>
