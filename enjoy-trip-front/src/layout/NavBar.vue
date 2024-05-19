@@ -29,7 +29,7 @@
                     <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
 
                     <div id="navbarCollapse" class="nav-item collapse dropdown navbar-collapse">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">{{ authStore.userName }} 님</a>
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">{{ authStore.name }} 님</a>
                         <div class="dropdown-menu m-0">
                             <RouterLink to="/user/info"
                                 ><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
@@ -52,7 +52,7 @@ const { authStore, logout } = useAuthStore()
 const router = useRouter()
 
 const userLogout = () => {
-    logout();
+    logout()
     router.push('/')
 }
 </script>

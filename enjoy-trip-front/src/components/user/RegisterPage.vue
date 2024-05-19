@@ -2,7 +2,7 @@
 import { ref, onMounted, watch } from 'vue'
 import http from '@/common/axios-config.js'
 import { useRouter } from 'vue-router'
-import { useTravelStore } from '@/stores/travelStore' // Import the travel store
+import { useTravelStore } from '@/stores/travelStore'
 
 // Vue Router instance
 const router = useRouter()
@@ -159,8 +159,6 @@ const register = async () => {
 </template>
 
 <style scoped>
-.select-menu {
-}
 .select-menu .select-btn {
     display: flex;
     height: 3rem;

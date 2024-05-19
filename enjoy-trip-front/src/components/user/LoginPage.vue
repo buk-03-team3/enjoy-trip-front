@@ -19,7 +19,16 @@ const login = async () => {
     try {
         let { data } = await http.post('/auth/login', null, { params: loginObj })
         if (data.result == 'success') {
-            setLogin({ isLogin: true, userName: data.user.name, userProfileImageUrl: data.user.userProfileImageUrl })
+            setLogin({
+                userId: data.user.userId,
+                isLogin: true,
+                name: data.user.name,
+                email: data.user.email,
+                password: data.user.password,
+                userProfileImageUrl: data.user.userProfileImageUrl,
+                sido: data.user.sido,
+                gugun: data.user.gugun
+            })
             router.push('/')
         } else if (data.result == 'fail') {
             alert('이메일 또는 비밀번호를 확인하세요.')

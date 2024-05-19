@@ -8,34 +8,39 @@ export const useAuthStore = defineStore('authStore', () => {
     const authStore = reactive({
         // NavBar
         isLogin: sessionStorage.getItem('isLogin') === 'true',
-        userName: sessionStorage.getItem('userName') != null ? sessionStorage.getItem('userName') : void 0,
-        userProfileImageUrl: null,
+        userId: 0,
+        name: sessionStorage.getItem('name') != null ? sessionStorage.getItem('name') : void 0,
+        userProfileImageUrl: sessionStorage.getItem('userProfileImageUrl'),
         // Login
         email: 'znight1020@naver.com',
         password: '1Q2w3e4r!',
+        sido: '',
+        gugun: '',
         // profile image
         isDefault: false
     })
 
     // getter 는 생략 직접 사용하는 걸로
     const setLogin = (payload) => {
+        console.log('login: ' + payload)
         sessionStorage.setItem('isLogin', 'true')
-        sessionStorage.setItem('userName', payload.userName)
+        sessionStorage.setItem('name', payload.name)
         if (payload.userProfileImageUrl == 'default') {
             sessionStorage.setItem('userProfileImageUrl', '/enjoy-trip-front/assets/img/default.png')
         }
         sessionStorage.setItem('userProfileImageUrl', payload.userProfileImageUrl)
-        console.log('session url : ' + sessionStorage.userProfileImageUrl)
 
+        authStore.userId = payload.userId
         authStore.isLogin = payload.isLogin
-        authStore.userName = payload.userName
-        console.log('payload userurl: ' + payload.userProfileImageUrl)
+        authStore.name = payload.name
+
         if (payload.userProfileImageUrl == 'default') {
             authStore.userProfileImageUrl = '/enjoy-trip-front/assets/img/default.png'
         }
         authStore.userProfileImageUrl = payload.userProfileImageUrl
+        authStore.sido = payload.sido
+        authStore.gugun = payload.gugun
         authStore.isDefault = sessionStorage.getItem('userProfileImageUrl') == 'default'
-        console.log(authStore)
     }
 
     const logout = async () => {
@@ -52,11 +57,11 @@ export const useAuthStore = defineStore('authStore', () => {
 
     const setLogout = () => {
         sessionStorage.removeItem('isLogin')
-        sessionStorage.removeItem('userName')
+        sessionStorage.removeItem('name')
         sessionStorage.removeItem('userProfileImageUrl')
 
         authStore.isLogin = false
-        authStore.userName = ''
+        authStore.name = ''
         authStore.userProfileImageUrl = notLoginUserProfileImageUrl
     }
 
