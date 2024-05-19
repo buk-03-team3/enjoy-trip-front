@@ -1,14 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '@/components/landing/LandingPage.vue'
 import TravelPage from '@/components/travel/TravelPage.vue'
-import AuthPage from '@/components/user/AuthPage.vue'
 import UserInfoPage from '@/components/user/UserInfoPage.vue'
 import MeetingPage from '@/components/meeting/MeetingPage.vue'
 import KakaoMap from '@/components/map/KakaoMap.vue'
 import LoginPage from '@/components/user/LoginPage.vue'
 import RegisterPage from '@/components/user/RegisterPage.vue'
-import UserDetailPage from '@/components/user/UserDetailPage.vue'
-import RecommendPage from'@/components/recommend/RecommendComponent.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +23,7 @@ const router = createRouter({
         {
             path: '/user/info',
             name: 'user-info',
-            component: UserDetailPage
+            component: () => import('@/components/user/UserDetailPage.vue')
         },
         {
             path: '/login',
