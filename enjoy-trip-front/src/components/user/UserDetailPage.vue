@@ -10,6 +10,7 @@ const router = useRouter()
 const isEditMode = ref(false)
 const originalData = ref({}) // 수정하기 전의 데이터를 저장할 변수
 
+
 const home = () => {
     router.push('/')
 }
@@ -29,18 +30,18 @@ const updateUser = async () => {
 
         console.log(response.data)
         if (response.data.result == 'success') {
-            alert('사용자 정보 수정 완료')
-            window.location.reload()
+            alert('수정사항이 반영되었습니다.')
+            isEditMode.value = false
         } else {
             alert('사용자 정보 수정 실패')
         }
 
-        alert('수정사항이 반영되었습니다.')
-        isEditMode = false
+        
     } catch (error) {
         alert('사용자 정보 수정에 실패했습니다.')
     }
 }
+
 
 let cityBtnText = ref(authStore.sido)
 let townBtnText = ref(authStore.gugun)
@@ -97,6 +98,27 @@ const cancelUpdate = () => {
 
     isEditMode.value = false
 }
+
+const uploadProfileImage = async (files) => {
+    const file = files[0]
+    if (file) {
+        const formData = new FormData()
+        formData.append('profileImage', file)
+        try {
+            const response = await http.put(`/user/user-img-update/${authStore.userId}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            console.log('File uploaded successfully:', response.data)
+            authStore.userProfileImageUrl = response.data.updateImageUrl
+            sessionStorage.setItem('userProfileImageUrl', response.data.updateImageUrl)
+            window.location.reload()
+        } catch (error) {
+            console.error('Error uploading file:', error)
+        }
+    }
+}
 </script>
 
 <template>
@@ -117,7 +139,7 @@ const cancelUpdate = () => {
                         <img src="../../assets/default-user.png" alt="User Profile Image" class="img-fluid rounded-circle" style="max-width: 300px" v-if="authStore.isDefault" />
                     </div>
                     <div class="profile-section">
-                        <input type="file" id="upload-image" style="display: none" @change="uploadProfileImage($event.target.files)" v-if="isEditMode" />
+                        <input type="file" id="upload-image" style="display: none" @change="uploadProfileImage($event.target.files)" />
                         <label for="upload-image"><p class="btn mt-3" style="background-color: #666; color: white">프로필 사진 수정하기</p></label>
                     </div>
                 </div>
