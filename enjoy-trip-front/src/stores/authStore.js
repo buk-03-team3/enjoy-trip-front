@@ -49,8 +49,8 @@ export const useAuthStore = defineStore('authStore', () => {
         authStore.name = ''
         authStore.userProfileImageUrl = notLoginUserProfileImageUrl
         authStore.userId = 0
-        authStore.email = 'znight1020@naver.com'
-        authStore.password = '1Q2w3e4r!'
+        authStore.email = ''
+        authStore.password = ''
         authStore.sido = ''
         authStore.gugun = ''
         authStore.isDefault = false

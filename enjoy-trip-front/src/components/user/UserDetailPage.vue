@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { useTravelStore } from '@/stores/travelStore'
 import http from '@/common/axios-config.js'
 import { ref, onMounted, watch } from 'vue'
+import UserFavoriteContent from './content/UserFavoriteContent.vue'
 
 const { authStore } = useAuthStore()
 const router = useRouter()
@@ -227,9 +228,11 @@ const uploadProfileImage = async (files) => {
                                 <button v-if="isEditMode" class="btn btn-dark w-100 py-3" type="button" id="btnCancel" @click="cancelUpdate">취소하기</button>
                                 <button v-else class="btn btn-dark w-100 py-3" type="button" id="btnHome" @click="home">홈</button>
                             </div>
+                            <UserFavoriteContent />
                         </div>
                     </form>
                 </div>
+                <
             </div>
         </div>
     </div>
