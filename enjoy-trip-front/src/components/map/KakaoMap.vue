@@ -1,123 +1,131 @@
 <script setup>
-import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps'
 import {useTravelStore} from '@/stores/travelStore'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted, reactive } from 'vue'
 
 const travelStore = useTravelStore();
 
 const markersPerPage = 5
 let currentPage = ref(1)
-
-const map = ref()
-const markerList = ref([])
+let positions = reactive([])
 
 const search = async () =>{
-    markerList.value = [];
     //비동기적 데이터 로드 동안에 searchMap 함수가 호출되어 travelList가 업데이트 되지 않았을 수 있음.
     //async-await를 사용해서 방지 
     travelStore.searchCategory = 'keyword';
     await travelStore.searchTravelKeyword(); 
-    searchMap(travelStore.travelList);   
+    // searchMap(travelStore.travelList);   
 }
 
-const onLoadKakaoMap = (mapRef) => {
-    map.value = mapRef
-}
+function initMap() {
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
-const searchMap = async () => {
-    const bounds = new kakao.maps.LatLngBounds()
-     let data = await travelStore.travelList;
-        for (let marker of data) {
-            const markerItem = {
-                lat: marker.latitude, //y
-                lng: marker.longitude, //x
-                addr1: marker.addr1,
-                addr2: marker.addr2,
-                firstImage: marker.firstImage,
-                firstImage2 : marker.firstImage2,
-                infoWindow: {
-                    content: marker.title,
-                    firstImage: marker.firstImage,
-                    addr1: marker.addr1,
-                    visible: false
-                }
-            }
-            markerList.value.push(markerItem)
-            bounds.extend(new kakao.maps.LatLng(Number(marker.latitude), Number(marker.longitude)))
-        }
-                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.value?.setBounds(bounds)
-}
+        mapOption = {
+          center: new kakao.maps.LatLng(37.564343, 126.947613), // 지도의 중심좌표
+          level: 3, // 지도의 확대 레벨
+        };
 
-const sidogugunSearchMap = async () => {
-    travelStore.searchCategory = 'region';
-        markerList.value = [];
-        let data = await travelStore.travelList;
-    console.log("=========",data)
-        const bounds = new kakao.maps.LatLngBounds()
-        for (let marker of data) {
-            const markerItem = {
-                lat: marker.latitude, //y
-                lng: marker.longitude, //x
-                addr1: marker.addr1,
-                addr2: marker.addr2,
-                firstImage: marker.firstImage,
-                firstImage2 : marker.firstImage2,
-                infoWindow: {
-                    content: marker.title,
-                    addr1: marker.addr1,
-                    firstImage: marker.firstImage,
-                    visible: false
-                }
-            }
-            markerList.value.push(markerItem)
-            bounds.extend(new kakao.maps.LatLng(Number(marker.latitude), Number(marker.longitude)))
-        }
-                // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.value?.setBounds(bounds)
-        travelStore.regionOrContent();
 
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+    positions = travelStore.travelList;
+    if(positions==''){
+        return;
     }
 
+    var imageSrc = '@/assets/default-user.png', // 마커이미지의 주소입니다
+    //C:\SSAFY\ssafy-final-project\enjoy-trip-front\enjoy-trip-front\src\assets\default-user.png
+    imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
+    imageOption = { offset: new kakao.maps.Point(20, 35) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
-// // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-// const placesSearchCB = (data, status) => {
-//     if (status === kakao.maps.services.Status.OK) {
-//                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-//         // LatLngBounds 객체에 좌표를 추가합니다
-//         const bounds = new kakao.maps.LatLngBounds()
-//         for (let marker of data) {
-//             const markerItem = {
-//                 lat: marker.y,
-//                 lng: marker.x,
-//                 infoWindow: {
-//                     content: marker.place_name,
-//                     visible: false
-//                 }
-//             }
-//             markerList.value.push(markerItem)
-//             bounds.extend(new kakao.maps.LatLng(Number(marker.y), Number(marker.x)))
-//         }
-//                 // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-//         map.value?.setBounds(bounds)
-//     }
-// }
+// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+const bounds = new kakao.maps.LatLngBounds();
+positions.forEach(function(pos) {
+  bounds.extend(new kakao.maps.LatLng(Number(pos.latitude), Number(pos.longitude)))
+  // 마커를 생성합니다
+  var latlng = new kakao.maps.LatLng(pos.latitude, pos.longitude);
+  var marker = new kakao.maps.Marker({
+    map: map, // 마커를 표시할 지도
+    position: latlng, // 마커의 위치
+  });
 
-    //마커 클릭 시 인포윈도우의 visible 값을 반전시킵니다
-const onClickMapMarker = (markerItem) => {
-    if (markerItem.infoWindow?.visible !== null && markerItem.infoWindow?.visible !== undefined) {
-        markerItem.infoWindow.visible = !markerItem.infoWindow.visible
+  var customOverlay = new kakao.maps.CustomOverlay({
+    position: latlng,
+    xAnchor: 0.5,
+    yAnchor: 1.05,
+  });
+
+  var content = document.createElement('div');
+  content.className = 'overlaybox';
+
+  var title = document.createElement('div');
+  title.className = 'map-popup-title';
+
+  var store = document.createElement('h3');
+  store.className = 'popup-name';
+  store.appendChild(document.createTextNode(pos.title));
+  title.appendChild(store);
+  content.appendChild(title);
+
+  var location = document.createElement('span');
+  location.className = 'store-location';
+  location.appendChild(document.createTextNode(pos.addr1));
+  location.appendChild(document.createTextNode(pos.addr2));
+  content.appendChild(location);
+
+
+  var image = document.createElement('img');
+image.className = 'image';
+image.src = pos.firstImage;
+content.appendChild(image);
+
+  var buttonContainer = document.createElement('div');
+  buttonContainer.className = 'popup-buttons';
+
+  var closeBtn = document.createElement('button');
+  closeBtn.className = 'popup-button';
+  closeBtn.appendChild(document.createTextNode('닫기'));
+  closeBtn.onclick = function() {
+    customOverlay.setMap(null);
+  };
+
+  buttonContainer.appendChild(closeBtn);
+  content.appendChild(buttonContainer);
+
+  kakao.maps.event.addListener(marker, 'click', function() {
+    customOverlay.setMap(map);
+  });
+
+  customOverlay.setContent(content);
+});
+
+map.setBounds(bounds);
+}
+
+
+
+onMounted(()=>{
+        if (window.kakao && window.kakao.maps) {
+           initMap();
     } else {
-        markerItem.infoWindow.visible = true
+        const script = document.createElement('script');
+        /* global kakao */
+        script.onload = () => kakao.maps.load(this.initMap);
+        script.src =
+        'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=fb64d91f34f7517d1b1304c3836fdd3c&libraries=services,clusterer,drawing';
+        document.head.appendChild(script);
     }
-}
+    })
 
-const totalPages = computed(() => Math.ceil(markerList.value.length / markersPerPage))
+    
+    const totalPages = computed(()=>{
+    console.log(positions.length)
+    return Math.ceil(positions.length/ markersPerPage);
+  })
 
 const getMarkersForPage = (pageNumber) => {
     const startIndex = (pageNumber - 1) * markersPerPage
     const endIndex = startIndex + markersPerPage
-    return markerList.value.slice(startIndex, endIndex)
+    return positions.slice(startIndex, endIndex)
 }
 
 watch(
@@ -126,14 +134,20 @@ watch(
         console.log("변경")
         console.log(travelStore.searchCategory)
         if (travelStore.searchCategory == 'keyword') { 
-            searchMap();
+            // searchMap();
+            initMap();
         } else {
-             sidogugunSearchMap(travelStore.travelList);
+            //  sidogugunSearchMap(travelStore.travelList);
+            initMap();
+            travelStore.regionOrContent();
+
         }
 
     // 속성 값이 변경될 때 실행되는 로직
   }
 );
+
+
 
 
 </script>
@@ -151,34 +165,24 @@ watch(
             </div>
         </div>
     </div>
-    <div class="result-container"  style="position:relative; margin-left:5%" >
+    <div class="result-container mx-auto"  style="position:relative;" >
         <div class="search-result-container"  style="position:absolute;">
-            <KakaoMap :lat="37.566826" :lng="126.9786567" :level="1" @onLoadKakaoMap="onLoadKakaoMap" class="kakao-map-size" width="90vmax" height="40vmax" >
-                <KakaoMapMarker
-                    v-for="(marker, index) in getMarkersForPage(currentPage)"
-                    :key="marker.key === undefined ? index : marker.key"
-                    :lat="marker.lat"
-                    :lng="marker.lng"
-                    :infoWindow="marker.infoWindow"
-                    :clickable="true"
-                    @onClickKakaoMapMarker="onClickMapMarker(marker)"
-                />
-            </KakaoMap>
+            <div id="map" class="d-flex " style="width:1400px; height: 600px;"></div>
         </div>
         
     <div class="resultBox" style="position:absolute;" >
 
             <ul id="searchResults" class="list-group" >
-                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index">
+                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" 
+                v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index" >
                     <!-- 이미지를 왼쪽에 배치 -->
                     <div>
                         <img :src="mapList.firstImage" style="width: 100px; height: 50px; margin-right:20px">
                     </div>
                     <!-- 나머지 div들을 오른쪽에 배치 -->
                     <div class="ml-3">
-                        <div>{{ mapList.lat }}</div>
-                        <div>{{ mapList.lng }}</div>
-                        <div>{{ mapList.infoWindow.content }}</div>
+                        <div>{{ mapList.title }}</div>
+                        <div>{{ mapList.addr1 }}</div>
                     </div>
                 </li>
             </ul>
@@ -233,15 +237,13 @@ body {
 }
 
 .resultBox {
-    height: 40vmax;
+    height: 600px;
     max-width: 30%;
     z-index: 3;
     overflow: auto;
     background-color: white;
 }
-.resultBox .list-group{
 
-}
 #searchResults .list-group {
     left: -95%;
 }
@@ -277,5 +279,53 @@ body {
     .info .img {position: absolute;top: 6px;left: 5px;width: 73px;height: 71px;border: 1px solid #ddd;color: #888;overflow: hidden;}
     .info:after {content: '';position: absolute;margin-left: -12px;left: 50%;bottom: 0;width: 22px;height: 12px;background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
     .info .link {color: #5085BB;}
+    
 </style>
 
+<style>
+.overlaybox {
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  max-width: 300px; /* 필요에 따라 조정 */
+  overflow: auto
+}
+
+.map-popup-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.popup-name {
+  margin: 0;
+}
+
+.store-location {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.popup-buttons {
+  text-align: right;
+}
+
+.popup-button {
+  background-color: #f1f1f1;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.popup-button:hover {
+  background-color: #ddd;
+}
+</style>
