@@ -23,7 +23,7 @@
                 <div class="navbar-nav ms-auto py-0" v-if="authStore.isLogin">
                     <RouterLink to="/"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">홈</a></RouterLink>
                     <RouterLink to="/travel"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">관광지</a></RouterLink>
-                    <RouterLink to="/map"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">지도</a></RouterLink>
+                    <RouterLink to="/recommend"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">여행지 추천</a></RouterLink>
                     <RouterLink to="/notice"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">공지사항</a></RouterLink>
                     <RouterLink to="/community"><a href="blog.html" class="nav-item nav-link" style="font-size: 1.5rem">커뮤니티</a></RouterLink>
                     <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>

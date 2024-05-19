@@ -8,6 +8,7 @@ import KakaoMap from '@/components/map/KakaoMap.vue'
 import LoginPage from '@/components/user/LoginPage.vue'
 import RegisterPage from '@/components/user/RegisterPage.vue'
 import UserDetailPage from '@/components/user/UserDetailPage.vue'
+import RecommendPage from'@/components/recommend/RecommendComponent.vue'
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,11 @@ const router = createRouter({
                     component: () => import('@/components/notice/BoardModify.vue')
                 }
             ]
+        },
+        {
+            path: '/recommend',
+            name: 'recommend',
+            component: () => import('@/components/recommend/RecommendComponent.vue')
         }
     ]
 })

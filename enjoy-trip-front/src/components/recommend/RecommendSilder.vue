@@ -26,7 +26,7 @@ const modules = [Pagination, Navigation];
     >
     <template v-for="(recommendElement,index) in recommendStore.recommendList" :key="index">
         <swiper-slide>
-    <div style="display: flex; flex-direction: column; max-width: 500px">
+    <div style="display: flex; flex-direction: column; max-width: 400px">
         <img :src="recommendElement.firstImage" style="max-width: 100%; object-fit: cover;">
         <div class="kakao-regular" style="flex-grow: 1;">
             {{recommendElement.title}}
@@ -49,7 +49,7 @@ const modules = [Pagination, Navigation];
     >
         <template v-for="(recommendElement,index) in recommendStore.recommendListWithFavoriteAddr" :key="index">
         <swiper-slide>
-    <div style="display: flex; flex-direction: column; max-width: 500px">
+    <div style="display: flex; flex-direction: column; max-width: 400px">
         <img :src="recommendElement.firstImage" style="max-width: 100%; object-fit: cover;">
         <div class="kakao-regular" style="flex-grow: 1;">
             {{recommendElement.title}}
@@ -70,8 +70,8 @@ const modules = [Pagination, Navigation];
 
         <template v-for="(recommendElement,index) in recommendStore.recommendListWithFavoriteContent" :key="index">
         <swiper-slide>
-    <div style="display: flex; flex-direction: column; max-width: 500px">
-        <img :src="recommendElement.firstImage" style="max-width: 100%; object-fit: cover;">
+    <div style="display: flex; flex-direction: column; ">
+        <img :src="recommendElement.firstImage" style=" max-height: 280px; object-fit: cover;">
         <div class="kakao-regular" style="flex-grow: 1;">
             {{recommendElement.title}}
         </div>

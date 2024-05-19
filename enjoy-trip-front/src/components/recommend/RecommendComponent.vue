@@ -28,5 +28,8 @@ recommendStore.recommendWithFavoriteContent();
 </script>
 
 <template>
+     <div class="mx-auto text-center mb-5 mt-5" style="max-width: 900px">
+        <h5 class="section-title px-3 kakao-bold">Recommend Travel</h5>
+        <h1 class="mb-4 kakao-bold">여행지 추천</h1></div>
     <RecommendSilder></RecommendSilder>
 </template>
