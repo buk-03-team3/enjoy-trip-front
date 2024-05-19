@@ -4,8 +4,6 @@ import { ref, computed, watch, onMounted, reactive } from 'vue'
 
 const travelStore = useTravelStore();
 
-const markersPerPage = 5
-let currentPage = ref(1)
 let positions = reactive([])
 
 const search = async () =>{
@@ -116,18 +114,6 @@ onMounted(()=>{
     }
     })
 
-    
-    const totalPages = computed(()=>{
-    console.log(positions.length)
-    return Math.ceil(positions.length/ markersPerPage);
-  })
-
-const getMarkersForPage = (pageNumber) => {
-    const startIndex = (pageNumber - 1) * markersPerPage
-    const endIndex = startIndex + markersPerPage
-    return positions.slice(startIndex, endIndex)
-}
-
 watch(
   () => travelStore.travelList,
     (newValue, oldValue) => {
@@ -147,8 +133,46 @@ watch(
   }
 );
 
+// 페이지네이션 관련 로직
 
+const markersPerPage = 5
+const maxButtonInPage= 5;
+let currentPage = ref(1)
+const getMarkersForPage = (pageNumber) => {
+    const startIndex = (pageNumber - 1) * markersPerPage
+    const endIndex = startIndex + markersPerPage
+    return positions.slice(startIndex, endIndex)
+}
+const totalPages = computed(()=>{
+    console.log(positions.length)
+    return Math.ceil(positions.length/ markersPerPage);
+  })
 
+const maxPage = computed(() => Math.ceil(totalPages.value / markersPerPage));
+
+const prevEvent = () => {
+    if (currentPage.value > 1) {
+        currentPage.value -= 1;
+    }
+};
+
+const nextEvent = () => {
+    if (currentPage.value < maxPage.value) {
+        currentPage.value += 1;
+    }
+};
+
+const getPageNumbers = () => {
+    const totalButtons = Math.min(maxPage.value, maxButtonInPage);
+    const half = Math.floor(totalButtons / 2);
+    let start = Math.max(1, currentPage.value - half);
+    let end = Math.min(maxPage.value, start + totalButtons - 1);
+
+    if (end - start < totalButtons - 1) {
+        start = Math.max(1, end - totalButtons + 1);
+    }
+    return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+};
 
 </script>
 
@@ -170,10 +194,10 @@ watch(
             <div id="map" class="d-flex " style="width:1400px; height: 600px;"></div>
         </div>
         
-    <div class="resultBox" style="position:absolute;" >
+    <div class="resultBox fiexd-size" style="position:absolute;" v-if="travelStore.travelList.length > 0">
 
             <ul id="searchResults" class="list-group" >
-                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" 
+                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center " 
                 v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index" >
                     <!-- 이미지를 왼쪽에 배치 -->
                     <div>
@@ -188,18 +212,22 @@ watch(
             </ul>
 <div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
     <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
-            </li>
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
-                <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
-            </li>
-            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <ul id="searchResults" class="list-group">
+        <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" 
+            v-for="data in getMarkersForPage()" :key="data">{{ data }}</li>
+    </ul>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+            <a class="page-link" href="#" @click.prevent="prevEvent">Previous</a>
+        </li>
+        <li class="page-item" v-for="page in getPageNumbers()" :key="page" :class="{ active: page === currentPage }">
+            <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === maxPage.value }">
+            <a class="page-link" href="#" @click.prevent="nextEvent">Next</a>
+        </li>
+    </ul>
+</nav>
 </div>
         </div>
     </div>
@@ -238,7 +266,7 @@ body {
 
 .resultBox {
     height: 600px;
-    max-width: 30%;
+    width:400px;
     z-index: 3;
     overflow: auto;
     background-color: white;
@@ -327,5 +355,11 @@ body {
 
 .popup-button:hover {
   background-color: #ddd;
+}
+
+.fixed-size{
+    text-overflow: ellipsis;
+    white-space: nowrap; /* 말줄임표 사용을 위해 */
+    overflow: hidden
 }
 </style>
