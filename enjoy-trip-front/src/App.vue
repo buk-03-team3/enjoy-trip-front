@@ -3,15 +3,16 @@ import { RouterView } from 'vue-router'
 
 import NavBar from './layout/NavBar.vue'
 import Footer from './layout/Footer.vue'
-import KakaoMap from './components/map/KakaoMap.vue'
 import LoginPage from './components/user/LoginPage.vue'
+import RecommendComponent from './components/recommend/RecommendComponent.vue'
+import KakaoMap from './components/map/KakaoMap.vue'
 </script>
 
 <template>
     <NavBar />
-    <!-- <KakaoMap></KakaoMap> -->
     <div class="content"></div>
     <RouterView />
+    
     <!-- <LoginPage /> -->
     <Footer></Footer>
 </template>

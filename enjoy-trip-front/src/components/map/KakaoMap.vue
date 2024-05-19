@@ -5,7 +5,10 @@ import { ref, computed, watch, onMounted, reactive } from 'vue'
 const travelStore = useTravelStore();
 
 const markersPerPage = 5
+const pagePerTotal = 5
 let currentPage = ref(1)
+let prevPage = ref(1);
+let nextPage = ref(1);
 let positions = reactive([])
 
 const search = async () =>{
@@ -132,6 +135,7 @@ watch(
   () => travelStore.travelList,
     (newValue, oldValue) => {
         console.log("변경")
+       
         console.log(travelStore.searchCategory)
         if (travelStore.searchCategory == 'keyword') { 
             // searchMap();
@@ -142,6 +146,10 @@ watch(
             travelStore.regionOrContent();
 
         }
+        prevPage.value = 1;
+        var totalPages = Math.ceil(positions.length/ markersPerPage);
+        nextPage.value = Math.ceil(totalPages/markersPerPage) > markersPerPage ? markersPerPage: (totalPages/markersPerPage);
+        currentPage.value=1;
 
     // 속성 값이 변경될 때 실행되는 로직
   }
@@ -189,14 +197,14 @@ watch(
 <div class="container mt-3 mapNav" style="bottom: 0;" v-if="travelStore.travelList.length > 0">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: currentPage === 1 }">
-                <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= 1)">Previous</a>
+            <li class="page-item" :class="{ disabled: currentPage <= pagePerTotal }">
+                <a class="page-link" href="#" @click.prevent="currentPage > 1 && (currentPage -= pagePerTotal)" @click="prevPage-=pagePerTotal; nextPage-=pagePerTotal">Previous</a>
             </li>
-            <li class="page-item" v-for="page in totalPages" :key="page" :class="{ active: page === currentPage }">
+            <li class="page-item" v-for="page in (prevPage, nextPage)" :key="page" :class="{ active: page === currentPage }">
                 <a class="page-link" href="#" @click.prevent="currentPage = page">{{ page }}</a>
             </li>
             <li class="page-item" :class="{ disabled: currentPage === totalPages }">
-                <a class="page-link" href="#" @click.prevent="currentPage < totalPages && (currentPage += 1)">Next</a>
+                <a class="page-link" href="#" @click.prevent=" (prevPage*10) > totalPages && (currentPage += pagePerTotal)" @click=" currentPage = nextPage+1; prevPage=nextPage+1; nextPage+=pagePerTotal;">Next</a>
             </li>
         </ul>
     </nav>
