@@ -1,5 +1,3 @@
-// src/stores/authStore.js
-
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
 import http from '@/common/axios-config.js'
@@ -24,12 +22,11 @@ export const useFavoriteStore = defineStore('favoriteStore', () => {
         }
     }
 
-    const deleteFavorite = async (favoriteId) => {
+    const deleteFavorite = async (favoritesId) => {
         try {
-            let { data } = await http.delete(`/favorite/${favoriteId}`)
-            if (data.result === 'success') {
+            const response = await http.delete(`/favorite/${favoritesId}`)
+            if (response.data.result === 'success') {
                 console.log('즐겨찾기 삭제 성공')
-                // 여기서 해당 아이템을 즐겨찾기 목록에서 삭제하는 로직을 추가
             } else {
                 console.log('즐겨찾기 삭제 실패')
             }
@@ -38,5 +35,28 @@ export const useFavoriteStore = defineStore('favoriteStore', () => {
         }
     }
 
-    return { favoriteStore, getFavoriteList, deleteFavorite }
+    const addFavorite = async (attractionId, attractionName, userId) => {
+        console.log(attractionId)
+        console.log(attractionName)
+        console.log(userId)
+
+        try {
+            const response = await http.post('/favorite', {
+                attractionId: attractionId,
+                attractionName: attractionName,
+                userId: userId
+            })
+
+            if (response.data.result === 'success') {
+                console.log('즐겨찾기 추가 성공')
+                getFavoriteList(userId)
+            } else {
+                console.log('즐겨찾기 추가 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { favoriteStore, getFavoriteList, deleteFavorite, addFavorite }
 })
