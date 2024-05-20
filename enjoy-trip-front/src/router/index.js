@@ -26,11 +26,6 @@ const router = createRouter({
             component: () => import('@/components/user/UserDetailPage.vue')
         },
         {
-            path: '/user/find-password',
-            name: 'findUserPassword',
-            component: () => import('@/components/user/FindPasswordModal.vue')
-        },
-        {
             path: '/login',
             name: 'login',
             component: LoginPage
@@ -49,26 +44,26 @@ const router = createRouter({
             path: '/community',
             name: 'community',
             component: () => import('@/views/TheCommunityView.vue'),
-            redirect: { name: 'meeting-article-list' },
+            redirect: { name: 'community-list' },
             children: [
                 {
                     path: 'list',
-                    name: 'meeting-article-list',
+                    name: 'community-list',
                     component: () => import('@/components/community/CommunityList.vue')
                 },
                 {
-                    path: 'view/:articleno',
-                    name: 'meeting-article-view',
+                    path: 'view/:communityId',
+                    name: 'community-view',
                     component: () => import('@/components/community/CommunityDetail.vue')
                 },
                 {
                     path: 'write',
-                    name: 'meeting-article-write',
+                    name: 'community-write',
                     component: () => import('@/components/community/CommunityWrite.vue')
                 },
                 {
-                    path: 'modify/:articleno',
-                    name: 'meeting-article-modify',
+                    path: 'modify/:communityId',
+                    name: 'community-modify',
                     component: () => import('@/components/community/CommunityModify.vue')
                 }
             ]

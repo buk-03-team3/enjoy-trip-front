@@ -2,9 +2,11 @@
 import {ref} from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import http from '@/common/axios-config.js'
+import { useRouter } from 'vue-router';
 const { authStore, setLogin } = useAuthStore()
 const isModalOpen = ref(false)
 const accountEmail = ref('')
+const router = useRouter();
 
 const home = () => {
     router.push('/register')
