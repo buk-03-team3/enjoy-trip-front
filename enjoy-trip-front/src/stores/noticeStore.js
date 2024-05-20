@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 
 import http from '@/common/axios-config.js'
+import { dasherize } from 'i/lib/methods'
 
 export const useNoticeStore = defineStore('noticeStore', () => {
     const router = useRouter()
@@ -16,11 +17,13 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         userName: '',
         userProfileImageUrl: ''
     })
+
     const notices = reactive({
         list: [],
         limit: 10,
         offset: 0,
         searchWord: '',
+        searchOption:'',
 
         // pagination
         listRowCount: 10,
@@ -41,10 +44,12 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         admin: false
     })
     const noticeList = async () => {
+        console.log(notices.searchWord)
         let params = {
             limit: notices.limit,
             offset: notices.offset,
-            searchWord: notices.searchWord
+            searchWord: notices.searchWord,
+            searchOption: notices.searchOption
         }
 
         try {
@@ -99,5 +104,24 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete }
+    const noticeInsert = async (article) => {
+        notice.value = article
+        console.log("아티클: ",article.content);
+        try {
+            let { data } = await http.post('/notice/boards', notice.value)
+            if (data.result == 'login') {
+                router.push('/login')
+            } else if (data.result == 'success') {
+                console.log('글 등록 성공 ')
+                noticeList();
+
+            } else {
+                alert('글 등록 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert }
 })

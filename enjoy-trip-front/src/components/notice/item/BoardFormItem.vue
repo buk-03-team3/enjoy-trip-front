@@ -2,31 +2,35 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { registArticle, getModifyArticle, modifyArticle } from '@/api/board'
+import { storeToRefs } from 'pinia'
+import { useNoticeStore } from '@/stores/noticeStore'
 
+const  noticeStore  = useNoticeStore();
 const router = useRouter()
 const route = useRoute()
 
 const props = defineProps({ type: String })
 
 const isUseId = ref(false)
-
-const article = ref({
-    articleNo: 0,
-    subject: '',
-    content: '',
-    userId: '',
-    userName: '',
-    hit: 0,
-    registerTime: ''
-})
+const { notice } = storeToRefs(noticeStore)
+notice.value ={
+        title: '',
+        content: '',
+        noticeId: '',
+        readCount: '',
+        regDate: '',
+        userId: '',
+        userName: '',
+        userProfileImageUrl: ''
+    }
 
 if (props.type === 'modify') {
-    let { articleno } = route.params
-    console.log(articleno + '번글 얻어와서 수정할거야')
+    let { noticeId } = route.params
+    console.log(noticeId + '번글 얻어와서 수정할거야')
     getModifyArticle(
-        articleno,
+        noticeId,
         ({ data }) => {
-            article.value = data
+            notice.value = data
             isUseId.value = true
         },
         (error) => {
@@ -39,7 +43,7 @@ if (props.type === 'modify') {
 const subjectErrMsg = ref('')
 const contentErrMsg = ref('')
 watch(
-    () => article.value.subject,
+    () => notice.value.title,
     (value) => {
         let len = value.length
         if (len == 0 || len > 30) {
@@ -49,7 +53,7 @@ watch(
     { immediate: true }
 )
 watch(
-    () => article.value.content,
+    () => notice.value.content,
     (value) => {
         let len = value.length
         if (len == 0 || len > 500) {
@@ -72,23 +76,25 @@ function onSubmit() {
 }
 
 function writeArticle() {
-    console.log('글등록하자!!', article.value)
-    registArticle(
-        article.value,
-        (response) => {
-            let msg = '글등록 처리시 문제 발생했습니다.'
-            if (response.status == 201) msg = '글등록이 완료되었습니다.'
-            alert(msg)
-            moveList()
-        },
-        (error) => console.log(error)
-    )
+    noticeStore.noticeInsert(notice.value);
+    moveList();
+    // registArticle(
+    //     article.value,
+    //     (response) => {
+    //         let msg = '글등록 처리시 문제 발생했습니다.'
+    //         if (response.status == 201) msg = '글등록이 완료되었습니다.'
+    //         alert(msg)
+    //         moveList()
+    //     },
+    //     (error) => console.log(error)
+    // )
+
 }
 
 function updateArticle() {
-    console.log(article.value.articleNo + '번글 수정하자!!', article.value)
+    console.log(notice.value.articleNo + '번글 수정하자!!', notice.value)
     modifyArticle(
-        article.value,
+        notice.value,
         (response) => {
             let msg = '글수정 처리시 문제 발생했습니다.'
             if (response.status == 200) msg = '글정보 수정이 완료되었습니다.'
@@ -110,15 +116,15 @@ function moveList() {
     <form @submit.prevent="onSubmit">
         <div class="mb-3">
             <label for="userid" class="form-label">작성자 ID : </label>
-            <input type="text" class="form-control" v-model="article.userId" :disabled="isUseId" placeholder="작성자ID..." />
+            <input type="text" class="form-control" v-model="notice.userId" :disabled="isUseId" placeholder="작성자ID..." />
         </div>
         <div class="mb-3">
             <label for="subject" class="form-label">제목 : </label>
-            <input type="text" class="form-control" v-model="article.subject" placeholder="제목..." />
+            <input type="text" class="form-control" v-model="notice.title" placeholder="제목..." />
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용 : </label>
-            <textarea class="form-control" v-model="article.content" rows="10"></textarea>
+            <textarea class="form-control" v-model="notice.content" rows="10"></textarea>
         </div>
         <div class="col-auto text-center">
             <button type="submit" class="btn btn-outline-primary mb-3" v-if="type === 'regist'">글작성</button>

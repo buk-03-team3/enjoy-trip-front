@@ -72,7 +72,7 @@ getArticle()
                     <div class="divider mt-3 mb-3"></div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-outline-primary mb-3" @click="moveList">글목록</button>
-                        <button type="button" class="btn btn-outline-success mb-3 ms-1" v-show="notice.sameUser || notice.admin" @click="moveModify">글수정</button>
+                        <button type="button" class="btn btn-outline-success mb-3 ms-1" v-show="notice.sameUser " @click="moveModify">글수정</button>
                         <button type="button" class="btn btn-outline-danger mb-3 ms-1" v-show="notice.sameUser || notice.admin" @click="onDeleteArticle">글삭제</button>
                     </div>
                 </div>
