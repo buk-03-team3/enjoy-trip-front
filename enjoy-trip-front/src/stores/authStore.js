@@ -18,11 +18,10 @@ export const useAuthStore = defineStore('authStore', () => {
         sido: '',
         gugun: '',
         // profile image
-        isDefault: false
+        isDefault: false,
     })
 
     const setLogin = (payload) => {
-        console.log('login: ' + payload)
         authStore.isLogin = true
         authStore.userId = payload.userId
         authStore.name = payload.name
@@ -30,6 +29,13 @@ export const useAuthStore = defineStore('authStore', () => {
         authStore.sido = payload.sido
         authStore.gugun = payload.gugun
         authStore.isDefault = payload.userProfileImageUrl === 'default'
+    }
+
+    const setUpdate = (payload) => {
+        console.log(payload)
+        authStore.name = payload.name
+        authStore.sido = payload.sido
+        authStore.gugun = payload.gugun
     }
 
     const logout = async () => {
@@ -56,5 +62,5 @@ export const useAuthStore = defineStore('authStore', () => {
         authStore.isDefault = false
     }
 
-    return { authStore, setLogin, setLogout, logout }
+    return { authStore, setLogin, setLogout, logout, setUpdate }
 })

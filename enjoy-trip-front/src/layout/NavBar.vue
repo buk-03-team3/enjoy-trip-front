@@ -29,7 +29,7 @@
                     <RouterLink to="/meeting"><a href="#" class="nav-item nav-link" style="font-size: 1.5rem">소모임</a></RouterLink>
 
                     <div id="navbarCollapse" class="nav-item collapse dropdown navbar-collapse">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">{{ name }} 님</a>
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">{{ updatedName }} 님</a>
                         <div class="dropdown-menu m-0">
                             <RouterLink to="/user/info"
                                 ><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
@@ -44,6 +44,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import { RouterLink } from 'vue-router'
 import { useRouter } from 'vue-router'
@@ -51,7 +52,7 @@ import { useRouter } from 'vue-router'
 const { authStore, logout } = useAuthStore()
 const router = useRouter()
 
-const name = authStore.name;
+const updatedName = computed(() => authStore.name)
 
 const userLogout = () => {
     logout()

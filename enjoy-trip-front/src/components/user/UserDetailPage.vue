@@ -6,11 +6,11 @@ import http from '@/common/axios-config.js'
 import { ref, onMounted, watch } from 'vue'
 import UserFavoriteContent from './content/UserFavoriteContent.vue'
 
-const { authStore } = useAuthStore()
+const { authStore, setUpdate } = useAuthStore()
 const router = useRouter()
 const isEditMode = ref(false)
 const originalData = ref({}) // 수정하기 전의 데이터를 저장할 변수
-
+const tempName = ref(authStore.name) // 이름 수정을 위한 임시 변수
 
 const home = () => {
     router.push('/')
@@ -24,25 +24,33 @@ const editUser = () => {
 const updateUser = async () => {
     try {
         const response = await http.put(`/user/${authStore.userId}`, {
-            name: authStore.name,
+            email: authStore.email,
+            password: authStore.password,
+            name: tempName.value, // 임시 변수로 이름을 업데이트
+            userProfileImageUrl: authStore.userProfileImageUrl,
             sido: cityBtnText.value,
             gugun: townBtnText.value
         })
-
-        console.log(response.data)
         if (response.data.result == 'success') {
+            try {
+                setUpdate({
+                    name: tempName.value,
+                    sido: cityBtnText.value,
+                    gugun: townBtnText.value
+                })
+            } catch (error) {
+                alert('authStore 업데이트 실패')
+            }
+
             alert('수정사항이 반영되었습니다.')
             isEditMode.value = false
         } else {
             alert('사용자 정보 수정 실패')
         }
-
-        
     } catch (error) {
         alert('사용자 정보 수정에 실패했습니다.')
     }
 }
-
 
 let cityBtnText = ref(authStore.sido)
 let townBtnText = ref(authStore.gugun)
@@ -89,7 +97,7 @@ const selectTown = (gugun) => {
 const cancelUpdate = () => {
     // 수정 취소 시 이전 데이터로 복원
     authStore.userId = originalData.value.userId
-    authStore.name = originalData.value.name
+    tempName.value = originalData.value.name
     authStore.nickName = originalData.value.nickName
     authStore.email = originalData.value.email
     authStore.password = originalData.value.password
@@ -155,7 +163,7 @@ const uploadProfileImage = async (files) => {
                                         class="kakao-regular form-control border-0 input-text-color"
                                         id="name"
                                         placeholder="Your name"
-                                        v-model="authStore.name"
+                                        v-model="tempName"
                                         :disabled="!isEditMode"
                                     />
                                     <label class="kakao-bold" for="name">이름</label>
@@ -163,14 +171,7 @@ const uploadProfileImage = async (files) => {
                             </div>
                             <div class="col-md-lg-12">
                                 <div class="form-floating">
-                                    <input
-                                        type="email"
-                                        class="kakao-regular form-control border-0 input-text-color"
-                                        id="email"
-                                        placeholder="이메일"
-                                        v-model="authStore.email"
-                                        disabled
-                                    />
+                                    <input type="email" class="kakao-regular form-control border-0 input-text-color" id="email" placeholder="이메일" v-model="authStore.email" disabled />
                                     <label class="kakao-bold" for="email">이메일</label>
                                 </div>
                             </div>
