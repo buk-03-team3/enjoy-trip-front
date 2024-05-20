@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import { defineStore } from 'pinia'
 
 import http from '@/common/axios-config.js'
+import { dasherize } from 'i/lib/methods'
 
 export const useNoticeStore = defineStore('noticeStore', () => {
     const router = useRouter()
@@ -22,6 +23,7 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         limit: 10,
         offset: 0,
         searchWord: '',
+        searchOption:'',
 
         // pagination
         listRowCount: 10,
@@ -42,10 +44,12 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         admin: false
     })
     const noticeList = async () => {
+        console.log(notices.searchWord)
         let params = {
             limit: notices.limit,
             offset: notices.offset,
-            searchWord: notices.searchWord
+            searchWord: notices.searchWord,
+            searchOption: notices.searchOption
         }
 
         try {

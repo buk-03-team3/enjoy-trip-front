@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import {useNoticeStore} from '@/stores/noticeStore'
+import { storeToRefs } from 'pinia'
 // import { listArticle } from '@/api/board.js' // 실제 API 호출 대신 주석 처리
 
 import VSelect from '../commons/VSelect.vue'
@@ -21,23 +22,17 @@ const selectOption = ref([
 const currentPage = ref(1)
 const totalPage = ref(0)
 
-const param = ref({
-    pgno: currentPage.value,
-    spp: 10,
-    key: '',
-    word: ''
-})
 const changeKey = (val) => {
     console.log('BoarList에서 선택한 조건 : ' + val)
-    param.value.key = val
+    noticeStore.notices.searchOption = val;
 }
 
 
 
 const getArticleList = () => {
+    console.log('서버에서 글목록 얻어오자')
     noticeStore.noticeList();
     console.log(noticeStore.notices.list);
-    console.log('서버에서 글목록 얻어오자')
 
 }
 
@@ -72,7 +67,7 @@ const moveWrite = () => {
                         <form class="d-flex">
                             <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
                             <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" v-model="param.word" placeholder="검색어..." />
+                                <input type="text" class="form-control" v-model="noticeStore.notices.searchWord" placeholder="검색어..." />
                                 <button class="btn btn-dark" type="button" @click="getArticleList">검색</button>
                             </div>
                         </form>
