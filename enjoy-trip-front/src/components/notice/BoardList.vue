@@ -1,193 +1,44 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import {useNoticeStore} from '@/stores/noticeStore'
 // import { listArticle } from '@/api/board.js' // 실제 API 호출 대신 주석 처리
 
 import VSelect from '../commons/VSelect.vue'
 import BoardListItem from './item/BoardListItem.vue'
 import PageNavigation from '../commons/PageNavigation.vue'
 
+const  noticeStore  = useNoticeStore();
 const router = useRouter()
 
 const selectOption = ref([
     { text: '검색조건', value: '' },
-    { text: '글번호', value: 'article_no' },
-    { text: '제목', value: 'subject' },
-    { text: '작성자아이디', value: 'user_id' }
+    { text: '글번호', value: 'noticeId' },
+    { text: '제목', value: 'title' },
+    { text: '작성자아이디', value: 'userId' }
 ])
 
-const articles = ref([])
 const currentPage = ref(1)
 const totalPage = ref(0)
-const { VITE_ARTICLE_LIST_SIZE } = import.meta.env
+
 const param = ref({
     pgno: currentPage.value,
-    spp: VITE_ARTICLE_LIST_SIZE,
+    spp: 10,
     key: '',
     word: ''
 })
-
-onMounted(() => {
-    getArticleList()
-})
-
 const changeKey = (val) => {
     console.log('BoarList에서 선택한 조건 : ' + val)
     param.value.key = val
 }
 
-// 가짜 데이터로 글목록 채우는 함수
-const fillFakeArticles = () => {
-    const fakeArticles = [
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        {
-            articleNo: 1,
-            subject: '첫 번째 글 제목',
-            userId: 'user123',
-            views: 100,
-            createdAt: '2024-05-10'
-        },
-        {
-            articleNo: 2,
-            subject: '두 번째 글 제목',
-            userId: 'user456',
-            views: 80,
-            createdAt: '2024-05-09'
-        },
-        // 다른 가짜 데이터 추가
-    ]
-    articles.value = fakeArticles
-}
+
 
 const getArticleList = () => {
-    console.log('서버에서 글목록 얻어오자!!!', param.value)
-    // 실제 API 호출 대신 가짜 데이터로 채우기
-    fillFakeArticles()
+    noticeStore.noticeList();
+    console.log(noticeStore.notices.list);
+    console.log('서버에서 글목록 얻어오자')
+
 }
 
 const onPageChange = (val) => {
@@ -200,6 +51,8 @@ const onPageChange = (val) => {
 const moveWrite = () => {
     router.push({ name: 'article-write' })
 }
+
+  getArticleList()
 </script>
 
 <template>
@@ -236,7 +89,7 @@ const moveWrite = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <BoardListItem v-for="article in articles" :key="article.articleNo" :article="article"></BoardListItem>
+                        <BoardListItem v-for="notice in noticeStore.notices.list" :key="notice.noticeId" :notice="notice"></BoardListItem>
                     </tbody>
                 </table>
             </div>
