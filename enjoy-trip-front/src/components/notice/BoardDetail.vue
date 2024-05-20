@@ -32,15 +32,10 @@ function moveModify() {
 function onDeleteArticle() {
     // const { articleno } = route.params;
     console.log(noticeId + '번글 삭제하러 가자!!!')
-    deleteArticle(
-        noticeId,
-        (response) => {
-            if (response.status == 200) moveList()
-        },
-        (error) => {
-            console.log(error)
-        }
-    )
+    //delete 함수 호출
+    noticeStore.noticeDelete(noticeId)
+    // delete 성공하면 list로 이동 moveList() 
+    moveList();
 }
 
 getArticle()

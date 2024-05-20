@@ -85,5 +85,19 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice }
+    const noticeDelete = async (noticeId) => {
+        try {
+            ///boards/{noticeId}
+            let { data } = await http.delete(`/notice/boards/${noticeId}`)
+            if (data.result == 'success') {
+                alert('글 삭제 완료')
+            } else {
+                alert('글 삭제 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { noticeList, notices, noticeDetail, notice, noticeDelete }
 })
