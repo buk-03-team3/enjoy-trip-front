@@ -1,13 +1,41 @@
 <script setup>
+import {ref} from 'vue'
 import { useAuthStore } from '@/stores/authStore'
 import http from '@/common/axios-config.js'
-import { useRouter } from 'vue-router'
 const { authStore, setLogin } = useAuthStore()
-
-const router = useRouter()
+const isModalOpen = ref(false)
+const accountEmail = ref('')
 
 const home = () => {
     router.push('/register')
+}
+
+const openModal = () => {
+    isModalOpen.value = true
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+}
+
+const sendResetLink = () => {
+    // 비밀번호 재설정 링크를 보내는 로직 구현
+    closeModal()
+}
+
+const findPassword = async () => {
+    try{
+        let { data } = await http.get(`/user/find/${accountEmail.value}`)
+        if(data.result == 'success'){
+            alert("회원 비밀번호: " + data.password)
+        } else {
+            alert("이메일을 확인해주세요.")   
+        }
+    } catch (error) {
+        alert('이메일을 확인해주세요.')
+    }
+    closeModal()
+    accountEmail.value = ''
 }
 
 const login = async () => {
@@ -57,16 +85,94 @@ const login = async () => {
             <p class="kakao-regular login-form-field-text">패스워드</p>
             <div class="input__block">
                 <input type="password" placeholder="비밀번호" class="input login-form-input-text kakao-regular" id="password" v-model="authStore.password" />
+                <a href="#" @click.prevent="openModal">비밀번호 잃어버림?</a>
             </div>
             <div style="display: flex">
                 <button type="button" class="signin__btn kakao-regular" @click="login">로그인</button>
                 <button type="button" class="signup__btn kakao-regular" @click="home">회원가입</button>
             </div>
         </form>
+        <div :class="['modal-container', { show: isModalOpen }]" @click="closeModal">
+            <div class="modal-window" @click.stop>
+                <div class="card-container">
+                    <h2 class="kakao-bold" style="padding-bottom: 2vmax">비밀번호 찾기</h2>
+                    <input type="email" placeholder="이메일 입력" v-model="accountEmail" />
+                    <button type="button" style="margin-top: 2vmax" @click="findPassword">보내기</button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.modal-container.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-window {
+    position: relative;
+    background: #ffffff;
+    color: #000000;
+    padding: 48px 40px;
+    width: 400px;
+    height: 300px;
+    border-radius: 12px;
+}
+
+.card-container {
+    text-align: center;
+}
+
+.card-container h2 {
+    margin: 0 0 8px;
+    font-weight: 900;
+    font-size: 21px;
+}
+
+.card-container p {
+    margin: 0;
+}
+
+.card-container input {
+    display: block;
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.card-container button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.card-container button:hover {
+    background-color: #0056b3;
+}
+
 .login-form-field-text {
     font-size: 1.2vmax;
     border-bottom: black 1px solid;

@@ -26,6 +26,11 @@ const router = createRouter({
             component: () => import('@/components/user/UserDetailPage.vue')
         },
         {
+            path: '/user/find-password',
+            name: 'findUserPassword',
+            component: () => import('@/components/user/FindPasswordModal.vue')
+        },
+        {
             path: '/login',
             name: 'login',
             component: LoginPage
