@@ -24,5 +24,19 @@ export const useCommunityStore = defineStore('communityStore', () => {
         }
     }
 
-    return { communityStore, getCommunityList }
+    const getCommunityDetail = async (communityId) => {
+        try {
+          const { data } = await http.get(`/community/${communityId}`)
+          console.log(data.community)
+          if (data.result == 'success') {
+            communityStore.community = data.community
+          } else {
+            console.log('커뮤니티 상세 조회 실패')
+          }
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+    return { communityStore, getCommunityList, getCommunityDetail }
 })
