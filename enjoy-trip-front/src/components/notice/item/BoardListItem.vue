@@ -1,18 +1,19 @@
 <script setup>
-defineProps({ article: Object })
+defineProps({ notice: Object })
+import {formatDate} from "@/api/util"
 </script>
 
 <template>
     <tr class="text-center">
-        <th scope="row">{{ article.articleNo }}</th>
+        <th scope="row">{{ notice.noticeId }}</th>
         <td class="text-start">
-            <router-link :to="{ name: 'article-view', params: { articleno: article.articleNo } }" class="article-title link-dark">
-                {{ article.subject }}
+            <router-link :to="{ name: 'article-view', params: { noticeId: notice.noticeId } }" class="article-title link-dark">
+                {{ notice.title }}
             </router-link>
         </td>
-        <td>{{ article.userName }}</td>
-        <td>{{ article.hit }}</td>
-        <td>{{ article.registerTime }}</td>
+        <td>{{ notice.userName }}</td>
+        <td>{{ notice.readCount }}</td>
+        <td>{{ formatDate(notice.regDate) }}</td>
     </tr>
 </template>
 

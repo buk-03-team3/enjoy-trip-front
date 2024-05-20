@@ -89,7 +89,7 @@ const router = createRouter({
                     component: () => import('@/components/notice/BoardList.vue')
                 },
                 {
-                    path: 'view/:articleno',
+                    path: 'view/:noticeId',
                     name: 'article-view',
                     component: () => import('@/components/notice/BoardDetail.vue')
                 },
