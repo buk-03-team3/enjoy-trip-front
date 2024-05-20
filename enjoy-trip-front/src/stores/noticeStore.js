@@ -123,5 +123,22 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert }
+    const noticeUpdate = async () =>{
+        try {
+            let { data } = await http.put('/notice/boards', notice.value)
+            if (data.result == 'login') {
+                router.push('/login')
+            } else if (data.result == 'success') {
+                console.log('글 수정 성공 ')
+                noticeList();
+
+            } else {
+                alert('글 수정 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert ,noticeUpdate }
 })

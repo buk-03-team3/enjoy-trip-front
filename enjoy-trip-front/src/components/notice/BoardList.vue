@@ -44,6 +44,17 @@ const onPageChange = (val) => {
 }
 
 const moveWrite = () => {
+    noticeStore.notice.value ={
+        title: '',
+        content: '',
+        noticeId: '',
+        readCount: '',
+        regDate: '',
+        userId: '',
+        userName: '',
+        userProfileImageUrl: ''
+    }
+
     router.push({ name: 'article-write' })
 }
 

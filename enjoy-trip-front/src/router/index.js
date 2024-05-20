@@ -99,7 +99,7 @@ const router = createRouter({
                     component: () => import('@/components/notice/BoardWrite.vue')
                 },
                 {
-                    path: 'modify/:articleno',
+                    path: 'modify/:noticeId',
                     name: 'article-modify',
                     component: () => import('@/components/notice/BoardModify.vue')
                 }

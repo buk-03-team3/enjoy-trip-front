@@ -13,31 +13,10 @@ const props = defineProps({ type: String })
 
 const isUseId = ref(false)
 const { notice } = storeToRefs(noticeStore)
-notice.value ={
-        title: '',
-        content: '',
-        noticeId: '',
-        readCount: '',
-        regDate: '',
-        userId: '',
-        userName: '',
-        userProfileImageUrl: ''
-    }
 
 if (props.type === 'modify') {
     let { noticeId } = route.params
     console.log(noticeId + '번글 얻어와서 수정할거야')
-    getModifyArticle(
-        noticeId,
-        ({ data }) => {
-            notice.value = data
-            isUseId.value = true
-        },
-        (error) => {
-            console.log(error)
-        }
-    )
-    isUseId.value = true
 }
 
 const subjectErrMsg = ref('')
@@ -78,33 +57,14 @@ function onSubmit() {
 function writeArticle() {
     noticeStore.noticeInsert(notice.value);
     moveList();
-    // registArticle(
-    //     article.value,
-    //     (response) => {
-    //         let msg = '글등록 처리시 문제 발생했습니다.'
-    //         if (response.status == 201) msg = '글등록이 완료되었습니다.'
-    //         alert(msg)
-    //         moveList()
-    //     },
-    //     (error) => console.log(error)
-    // )
 
 }
 
 function updateArticle() {
-    console.log(notice.value.articleNo + '번글 수정하자!!', notice.value)
-    modifyArticle(
-        notice.value,
-        (response) => {
-            let msg = '글수정 처리시 문제 발생했습니다.'
-            if (response.status == 200) msg = '글정보 수정이 완료되었습니다.'
-            alert(msg)
-            moveList()
-            // router.push({ name: "article-view" });
-            // router.push(`/board/view/${article.value.articleNo}`);
-        },
-        (error) => console.log(error)
-    )
+    console.log(notice.value.noticeId + '번글 수정하자!!', notice.value)
+    noticeStore.noticeUpdate();
+    alert("글이 수정되었습니다. ")
+    router.replace({name: 'article-view'})
 }
 
 function moveList() {
