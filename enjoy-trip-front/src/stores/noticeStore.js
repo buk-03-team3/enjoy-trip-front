@@ -16,6 +16,7 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         userName: '',
         userProfileImageUrl: ''
     })
+
     const notices = reactive({
         list: [],
         limit: 10,
@@ -99,5 +100,21 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete }
+    const noticeInsert = async (article) => {
+        notice.value = article
+        try {
+            let { data } = await http.post('/notice/boards', notice.value)
+            if (data.result == 'login') {
+                router.push('/login')
+            } else if (data.result == 'success') {
+                console.log('글 등록 성공 ')
+            } else {
+                alert('글 등록 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert }
 })
