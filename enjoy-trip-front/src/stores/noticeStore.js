@@ -102,12 +102,15 @@ export const useNoticeStore = defineStore('noticeStore', () => {
 
     const noticeInsert = async (article) => {
         notice.value = article
+        console.log("아티클: ",article.content);
         try {
             let { data } = await http.post('/notice/boards', notice.value)
             if (data.result == 'login') {
                 router.push('/login')
             } else if (data.result == 'success') {
                 console.log('글 등록 성공 ')
+                noticeList();
+
             } else {
                 alert('글 등록 중 오류가 발생했습니다.')
             }

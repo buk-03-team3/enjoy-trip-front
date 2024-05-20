@@ -13,6 +13,16 @@ const props = defineProps({ type: String })
 
 const isUseId = ref(false)
 const { notice } = storeToRefs(noticeStore)
+notice.value ={
+        title: '',
+        content: '',
+        noticeId: '',
+        readCount: '',
+        regDate: '',
+        userId: '',
+        userName: '',
+        userProfileImageUrl: ''
+    }
 
 if (props.type === 'modify') {
     let { noticeId } = route.params
@@ -66,7 +76,6 @@ function onSubmit() {
 }
 
 function writeArticle() {
-    console.log('글등록하자!!', notice.value)
     noticeStore.noticeInsert(notice.value);
     moveList();
     // registArticle(
@@ -111,7 +120,7 @@ function moveList() {
         </div>
         <div class="mb-3">
             <label for="subject" class="form-label">제목 : </label>
-            <input type="text" class="form-control" v-model="notice.subject" placeholder="제목..." />
+            <input type="text" class="form-control" v-model="notice.title" placeholder="제목..." />
         </div>
         <div class="mb-3">
             <label for="content" class="form-label">내용 : </label>
