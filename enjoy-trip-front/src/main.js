@@ -1,13 +1,13 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-// import { createPersistedStatePlugin } from './plugin/piniaPluginPersistedState'
+import { createPersistedStatePlugin } from './plugin/piniaPluginPersistedState'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import App from './App.vue'
 import router from './router'
 
 const app = createApp(App)
 const pinia = createPinia()
-// pinia.use(createPersistedStatePlugin())
+pinia.use(createPersistedStatePlugin())
 
 app.use(pinia)
 app.use(router)
