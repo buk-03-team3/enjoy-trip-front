@@ -19,9 +19,6 @@ const selectOption = ref([
     { text: '작성자아이디', value: 'userId' }
 ])
 
-const currentPage = ref(1)
-const totalPage = ref(0)
-
 const changeKey = (val) => {
     console.log('BoarList에서 선택한 조건 : ' + val)
     noticeStore.notices.searchOption = val;
@@ -32,14 +29,12 @@ const changeKey = (val) => {
 const getArticleList = () => {
     console.log('서버에서 글목록 얻어오자')
     noticeStore.noticeList();
-    console.log(noticeStore.notices.list);
 
 }
 
 const onPageChange = (val) => {
     console.log(val + '번 페이지로 이동 준비 끝!!!')
-    currentPage.value = val
-    param.value.pgno = val
+    noticeStore.notices.currentPageIndex = val
     getArticleList()
 }
 
@@ -54,6 +49,12 @@ const moveWrite = () => {
         userName: '',
         userProfileImageUrl: ''
     }
+
+//     const movePage= (pageIndex) => {
+//       console.log("BoardMainVue : movePage : pageIndex : " + pageIndex);
+//       setBoardMovePage(pageIndex);
+//       getArticleList();
+//    }
 
     router.push({ name: 'article-write' })
 }
@@ -99,7 +100,7 @@ const moveWrite = () => {
                     </tbody>
                 </table>
             </div>
-            <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange"></PageNavigation>
+            <PageNavigation  @pageChange="onPageChange"></PageNavigation>
         </div>
     </div>
 </template>

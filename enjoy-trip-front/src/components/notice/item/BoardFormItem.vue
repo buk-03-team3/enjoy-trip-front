@@ -1,17 +1,14 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { registArticle, getModifyArticle, modifyArticle } from '@/api/board'
 import { storeToRefs } from 'pinia'
 import { useNoticeStore } from '@/stores/noticeStore'
 
 const  noticeStore  = useNoticeStore();
 const router = useRouter()
 const route = useRoute()
-
 const props = defineProps({ type: String })
 
-const isUseId = ref(false)
 const { notice } = storeToRefs(noticeStore)
 
 if (props.type === 'modify') {
@@ -55,6 +52,7 @@ function onSubmit() {
 }
 
 function writeArticle() {
+    
     noticeStore.noticeInsert(notice.value);
     moveList();
 
@@ -76,7 +74,7 @@ function moveList() {
     <form @submit.prevent="onSubmit">
         <div class="mb-3">
             <label for="userid" class="form-label">작성자 ID : </label>
-            <input type="text" class="form-control" v-model="notice.userId" :disabled="isUseId" placeholder="작성자ID..." />
+            <input type="text" class="form-control" v-model="notice.userId" disabled placeholder="작성자ID..." />
         </div>
         <div class="mb-3">
             <label for="subject" class="form-label">제목 : </label>

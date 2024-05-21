@@ -1,24 +1,40 @@
 <script setup>
 import { computed } from "vue";
+import { useNoticeStore } from '@/stores/noticeStore'
 
-const props = defineProps({ currentPage: Number, totalPage: Number });
-const emit = defineEmits(["pageChange"]);
+const  noticeStore  = useNoticeStore();
 
-const navigationSize = parseInt(import.meta.env.VITE_ARTICLE_NAVIGATION_SIZE);
+const navigationSize = 10;
 
 const startPage = computed(() => {
-  return parseInt((props.currentPage - 1) / navigationSize) * navigationSize + 1;
+  return parseInt((noticeStore.notices.currentPageIndex - 1) / navigationSize) * navigationSize + 1;
 });
 
+const pageCount = computed(() => { 
+    return Math.ceil(noticeStore.notices.totalListItemCount / noticeStore.notices.listRowCount)
+})
+  
 const endPage = computed(() => {
-  let lastPage =
-    parseInt((props.currentPage - 1) / navigationSize) * navigationSize + navigationSize;
-  return props.totalPage < lastPage ? props.totalPage : lastPage;
+  let tempEndPageIndex = 0;
+
+  if (noticeStore.notices.currentPageIndex % navigationSize === 0) {
+    tempEndPageIndex = noticeStore.notices.currentPageIndex;
+  } else {
+    tempEndPageIndex = Math.floor(noticeStore.notices.currentPageIndex / navigationSize)
+      * navigationSize + navigationSize;
+  }
+
+  // endPageIndex가 전체 pageCount(페이지 전체 수)보다 크면 페이지 전체 수로 보정
+  if (tempEndPageIndex > pageCount.value) tempEndPageIndex = pageCount.value;
+
+  // 데이터 수가 navigationSize보다 작으면 endPage 값을 1로 설정
+  if (noticeStore.notices.list.length < navigationSize) {
+    tempEndPageIndex = 2;
+  }
+
+  return tempEndPageIndex - 1;
 });
 
-const endRange = computed(() => {
-  return parseInt((props.totalPage - 1) / navigationSize) * navigationSize < props.currentPage;
-});
 
 function range(start, end) {
   const list = [];
@@ -31,7 +47,8 @@ function range(start, end) {
 
 function onPageChange(pg) {
   console.log(pg + "로 이동!!!");
-  emit("pageChange", pg);
+  noticeStore.notices.currentPageIndex = pg
+  noticeStore.noticeList();
 }
 </script>
 
@@ -39,20 +56,15 @@ function onPageChange(pg) {
   <div class="row">
     <ul class="pagination justify-content-center">
       <li class="page-item">
-        <a class="page-link" @click="onPageChange(1)">최신</a>
-      </li>
-      <li class="page-item">
-        <a class="page-link" @click="onPageChange(startPage == 1 ? 1 : startPage - 1)">이전</a>
+        <a class="page-link" @click="onPageChange(1)">최신 </a>
       </li>
       <template v-for="pg in range(startPage, endPage)" :key="pg">
-        <li :class="currentPage === pg ? 'page-item active' : 'page-item'">
+
+        <li :class="noticeStore.notices.currentPageIndex == pg ? 'page-item active' : 'page-item'">
           <a class="page-link" @click="onPageChange(pg)">{{ pg }}</a>
         </li>
       </template>
-      <li class="page-item">
-        <a class="page-link" @click="onPageChange(endRange ? totalPage : endPage + 1)">다음</a>
-      </li>
-      <li class="page-item"><a class="page-link" @click="onPageChange(totalPage)">마지막</a></li>
+      <li class="page-item"><a class="page-link" @click="onPageChange(endPage)">마지막</a></li>
     </ul>
   </div>
 </template>
