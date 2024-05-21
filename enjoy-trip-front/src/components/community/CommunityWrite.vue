@@ -6,7 +6,7 @@ import CommunityFormItem from './item/CommunityFormItem.vue'
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
+                <h2 class="my-3 py-3 shadow-sm bg-light text-center b">
                     <!-- <mark class="sky">글쓰기</mark> -->
                     글쓰기
                 </h2>
