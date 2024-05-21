@@ -25,14 +25,15 @@ let previousImages = [];
 
 function CustomUploadAdapterPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return new UploadAdapter(loader, '')
-    }
+        const uploadAdapter = new UploadAdapter(loader, '');
+        return {
+            upload: () => uploadAdapter.upload()
+        };
+    };
 
     editor.model.document.on('change:data', () => {
         const content = editor.getData();
-        detectRemovedImages(content);
-
-        previousImages = detectRemovedImages(content)
+        previousImages = detectRemovedImages(content);
     });
 }
 
@@ -47,11 +48,13 @@ function detectRemovedImages(currentContent) {
 
     const removedImages = previousImages.filter(url => !currentImages.includes(url));
     removedImages.forEach(url => {
-        const imageName = url.split('/').pop(); // Assuming the image name is the last part of the URL
+        const imageName = url.substring(url.lastIndexOf('/') + 1); // Extract the correct image name with UUID
         deleteImageFromServer(imageName);
     });
+
     return currentImages;
 }
+
 
 const ckeditor = CKEditor.component
 const editor = ClassicEditor

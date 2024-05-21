@@ -1,30 +1,30 @@
-import http from '@/common/axios-config.js';
+import http from '@/common/axios-config.js'
 
 export default class UploadAdapter {
     constructor(loader, url) {
         this.url = url
         this.loader = loader
-        this.loader.file.then((pic) => (this.file = pic))
-
-        this.upload()
+        // this.upload() is no longer called here to avoid duplicate uploads
     }
 
-    // Starts the upload process.
     upload() {
         return this.loader.file.then((uploadedFile) => {
             return new Promise((resolve, reject) => {
-                const params = {
-                    image: uploadedFile
-                }
-                http.post('/community/uploadImage', params, {
+                const formData = new FormData()
+                formData.append('image', uploadedFile)
+
+                http.post('/community/uploadImage', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
                     .then((response) => {
-                        const returnUrl = response.data.imageUrl
+                        const data = response.data
+                        const returnUrl = data.imageUrl
+                        const imageName = data.imageName // Get image name with UUID
+
                         resolve({
-                            default: `${returnUrl}`
+                            default: returnUrl
                         })
 
                         console.log(returnUrl)
@@ -39,6 +39,8 @@ export default class UploadAdapter {
 }
 
 export function deleteImageFromServer(imageName) {
+    console.log(imageName)
+
     http.post(`/community/deleteImage/${imageName}`)
         .then((response) => {
             console.log('Image deleted:', response.data)
