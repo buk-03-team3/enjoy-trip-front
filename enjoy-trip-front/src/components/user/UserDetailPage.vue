@@ -109,25 +109,32 @@ const cancelUpdate = () => {
 }
 
 const uploadProfileImage = async (files) => {
-    const file = files[0]
+    const file = files[0];
     if (file) {
-        const formData = new FormData()
-        formData.append('profileImage', file)
+        const formData = new FormData();
+        formData.append('profileImage', file);
+        
+        // 이전 프로필 이미지 URL에서 파일 이름 부분 추출
+        const urlWithoutProtocol = authStore.userProfileImageUrl.replace(/^https?:\/\//, ''); // 프로토콜 제거
+        const filename = urlWithoutProtocol.split('/').pop();
+        formData.append('preProfileImageFilename', filename);
+        
         try {
             const response = await http.put(`/user/user-img-update/${authStore.userId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            })
-            console.log('File uploaded successfully:', response.data)
-            authStore.userProfileImageUrl = response.data.updateImageUrl
-            sessionStorage.setItem('userProfileImageUrl', response.data.updateImageUrl)
-            window.location.reload()
+            });
+            console.log('File uploaded successfully:', response.data);
+            authStore.userProfileImageUrl = response.data.updateImageUrl;
+            sessionStorage.setItem('userProfileImageUrl', response.data.updateImageUrl);
+            window.location.reload();
         } catch (error) {
-            console.error('Error uploading file:', error)
+            console.error('Error uploading file:', error);
         }
     }
-}
+};
+
 </script>
 
 <template>
