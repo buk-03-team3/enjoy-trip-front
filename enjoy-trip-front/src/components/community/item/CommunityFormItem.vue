@@ -12,21 +12,45 @@ import { Table, TableColumnResize, TableToolbar } from '@ckeditor/ckeditor5-tabl
 import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Alignment } from '@ckeditor/ckeditor5-alignment'
 import { Image, ImageCaption, ImageStyle, ImageToolbar, ImageUpload, ImageResize } from '@ckeditor/ckeditor5-image'
+import UploadAdapter, { deleteImageFromServer } from '../../../api/uploadAdapter.js'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 
 import { ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { useCommunityStore } from '@/stores/communityStore'
 import { useAuthStore } from '@/stores/authStore'
 
-// import Upload Adapter
-import UploadAdapter from '../../../api/uploadAdapter.js'
 
-// Custom Upload Adapter Plugin function
+let previousImages = [];
+
 function CustomUploadAdapterPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
         return new UploadAdapter(loader, '')
     }
+
+    editor.model.document.on('change:data', () => {
+        const content = editor.getData();
+        detectRemovedImages(content);
+
+        previousImages = detectRemovedImages(content)
+    });
+}
+
+function detectRemovedImages(currentContent) {
+    const imageUrlRegex = /<img[^>]+src="([^">]+)"/g;
+    const currentImages = [];
+    let match;
+    
+    while ((match = imageUrlRegex.exec(currentContent)) !== null) {
+        currentImages.push(match[1]);
+    }
+
+    const removedImages = previousImages.filter(url => !currentImages.includes(url));
+    removedImages.forEach(url => {
+        const imageName = url.split('/').pop(); // Assuming the image name is the last part of the URL
+        deleteImageFromServer(imageName);
+    });
+    return currentImages;
 }
 
 const ckeditor = CKEditor.component
