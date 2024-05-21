@@ -152,6 +152,7 @@ watch(
 
         getTotalPages()
         getMaxPage()
+        currentPage.value = 1;
 
         // 속성 값이 변경될 때 실행되는 로직
     }
