@@ -59,6 +59,24 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'BmEuljiro';
+    src: url('../font/BMEULJIROTTF.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BmHannaPro';
+    src: url('../font/BMHannaPro.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'BmHannaAir';
+    src: url('../font/BMHannaAir.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
 
 .dongle {
     border-radius: 50%;
@@ -70,6 +88,18 @@
 
 .kakao-regular {
     font-family: 'KakaoRegular';
+}
+
+.bm-eulji {
+    font-family: 'BmEuljiro';
+}
+
+.bm-hanna-pro {
+    font-family: 'BmHannaPro';
+}
+
+.bm-hanna-air {
+    font-family: 'BmHannaAir';
 }
 .back-to-top {
     position: fixed;
@@ -328,7 +358,7 @@
 
 @media (min-width: 992px) {
     .navbar-light {
-        /*background-color: #000;*/
+        /* background-color: #000; */
         position: absolute;
         width: 100%;
         top: 0;
