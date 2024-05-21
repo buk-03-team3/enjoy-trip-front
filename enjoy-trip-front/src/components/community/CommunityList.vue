@@ -1,11 +1,13 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 import { useCommunityStore } from '@/stores/communityStore'
 import CommunityListItem from './item/CommunityListItem.vue'
 import PageNavigation from '../commons/PageNavigation.vue'
 
-const { communityStore, getCommunityList } = useCommunityStore()
+const { communityStore, getCommunityList, clearCommunity } = useCommunityStore()
+const { authStore } = useAuthStore();
 
 const communityList = ref([])
 const currentPage = ref(1)
@@ -36,15 +38,20 @@ const onPageChange = (val) => {
 }
 
 const router = useRouter()
+
 const moveWrite = () => {
-    router.push({ name: 'meeting-community-write' })
+    clearCommunity()
+    communityStore.community.userId = authStore.userId
+    communityStore.community.name = authStore.name
+    communityStore.community.userProfileImageUrl = authStore.userProfileImageUrl
+    router.push({ name: 'community-write' })
 }
 </script>
 
 <template>
     <div class="container my-3">
         <div>
-            <a href="#" data-bs-toggle="modal" data-bs-target=".add-new" class="btn btn-primary" @click="moveWrite()"><i class="bx bx-plus me-1"></i> 글쓰기</a>
+            <a href="#" class="btn btn-primary" @click="moveWrite()"><i class="bx bx-plus me-1"></i> 글쓰기</a>
         </div>
         <div class="row align-items-center">
             <div class="col-md-6">

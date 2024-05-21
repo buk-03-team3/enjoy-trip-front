@@ -51,24 +51,41 @@ export const useCommunityStore = defineStore('communityStore', () => {
         }
     }
 
-    const registCommunity = async () => {}
+    const registCommunity = async (community) => {
+      try {
+        await http.post(`/community`, community).then((response) => {
+            if (response.status == 200) {
+                return 'success'
+            } else {
+                return 'fail'
+            }
+        })
+    } catch (error) {
+        console.error(error)
+    }
+    }
 
     const modifyCommunity = async (community) => {
         try {
             await http.put(`/community/${community.communityId}`, community).then((response) => {
-                let msg = '글수정 처리시 문제 발생했습니다.'
                 if (response.status == 200) {
-                  return "success"
+                    return 'success'
                 } else {
-                  return "fail"
+                    return 'fail'
                 }
-                alert(msg)
             })
-            
         } catch (error) {
             console.error(error)
         }
     }
+    const clearCommunity = () => {
+        communityStore.community.category = ''
+        communityStore.community.userId = 0
+        communityStore.community.name = ''
+        communityStore.community.userProfileImageUrl = ''
+        communityStore.community.title = ''
+        communityStore.community.content = ''
+    }
 
-    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity }
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity }
 })

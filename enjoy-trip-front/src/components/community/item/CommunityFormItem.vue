@@ -2,9 +2,10 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCommunityStore } from '@/stores/communityStore'
+import { useAuthStore } from '@/stores/authStore'; 
 
 const { communityStore, registCommunity, modifyCommunity } = useCommunityStore()
-
+const { authStore } = useAuthStore();
 const router = useRouter()
 
 const props = defineProps({ type: String })
@@ -48,17 +49,13 @@ function onSubmit() {
 }
 
 function writeArticle() {
-    console.log('글등록하자!!', community.value)
-    registCommunity(
-        community.value,
-        (response) => {
-            let msg = '글등록 처리시 문제 발생했습니다.'
-            if (response.status == 201) msg = '글등록이 완료되었습니다.'
-            alert(msg)
-            moveList()
-        },
-        (error) => console.log(error)
-    )
+    let result = registCommunity(community)
+    let msg = '글 등록 처리 문제 발생'
+    if(result = "success") {
+        msg = "글 등록 완료"
+        moveList()
+    } 
+    alert(msg)
 }
 
 function updateArticle() {

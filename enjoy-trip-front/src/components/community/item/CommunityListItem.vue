@@ -23,17 +23,16 @@ function formatDate(dateString) {
                         <p class="text-dark kakao-regular" style="margin-bottom: 0">{{ community.name }}</p>
                     </h5>
                     <span class="badge badge-soft-success mb-0 t-left">{{ formatDate(community.regDt) }}</span>
+                    <span class="badge badge-soft-category mb-0 t-left">{{ community.category }}</span>
                 </div>
             </div>
             <div class="mt-3 pt-1">
-                <p class="text-muted mb-0 t-left" style="margin-left: 1vmax">
-                    <router-link :to="{ name: 'community-view', params: { communityId: community.communityId } }" class="link-dark subject-text kakao-bold">
+                <p class="text-muted mb-0 ">
+                    <router-link :to="{ name: 'community-view', params: { communityId: community.communityId } }" class="link-dark subject-text bm-eulji">
                         {{ community.title }}
                     </router-link>
                 </p>
-                <p class="text-muted mb-0">
-                    {{ community.content }}
-                </p>
+                <!-- <p class="text-muted mb-0">{{ community.content }}</p> -->
             </div>
             <div class="d-flex flex-column pt-4">
                 <div class="text-muted ml-auto inline-block; text-align: right;">
@@ -109,6 +108,11 @@ a {
 .badge-soft-danger {
     color: #f56e6e !important;
     background-color: rgba(245, 110, 110, 0.1);
+}
+
+.badge-soft-category {
+    color: #63b6ff !important;
+    background-color: #e1f1ff
 }
 
 .badge-soft-success {
