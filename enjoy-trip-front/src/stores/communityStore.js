@@ -39,15 +39,36 @@ export const useCommunityStore = defineStore('communityStore', () => {
     }
 
     const deleteCommunity = async (communityId) => {
-      try{
-        await http.delete(`/community/${communityId}`).then((response) => {
-          if(response.data.result == "success") alert("삭제 성공")
-          else {alert("서버 오류")}
-        })
-      } catch (error) {
-        console.error(error)
-      }
+        try {
+            await http.delete(`/community/${communityId}`).then((response) => {
+                if (response.data.result == 'success') alert('삭제 성공')
+                else {
+                    alert('서버 오류')
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
     }
 
-    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity }
+    const registCommunity = async () => {}
+
+    const modifyCommunity = async (community) => {
+        try {
+            await http.put(`/community/${community.communityId}`, community).then((response) => {
+                let msg = '글수정 처리시 문제 발생했습니다.'
+                if (response.status == 200) {
+                  return "success"
+                } else {
+                  return "fail"
+                }
+                alert(msg)
+            })
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity }
 })
