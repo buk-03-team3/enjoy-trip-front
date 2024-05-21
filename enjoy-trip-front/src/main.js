@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createPersistedStatePlugin } from './plugin/piniaPluginPersistedState'
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from '@ckeditor/ckeditor5-vue'
 import App from './App.vue'
 import router from './router'
 

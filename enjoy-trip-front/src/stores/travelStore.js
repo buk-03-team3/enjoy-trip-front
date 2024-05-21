@@ -11,6 +11,9 @@ export const useTravelStore = defineStore('travelStore', () => {
     const selectContent = ref({ 12: false }, { 14: false }, { 15: false }, { 25: false }, { 28: false }, { 32: false }, { 38: false }, { 39: false })
     const searchKeyword = ref('')
     const searchCategory = ref('')
+    const totalPage = ref('')
+    const nowPage = ref('')
+
     const regionOrContent = () => {
         if (contentList.value == undefined) {
             searchKeyword.value = sidoObj.value.sidoName + ' ' + gugunObj.value.gugunName

@@ -34,6 +34,11 @@ const search = async () => {
 }
 
 function initMap() {
+        positions = travelStore.travelList
+    if (positions == '') {
+        return
+    }
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.564343, 126.947613), // 지도의 중심좌표
@@ -41,10 +46,6 @@ function initMap() {
         }
 
     var map = new kakao.maps.Map(mapContainer, mapOption)
-    positions = travelStore.travelList
-    if (positions == '') {
-        return
-    }
 
     var imageSrc = '@/assets/default-user.png', // 마커이미지의 주소입니다
         //C:\SSAFY\ssafy-final-project\enjoy-trip-front\enjoy-trip-front\src\assets\default-user.png
@@ -116,7 +117,12 @@ function initMap() {
 }
 
 onMounted(() => {
-    getFavoriteList(authStore.userId)
+    // getFavoriteList(authStore.userId)
+    travelStore.travelList = '' 
+    positions = '';
+    travelStore.searchKeyword = ''
+    travelStore.sidoObj = ''
+    travelStore.gugunObj=''
 
     if (window.kakao && window.kakao.maps) {
         initMap()
@@ -133,6 +139,7 @@ watch(
     () => travelStore.travelList,
     (newValue, oldValue) => {
         console.log('변경')
+
         console.log(travelStore.searchCategory)
         if (travelStore.searchCategory == 'keyword') {
             // searchMap();
@@ -143,26 +150,39 @@ watch(
             travelStore.regionOrContent()
         }
 
+        getTotalPages()
+        getMaxPage()
+        currentPage.value = 1;
+
         // 속성 값이 변경될 때 실행되는 로직
     }
 )
+
+initMap()
 
 // 페이지네이션 관련 로직
 
 const markersPerPage = 5
 const maxButtonInPage = 5
 let currentPage = ref(1)
+let maxPage = ref(1)
+let totalPages = ref(1)
 const getMarkersForPage = (pageNumber) => {
     const startIndex = (pageNumber - 1) * markersPerPage
     const endIndex = startIndex + markersPerPage
     return positions.slice(startIndex, endIndex)
 }
-const totalPages = computed(() => {
-    console.log(positions.length)
-    return Math.ceil(positions.length / markersPerPage)
-})
+const getTotalPages = () => {
+    console.log("getTotalPages",positions.length)
+totalPages.value =   Math.ceil(positions.length / markersPerPage)
+}
 
-const maxPage = computed(() => Math.ceil(totalPages.value / markersPerPage))
+const getMaxPage = () => {
+    console.log("getMaxPage", totalPages.value)
+        console.log("getMaxPage",Math.ceil(positions.length / markersPerPage))
+    maxPage.value =  Math.ceil(positions.length / markersPerPage)
+}
+    
 
 const prevEvent = () => {
     if (currentPage.value > 1) {
