@@ -139,6 +139,7 @@ watch(
     () => travelStore.travelList,
     (newValue, oldValue) => {
         console.log('변경')
+
         console.log(travelStore.searchCategory)
         if (travelStore.searchCategory == 'keyword') {
             // searchMap();
@@ -149,26 +150,38 @@ watch(
             travelStore.regionOrContent()
         }
 
+        getTotalPages()
+        getMaxPage()
+
         // 속성 값이 변경될 때 실행되는 로직
     }
 )
+
+initMap()
 
 // 페이지네이션 관련 로직
 
 const markersPerPage = 5
 const maxButtonInPage = 5
 let currentPage = ref(1)
+let maxPage = ref(1)
+let totalPages = ref(1)
 const getMarkersForPage = (pageNumber) => {
     const startIndex = (pageNumber - 1) * markersPerPage
     const endIndex = startIndex + markersPerPage
     return positions.slice(startIndex, endIndex)
 }
-const totalPages = computed(() => {
-    console.log(positions.length,'개')
-    return Math.ceil(positions.length / markersPerPage)
-})
+const getTotalPages = () => {
+    console.log("getTotalPages",positions.length)
+totalPages.value =   Math.ceil(positions.length / markersPerPage)
+}
 
-const maxPage = computed(() => Math.ceil(totalPages.value / markersPerPage))
+const getMaxPage = () => {
+    console.log("getMaxPage", totalPages.value)
+        console.log("getMaxPage",Math.ceil(positions.length / markersPerPage))
+    maxPage.value =  Math.ceil(positions.length / markersPerPage)
+}
+    
 
 const prevEvent = () => {
     if (currentPage.value > 1) {
