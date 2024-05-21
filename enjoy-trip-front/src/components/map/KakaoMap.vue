@@ -34,6 +34,11 @@ const search = async () => {
 }
 
 function initMap() {
+        positions = travelStore.travelList
+    if (positions == '') {
+        return
+    }
+
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
             center: new kakao.maps.LatLng(37.564343, 126.947613), // 지도의 중심좌표
@@ -41,10 +46,6 @@ function initMap() {
         }
 
     var map = new kakao.maps.Map(mapContainer, mapOption)
-    positions = travelStore.travelList
-    if (positions == '') {
-        return
-    }
 
     var imageSrc = '@/assets/default-user.png', // 마커이미지의 주소입니다
         //C:\SSAFY\ssafy-final-project\enjoy-trip-front\enjoy-trip-front\src\assets\default-user.png
@@ -116,7 +117,12 @@ function initMap() {
 }
 
 onMounted(() => {
-    getFavoriteList(authStore.userId)
+    // getFavoriteList(authStore.userId)
+    travelStore.travelList = '' 
+    positions = '';
+    travelStore.searchKeyword = ''
+    travelStore.sidoObj = ''
+    travelStore.gugunObj=''
 
     if (window.kakao && window.kakao.maps) {
         initMap()
@@ -158,7 +164,7 @@ const getMarkersForPage = (pageNumber) => {
     return positions.slice(startIndex, endIndex)
 }
 const totalPages = computed(() => {
-    console.log(positions.length)
+    console.log(positions.length,'개')
     return Math.ceil(positions.length / markersPerPage)
 })
 
