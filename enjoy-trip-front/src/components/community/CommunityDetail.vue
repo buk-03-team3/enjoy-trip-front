@@ -1,30 +1,37 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
+            <!-- <div class="col-lg-10">
                 <h2 class="my-3 py-3 shadow-sm bg-light text-center">
                     {{ communityStore.community.title }}
                 </h2>
-            </div>
+            </div> -->
             <div class="col-lg-10 text-start">
-                <div class="row my-2">
-                    <h2 class="text-secondary px-5">{{ communityStore.community.communityId }}.</h2>
-                </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <div class="clearfix align-content-center">
-                            <img class="avatar me-2 float-md-start bg-light p-2" src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg" />
-                            <p>
-                                <span class="fw-bold">굿</span> <br />
-                                <span class="text-secondary fw-light"> {{ communityStore.community.registerTime }}1 조회 : {{ communityStore.community.readCount }} </span>
+                    <div>
+                        <div class="d-flex align-items-center">
+                            <img
+                                v-if="communityStore.community.userProfileImageUrl !== 'default'"
+                                :src="communityStore.community.userProfileImageUrl"
+                                alt="User Profile Image"
+                                class="avatar-md rounded-circle"
+                            />
+                            <img v-else src="@/assets/default-user.png" alt="User Profile Image" class="avatar-md rounded-circle" />
+                            <p class="ms-3 mb-0 bm-hanna-pro">
+                                <span style="color: #222; font-size: 2vmax;">{{ communityStore.community.title }}</span> <br />
+                            </p>
+                            <p class="ms-auto mb-0">
+                                <span>{{ formatDate(communityStore.community.regDt) }} 작성</span>
+                                <br />
+                                <span style="text-align: right">조회 : {{ communityStore.community.readCount }}</span>
                             </p>
                         </div>
+                        <br />
                     </div>
-                    <div class="col-md-4 align-self-center text-end">댓글 : 17</div>
+                    <hr />
+                    <!-- <div class="col-md-4 align-self-center text-end">댓글 : 17</div> -->
                     <div class="divider mb-3"></div>
-                    <div class="text-secondary">
-                        {{ communityStore.community.content }}
-                    </div>
+                    <div style="color: #222; font-size: 1.2vmax; border: 1px solid; " class="bm-hanna-air" v-html="communityStore.community.content"></div>
                     <div class="divider mt-3 mb-3"></div>
                     <div class="d-flex justify-content-end">
                         <button v-if="communityStore.community.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
@@ -38,16 +45,18 @@
 </template>
 
 <script setup>
+import { formatDate } from '../../api/util.js'
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useCommunityStore } from '../../stores/communityStore'
+import { useAuthStore } from '@/stores/authStore'
 
 const route = useRoute()
 const router = useRouter()
 
 const { communityId } = route.params
 const { communityStore, getCommunityDetail, deleteCommunity } = useCommunityStore()
-
+const { authStore } = useAuthStore()
 
 onMounted(() => {
     getCommunity()
@@ -71,4 +80,13 @@ function onDeleteArticle() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.avatar-md {
+    height: 4rem;
+    width: 4vmax;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+</style>
