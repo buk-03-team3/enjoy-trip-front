@@ -57,6 +57,35 @@ export const useNoticeStore = defineStore('noticeStore', () => {
     const setOffset = (currentPageIndex) => {
         notices.offset = notices.listRowCount * (currentPageIndex - 1)
     }
+
+    const searchList = async () => {
+        notices.offset = 0
+        let params = {
+            limit: notices.limit,
+            offset: notices.offset,
+            searchWord: notices.searchWord,
+            searchOption: notices.searchOption
+        }
+
+        try {
+            let { data } = await http.get('/notice/boards', { params }) // params: params shorthand property, let response 도 제거
+            console.log('noticeStore: data : ')
+            console.log(data)
+            if (data.result == 'login') {
+                router.push('/login')
+            } else if (data.result == 'success') {
+                notices.list = data.noticeList
+                totalListCount()
+                // noticeStore.limit = data.result.noticeList
+                // setBoardList(dataList.list)
+                // setTotalListItemCount(dataList.count)
+            } else {
+                alert('글 조회 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     const noticeList = async () => {
         setOffset(notices.currentPageIndex)
         console.log(notices.searchWord)
@@ -88,9 +117,10 @@ export const useNoticeStore = defineStore('noticeStore', () => {
     }
 
     const totalListCount = async () => {
-        let { data } = await http.get('/notice/noticeListTotalCnt?searchWord=' + notices.searchWord)
+        let { data } = await http.get('/notice/noticeListTotalCnt?searchWord=' + notices.searchWord + '&searchOption=' + notices.searchOption)
         try {
             if (data.result == 'success') {
+                console.log(data.totalCnt)
                 notices.totalListItemCount = data.totalCnt
             } else {
                 alert('글 전체 개수를 조회하는 중 오류가 발생했습니다.')
@@ -167,5 +197,5 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert, noticeUpdate }
+    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert, noticeUpdate, searchList }
 })

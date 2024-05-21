@@ -27,12 +27,7 @@ const endPage = computed(() => {
   // endPageIndex가 전체 pageCount(페이지 전체 수)보다 크면 페이지 전체 수로 보정
   if (tempEndPageIndex > pageCount.value) tempEndPageIndex = pageCount.value;
 
-  // 데이터 수가 navigationSize보다 작으면 endPage 값을 1로 설정
-  if (noticeStore.notices.list.length < navigationSize) {
-    tempEndPageIndex = 2;
-  }
-
-  return tempEndPageIndex - 1;
+  return tempEndPageIndex ;
 });
 
 

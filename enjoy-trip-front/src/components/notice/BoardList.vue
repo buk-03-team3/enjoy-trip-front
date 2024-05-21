@@ -80,7 +80,7 @@ const moveWrite = () => {
                             <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" v-model="noticeStore.notices.searchWord" placeholder="검색어..." />
-                                <button class="btn btn-dark" type="button" @click="getArticleList">검색</button>
+                                <button class="btn btn-dark" type="button" @click="noticeStore.searchList ">검색</button>
                             </div>
                         </form>
                     </div>
