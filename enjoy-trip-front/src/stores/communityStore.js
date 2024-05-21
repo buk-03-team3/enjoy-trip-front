@@ -26,17 +26,28 @@ export const useCommunityStore = defineStore('communityStore', () => {
 
     const getCommunityDetail = async (communityId) => {
         try {
-          const { data } = await http.get(`/community/${communityId}`)
-          console.log(data.community)
-          if (data.result == 'success') {
-            communityStore.community = data.community
-          } else {
-            console.log('커뮤니티 상세 조회 실패')
-          }
+            const { data } = await http.get(`/community/${communityId}`)
+            console.log(data.community)
+            if (data.result == 'success') {
+                communityStore.community = data.community
+            } else {
+                console.log('커뮤니티 상세 조회 실패')
+            }
         } catch (error) {
-          console.error(error)
+            console.error(error)
         }
-      }
+    }
 
-    return { communityStore, getCommunityList, getCommunityDetail }
+    const deleteCommunity = async (communityId) => {
+      try{
+        await http.delete(`/community/${communityId}`).then((response) => {
+          if(response.data.result == "success") alert("삭제 성공")
+          else {alert("서버 오류")}
+        })
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity }
 })

@@ -3,12 +3,12 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="sky">글보기</mark>
+                    {{ communityStore.community.title }}
                 </h2>
             </div>
             <div class="col-lg-10 text-start">
                 <div class="row my-2">
-                    <h2 class="text-secondary px-5">{{ communityStore.community.communityId }}. {{ communityStore.community.title }}</h2>
+                    <h2 class="text-secondary px-5">{{ communityStore.community.communityId }}.</h2>
                 </div>
                 <div class="row">
                     <div class="col-md-8">
@@ -46,7 +46,7 @@ const route = useRoute()
 const router = useRouter()
 
 const { communityId } = route.params
-const { communityStore, getCommunityDetail } = useCommunityStore()
+const { communityStore, getCommunityDetail, deleteCommunity } = useCommunityStore()
 
 
 onMounted(() => {
@@ -66,9 +66,8 @@ function moveModify() {
 }
 
 function onDeleteArticle() {
-    communityStore.deleteCommunity(communityId, () => {
-        moveList()
-    })
+    deleteCommunity(communityId)
+    moveList()
 }
 </script>
 
