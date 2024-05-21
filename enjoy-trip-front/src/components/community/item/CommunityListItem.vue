@@ -1,5 +1,5 @@
 <script setup>
-defineProps({ community: Object })
+defineProps({ community: Object });
 
 function formatDate(dateString) {
     const date = new Date(dateString);
@@ -7,6 +7,23 @@ function formatDate(dateString) {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}년 ${month}월 ${day}일`;
+}
+
+function getCategoryClass(category) {
+    switch (category) {
+        case '여행 후기':
+            return 'badge-travel-review';
+        case '여행 팁':
+            return 'badge-travel-tip';
+        case '맛집':
+            return 'badge-restaurant';
+        case '질문':
+            return 'badge-question';
+        case '기타':
+            return 'badge-others';
+        default:
+            return 'badge-default';
+    }
 }
 </script>
 
@@ -20,24 +37,23 @@ function formatDate(dateString) {
                 </div>
                 <div class="flex-1 ms-3">
                     <h5 class="font-size-16 mb-1 t-left" style="padding-top: 0.5vmax">
-                        <p class="text-dark kakao-regular" style="margin-bottom: 0">{{ community.name }}</p>
+                        <p class="text-dark kakao-regular" style="margin-left: 5px; margin-bottom: 0; border-bottom: 1px solid; border-top: 1px solid; width: fit-content">{{ community.name }}</p>
                     </h5>
-                    <span class="badge badge-soft-success mb-0 t-left">{{ formatDate(community.regDt) }}</span>
-                    <span class="badge badge-soft-category mb-0 t-left">{{ community.category }}</span>
+                    <span class="mb-0 t-left">&nbsp;{{ formatDate(community.regDt) }}</span>
+                    &nbsp;
+                    <span :class="['badge', getCategoryClass(community.category), 'mb-0', 't-left']">{{ community.category }}</span>
                 </div>
             </div>
-            <div class="mt-3 pt-1">
-                <p class="text-muted mb-0 ">
+            <div class="d-flex align-items-center justify-content-between mt-3 pt-1">
+                <p class="text-muted mb-0 text-center flex-grow-1">
                     <router-link :to="{ name: 'community-view', params: { communityId: community.communityId } }" class="link-dark subject-text bm-eulji">
                         {{ community.title }}
                     </router-link>
                 </p>
-                <!-- <p class="text-muted mb-0">{{ community.content }}</p> -->
-            </div>
-            <div class="d-flex flex-column pt-4">
-                <div class="text-muted ml-auto inline-block; text-align: right;">
-                    조회수: {{ community.readCount }}
+                <div class="text-muted ml-auto" style="text-align: right;">
+                    <i class="bi bi-eye"></i> {{ community.readCount }}
                 </div>
+                <!-- <p class="text-muted mb-0">{{ community.content }}</p> -->
             </div>
         </div>
     </div>
@@ -56,7 +72,6 @@ a {
 .t-left {
     text-align: left;
 }
-
 
 .card {
     position: relative;
@@ -110,14 +125,34 @@ a {
     background-color: rgba(245, 110, 110, 0.1);
 }
 
-.badge-soft-category {
-    color: #63b6ff !important;
-    background-color: #e1f1ff
+.badge-soft-success {
+    color: #48ad59 !important;
+    background-color: rgba(99, 173, 111, 0.1);
 }
 
-.badge-soft-success {
-    color: #63ad6f !important;
-    background-color: rgba(99, 173, 111, 0.1);
+.badge-travel-review {
+    color: #a79e4e; /* 더 진한 분홍 */
+    background-color: #ffebb7;
+}
+
+.badge-travel-tip {
+    color: #704a00; /* 더 진한 노랑 */
+    background-color: #fdcbd7;
+}
+
+.badge-restaurant {
+    color: #004d99; /* 더 진한 파랑 */
+    background-color: #b5daff;
+}
+
+.badge-question {
+    color: #228b22; /* 더 진한 초록 */
+    background-color: #d0e8d8;
+}
+
+.badge-others {
+    color: #8e15ac; /* 보라 */
+    background-color: #d2baff;
 }
 
 .mb-0 {
@@ -130,7 +165,6 @@ a {
     font-size: 75%;
     font-weight: 500;
     line-height: 1;
-    color: #fff;
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
