@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createPersistedStatePlugin } from './plugin/piniaPluginPersistedState'
-
+import CKEditor from '@ckeditor/ckeditor5-vue';
 import App from './App.vue'
 import router from './router'
 
@@ -11,7 +11,7 @@ pinia.use(createPersistedStatePlugin())
 
 app.use(pinia)
 app.use(router)
-
+app.use(CKEditor)
 app.mount('#app')
 
 export function formatDate(dateString) {
