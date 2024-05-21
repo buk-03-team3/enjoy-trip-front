@@ -1,5 +1,14 @@
 <script setup>
 import BoardFormItem from './item/BoardFormItem.vue'
+import { useNoticeStore } from '@/stores/noticeStore'
+import { storeToRefs } from 'pinia'
+const noticeStore = useNoticeStore();
+const { notice } = storeToRefs(noticeStore)
+notice.value = {
+    'userId': ' ',
+    'title': ' ',
+    'content': ' '
+};
 </script>
 
 <template>

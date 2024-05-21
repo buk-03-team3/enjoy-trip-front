@@ -17,13 +17,23 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         userName: '',
         userProfileImageUrl: ''
     })
+    /*
+ startPageIndex, endPageIndex, prev, next 
+*/
+    //페이지네이션을 위한
+    const startPageIndex = ref('')
+    const endPageIndex = ref('')
+    const prev = ref('')
+    const next = ref('')
+
+    //페이지네이션 끝
 
     const notices = reactive({
         list: [],
         limit: 10,
         offset: 0,
         searchWord: '',
-        searchOption:'',
+        searchOption: '',
 
         // pagination
         listRowCount: 10,
@@ -43,7 +53,12 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         sameUser: false,
         admin: false
     })
+
+    const setOffset = (currentPageIndex) => {
+        notices.offset = notices.listRowCount * (currentPageIndex - 1)
+    }
     const noticeList = async () => {
+        setOffset(notices.currentPageIndex)
         console.log(notices.searchWord)
         let params = {
             limit: notices.limit,
@@ -60,11 +75,25 @@ export const useNoticeStore = defineStore('noticeStore', () => {
                 router.push('/login')
             } else if (data.result == 'success') {
                 notices.list = data.noticeList
+                totalListCount()
                 // noticeStore.limit = data.result.noticeList
                 // setBoardList(dataList.list)
                 // setTotalListItemCount(dataList.count)
             } else {
                 alert('글 조회 중 오류가 발생했습니다.')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const totalListCount = async () => {
+        let { data } = await http.get('/notice/noticeListTotalCnt?searchWord=' + notices.searchWord)
+        try {
+            if (data.result == 'success') {
+                notices.totalListItemCount = data.totalCnt
+            } else {
+                alert('글 전체 개수를 조회하는 중 오류가 발생했습니다.')
             }
         } catch (error) {
             console.error(error)
@@ -106,15 +135,14 @@ export const useNoticeStore = defineStore('noticeStore', () => {
 
     const noticeInsert = async (article) => {
         notice.value = article
-        console.log("아티클: ",article.content);
+        console.log('아티클: ', article.content)
         try {
             let { data } = await http.post('/notice/boards', notice.value)
             if (data.result == 'login') {
                 router.push('/login')
             } else if (data.result == 'success') {
                 console.log('글 등록 성공 ')
-                noticeList();
-
+                noticeList()
             } else {
                 alert('글 등록 중 오류가 발생했습니다.')
             }
@@ -123,15 +151,14 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    const noticeUpdate = async () =>{
+    const noticeUpdate = async () => {
         try {
             let { data } = await http.put('/notice/boards', notice.value)
             if (data.result == 'login') {
                 router.push('/login')
             } else if (data.result == 'success') {
                 console.log('글 수정 성공 ')
-                noticeList();
-
+                noticeList()
             } else {
                 alert('글 수정 중 오류가 발생했습니다.')
             }
@@ -140,5 +167,5 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert ,noticeUpdate }
+    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert, noticeUpdate }
 })
