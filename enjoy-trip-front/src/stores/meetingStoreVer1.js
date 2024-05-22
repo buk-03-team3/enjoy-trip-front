@@ -17,7 +17,13 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const page = ref(1)
 
     const meeting = ref()
-    const participants = ref([])
+    const participants = ref([''])
+    const oneParti = reactive({
+        meetingId : '',
+        userId: '',
+        authority:''
+
+    })
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
     const loadItems = async () => {
         try {
@@ -86,5 +92,31 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
-    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting, participants }
+    // 소모임 참여하기 
+    const joinMeeting = async (userId) =>{
+        try {
+            //만약 현재 detail로 열어놓은 소모임에 비밀번호가 있으면 권한은 write, 아니면 read (임시로직)
+            oneParti.authority = meeting.value.meetingPassword == null ? "READ" : "WRITE"
+            //이 소모임에 가입하는 대상은 지금 로그인한 사용자 
+            oneParti.userId = userId;
+            //현재 소모임의 아이디
+            oneParti.meetingId = meeting.value.meetingId;
+
+            console.log(oneParti);
+            let { data } = await http.post(`/participants/join`,oneParti)
+            console.log(data)
+            if (data.result == 'success') {
+                console.log('소모임 가입 성공')
+                alert("모임에 가입되었습니다!!")
+
+            } else {
+                console.log('소모임 가입 실패')
+                alert("가입에 실패했습니다.")
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting }
 })

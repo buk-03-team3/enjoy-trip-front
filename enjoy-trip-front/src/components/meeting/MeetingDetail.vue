@@ -36,8 +36,8 @@
                         <button  v-if="editable() | meetingStore.meeting.sameUser " 
                         type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
                         <button  v-if="meetingStore.meeting.sameUser |  meetingStore.meeting.admin" type="button" class="btn btn-outline-danger mb-3 ms-1 ms-2" @click="ondeleteMeeting(meetingStore.meeting.meetingId)">삭제</button>
-                        <button type="button" class="btn btn-outline-primary mb-3  ms-2" @click="alreadyParticipants">목록</button>
-                        <button v-if="!alreadyParticipants & !meetingStore.meeting.sameUser " type="button" class="btn btn-outline-primary mb-3  ms-2" @click="join">참여하기</button>
+                        <button type="button" class="btn btn-outline-primary mb-3  ms-2" @click="moveList">목록</button>
+                        <button v-if="!alreadyParticipants() & !meetingStore.meeting.sameUser" type="button" class="btn btn-outline-primary mb-3  ms-2" @click="join">참여하기</button>
                         
                     </div>
                 </div>
@@ -71,14 +71,14 @@ const ondeleteMeeting = (meetingId) => {
 
 // 현재 인원을 알기 위함..
 onMounted(() => {
+    if(meetingStore.participants==null) return;
     partiCount.value = meetingStore.participants.length;
 
 })
 
 //로그인한 사용자가 해당 모임에 가입되어있는지 확인하고, 가입 되어있으면 "참여하기" 버튼을 숨김 
 const alreadyParticipants = () => {
-    console.log(authStore.userId,'userId')
-    console.log(meetingStore.participants)
+    if(meetingStore.participants==null) return false;
     if(meetingStore.participants.some(item=>item.userId == authStore.userId)){
         return true;
     }
@@ -87,9 +87,17 @@ const alreadyParticipants = () => {
 
 // 만약 지금 로그인한 사용자가 해당 소모임에 가입되어 있는 상태이면서, 권한이 WRTIE라면 글수정 할 수 있음 
 const editable= () =>{
-    console.log(meetingStore.participants[0].userId==authStore.userId);
-  const {authority}  =meetingStore.participants.find(item => item.userId==authStore.userId);
+    console.log(meetingStore.participants)
+    if(meetingStore.participants==null || meetingStore.participants.length==0) return false;
+  const user =meetingStore.participants.find(item => item.userId==authStore.userId);
+    if(user==null) return false;
+  if(user.authority=='WRITE') return true;
+}
 
-  if(authority=='WRITE') return true;
+//소모임에 가입하기
+
+const join =  async() => {
+    meetingStore.joinMeeting(authStore.userId);
+    moveList();
 }
 </script>
