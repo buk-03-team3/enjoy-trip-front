@@ -17,7 +17,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const page = ref(1)
 
     const meeting = ref()
-
+    const participants = ref()
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
     const loadItems = async () => {
         try {
@@ -57,7 +57,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             console.log(data)
             if (data.result == 'success') {
                 console.log('소모임 상세보기 성공 ')
-                meeting.value = data.meetingDto
+                meeting.value = data.meetingDetail.meetingDto
+                participants.value = data.meetingDetail.partiList
             } else {
                 console.log('소모임 상세보기 실패')
             }
