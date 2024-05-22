@@ -1,12 +1,15 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
+import { useCommunityStore } from '@/stores/communityStore'
 import { useRouter } from 'vue-router'
 import { useTravelStore } from '@/stores/travelStore'
 import http from '@/common/axios-config.js'
 import { ref, onMounted, watch } from 'vue'
 import UserFavoriteContent from './content/UserFavoriteContent.vue'
+import CommunityListItem from '../community/item/CommunityListItem.vue'
 
 const { authStore, setUpdate } = useAuthStore()
+const { communityStore, getSpecificUserCommunity } = useCommunityStore()
 const router = useRouter()
 const isEditMode = ref(false)
 const originalData = ref({}) // 수정하기 전의 데이터를 저장할 변수
@@ -52,6 +55,13 @@ const updateUser = async () => {
     }
 }
 
+const activeTab = ref('myPosts')
+const communityList = ref(communityStore.communityList)
+
+const changeActiveTab = (value) => {
+    activeTab.value = value
+}
+
 let cityBtnText = ref(authStore.sido)
 let townBtnText = ref(authStore.gugun)
 
@@ -70,6 +80,7 @@ const { getSidoList, getGugunList } = travelStore
 
 // 시, 도 리스트 먼저 가져오기
 onMounted(async () => {
+    await getSpecificUserCommunity(authStore.userId)
     await getSidoList()
 })
 
@@ -109,32 +120,31 @@ const cancelUpdate = () => {
 }
 
 const uploadProfileImage = async (files) => {
-    const file = files[0];
+    const file = files[0]
     if (file) {
-        const formData = new FormData();
-        formData.append('profileImage', file);
-        
+        const formData = new FormData()
+        formData.append('profileImage', file)
+
         // 이전 프로필 이미지 URL에서 파일 이름 부분 추출
-        const urlWithoutProtocol = authStore.userProfileImageUrl.replace(/^https?:\/\//, ''); // 프로토콜 제거
-        const filename = urlWithoutProtocol.split('/').pop();
-        formData.append('preProfileImageFilename', filename);
-        
+        const urlWithoutProtocol = authStore.userProfileImageUrl.replace(/^https?:\/\//, '') // 프로토콜 제거
+        const filename = urlWithoutProtocol.split('/').pop()
+        formData.append('preProfileImageFilename', filename)
+
         try {
             const response = await http.put(`/user/user-img-update/${authStore.userId}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
-            console.log('File uploaded successfully:', response.data);
-            authStore.userProfileImageUrl = response.data.updateImageUrl;
-            sessionStorage.setItem('userProfileImageUrl', response.data.updateImageUrl);
-            window.location.reload();
+            })
+            console.log('File uploaded successfully:', response.data)
+            authStore.userProfileImageUrl = response.data.updateImageUrl
+            sessionStorage.setItem('userProfileImageUrl', response.data.updateImageUrl)
+            window.location.reload()
         } catch (error) {
-            console.error('Error uploading file:', error);
+            console.error('Error uploading file:', error)
         }
     }
-};
-
+}
 </script>
 
 <template>
@@ -165,14 +175,7 @@ const uploadProfileImage = async (files) => {
                         <div class="row g-3">
                             <div class="col-lg-12">
                                 <div class="form-floating">
-                                    <input
-                                        type="text"
-                                        class="kakao-regular form-control border-0 input-text-color"
-                                        id="name"
-                                        placeholder="Your name"
-                                        v-model="tempName"
-                                        :disabled="!isEditMode"
-                                    />
+                                    <input type="text" class="kakao-regular form-control border-0 input-text-color" id="name" placeholder="Your name" v-model="tempName" :disabled="!isEditMode" />
                                     <label class="kakao-bold" for="name">이름</label>
                                 </div>
                             </div>
@@ -240,13 +243,65 @@ const uploadProfileImage = async (files) => {
                         </div>
                     </form>
                 </div>
-                <
+            </div>
+        </div>
+        <div class="container py-5">
+            <!-- User Tab Section -->
+            <ul class="nav nav-tabs" id="userTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="myPosts-tab" data-bs-toggle="tab" data-bs-target="#myPosts" type="button" role="tab" aria-controls="myPosts" aria-selected="true" @click="changeActiveTab('myPosts')">
+                        내가 쓴 커뮤니티 글
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="myMeetings-tab" data-bs-toggle="tab" data-bs-target="#myMeetings" type="button" role="tab" aria-controls="myMeetings" aria-selected="false">
+                        내가 모집하는 소모임
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button
+                        class="nav-link"
+                        id="myParticipatedMeetings-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#myParticipatedMeetings"
+                        type="button"
+                        role="tab"
+                        aria-controls="myParticipatedMeetings"
+                        aria-selected="false"
+                    >
+                        내가 참여하는 소모임
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="userTabContent">
+                <!-- My Posts Tab -->
+                <div class="tab-pane fade show active post-section" id="myPosts" role="tabpanel" aria-labelledby="myPosts-tab" v-show="activeTab === 'myPosts'">
+                    <!-- My Posts Content -->
+                    <div class="row">
+                        <div class="col-xl-4 col-sm-6 mb-4" v-for="community in communityStore.communityList" :key="community.communityId">
+                            <CommunityListItem :community="community" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Meetings Tab -->
+                <div class="tab-pane fade post-section" id="myMeetings" role="tabpanel" aria-labelledby="myMeetings-tab">
+                    <!-- My Meetings Content -->
+                </div>
+
+                <!-- My Participated Meetings Tab -->
+                <div class="tab-pane fade post-section" id="myParticipatedMeetings" role="tabpanel" aria-labelledby="myParticipatedMeetings-tab">
+                    <!-- My Participated Meetings Content -->
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style>
+
 .input-text-color {
     color: black;
 }
@@ -259,6 +314,9 @@ const uploadProfileImage = async (files) => {
 }
 .profile-section {
     margin-bottom: 15px;
+}
+.post-section {
+    margin-top: 1vmax;
 }
 
 .select-menu .select-btn {

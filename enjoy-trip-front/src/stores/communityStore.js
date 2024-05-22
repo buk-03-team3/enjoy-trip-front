@@ -102,5 +102,20 @@ export const useCommunityStore = defineStore('communityStore', () => {
         communityStore.community.content = ''
     }
 
-    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity, hitCommunity }
+    const getSpecificUserCommunity = async (userId) => {
+        try {
+            let { data } = await http.get(`/community/write/${userId}`)
+            console.log(data)
+            if (data.result === 'success') {
+                communityStore.communityList = data.communityList
+                console.log('커뮤니티 목록 조회 성공')
+            } else {
+                console.log('커뮤니티 목록 조회 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity, hitCommunity, getSpecificUserCommunity }
 })

@@ -12,8 +12,6 @@ defineProps({
     
 })
 
-
-
 function formatDate(dateString) {
     console.log(dateString)
     const date = new Date(dateString)
