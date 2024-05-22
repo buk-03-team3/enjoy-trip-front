@@ -101,3 +101,14 @@ const join =  async() => {
     moveList();
 }
 </script>
+
+<style scoped>
+.avatar-md {
+    height: 4rem;
+    width: 4vmax;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+</style>

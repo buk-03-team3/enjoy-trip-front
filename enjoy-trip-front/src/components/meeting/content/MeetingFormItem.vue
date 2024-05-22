@@ -19,7 +19,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue'
 // vue, store
 import { ref, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { useMeetingStore } from '@/stores/meetingStore'
+import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1.js'
 import { useAuthStore } from '@/stores/authStore'
 import { useTravelStore } from '@/stores/travelStore.js'
 
@@ -101,18 +101,17 @@ const editorConfig = {
     }
 }
 
-const { meetingStore, registMeeting, modifyMeeting, clearMeeting } = useMeetingStore()
+const meetingStore = useMeetingStoreVer1()
 const { authStore } = useAuthStore()
 const travelStore = useTravelStore()
 
 const router = useRouter()
 const props = defineProps({ type: String })
-const meeting = meetingStore.meeting
 const titleErrMsg = ref('')
 const contentErrMsg = ref('')
 
 watch(
-    () => meeting.title,
+    () => meetingStore.meeting.title,
     (value) => {
         let len = value.length
         if (len == 0 || len > 30) {
@@ -123,7 +122,7 @@ watch(
 )
 
 watch(
-    () => meeting.content,
+    () => meetingStore.meeting.content,
     (value) => {
         let len = value.length
         if (len == 0 || len > 500) {
@@ -144,7 +143,7 @@ function onSubmit() {
 }
 
 function writeArticle() {
-    let result = registMeeting(meeting)
+    let result = meetingStore.registMeeting(meetingStore.meeting)
     let msg = '글 등록 처리 문제 발생'
     if ((result = 'success')) {
         msg = '글 등록 완료'
@@ -154,18 +153,17 @@ function writeArticle() {
 }
 
 function updateArticle() {
-    console.log(meeting.meetingId + '번글 수정하자!!')
-    let result = modifyMeeting(meeting)
+    console.log(meetingStore.meeting.meetingId + '번글 수정하자!!')
+    let result = meetingStore.modifyMeeting(meeting)
     let msg = '글 수정 처리 문제 발생'
     if ((result = 'success')) {
-        router.push(`/meeting/view/${meeting.meetingId}`)
+        router.push(`/meeting/view/${meetingStore.meeting.meetingId}`)
         msg = '글 수정 완료'
     }
     alert(msg)
 }
 
 function moveList() {
-    clearMeeting()
     meetingStore.meeting.userId = authStore.userId
     meetingStore.meeting.userName = authStore.name
     meetingStore.meeting.userProfileImageUrl = authStore.userProfileImageUrl
@@ -204,8 +202,11 @@ const closeModal = () => {
     isModalOpen.value = false
 }
 
-const selectDestination = (item) => {
-    currentAttractionName.value = item
+const selectDestination = (name, id, image) => {
+    currentAttractionName.value = name
+    meetingStore.meeting.attractionId = id
+    meetingStore.meeting.thumbnailUrl = image
+    meetingStore.meeting.userProfileImageUrl = authStore.userProfileImageUrl
     isModalOpen.value = false
 }
 
@@ -241,7 +242,7 @@ const nextPage = () => {
             <div class="mb-3">
                 <label for="userid" class="form-label">작성자</label>
                 <!-- <input type="text" class="form-control" v-model="meeting.userId" placeholder="작성자 ID" disabled style="color: black" /> -->
-                <input type="text" class="form-control" v-model="meeting.userName" placeholder="작성자 이름" disabled style="color: black" />
+                <input type="text" class="form-control" v-model="meetingStore.meeting.userName" placeholder="작성자 이름" disabled style="color: black" />
             </div>
             <hr />
             <div class="d-flex col-md-12">
@@ -258,29 +259,29 @@ const nextPage = () => {
                 <div class="col-md-1"></div>
                 <div class="col-md-3">
                     <label for="userid" class="form-label">시작일</label>
-                    <VueDatePicker v-model="startDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+                    <VueDatePicker v-model="meetingStore.meeting.meetingStartDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
                 </div>
                 <div class="col-md-1"></div>
                 <div class="col-md-3">
                     <label for="userid" class="form-label">종료일</label>
-                    <VueDatePicker v-model="endDate" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+                    <VueDatePicker v-model="meetingStore.meeting.meetingEndDate" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
                 </div>
             </div>
 
             <hr />
             <div class="mb-3">
                 <label for="userid" class="form-label">소모임 제목</label>
-                <input type="text" class="form-control" v-model="meeting.title" placeholder="제목" style="color: black" />
+                <input type="text" class="form-control" v-model="meetingStore.meeting.title" placeholder="제목" style="color: black" />
             </div>
             <hr />
 
             <div class="mb-3">
                 <label for="userid" class="form-label">참여 코드</label>
-                <input type="password" class="form-control" v-model="meeting.meetingPassword" placeholder="소모임 참여코드" style="color: black" />
+                <input type="password" class="form-control" v-model="meetingStore.meeting.meetingPassword" placeholder="소모임 참여코드" style="color: black" />
             </div>
             <hr />
             <div class="mb-3">
-                <ckeditor :editor="editor" v-model="meeting.content" :config="editorConfig" style="color: black"></ckeditor>
+                <ckeditor :editor="editor" v-model="meetingStore.meeting.content" :config="editorConfig" style="color: black"></ckeditor>
             </div>
             <br />
             <div class="col-auto text-center">
@@ -306,19 +307,19 @@ const nextPage = () => {
                     <div class="d-flex flex-column">
                         <br />
                         <div class="d-flex justify-content-between mb-2">
-                            <button v-for="item in paginatedList.slice(0, 3)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title)">
+                            <button v-for="item in paginatedList.slice(0, 3)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
                                 {{ item.title }}
                             </button>
                         </div>
                         <br />
                         <div class="d-flex justify-content-between mb-2">
-                            <button v-for="item in paginatedList.slice(3, 6)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title)">
+                            <button v-for="item in paginatedList.slice(3, 6)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
                                 {{ item.title }}
                             </button>
                         </div>
                         <br />
                         <div class="d-flex justify-content-between">
-                            <button v-for="item in paginatedList.slice(6, 9)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title)">
+                            <button v-for="item in paginatedList.slice(6, 9)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
                                 {{ item.title }}
                             </button>
                         </div>
