@@ -7,54 +7,6 @@
         <div class="tab-class text-center">
             <div class="tab-content">
                 <div class="row">
-                    <!-- <div class="card card-margin search-form">
-                        <div class="card-body p-0">
-                            <form id="search-form">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="row no-gutters">
-                                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                                <label for="search-type" hidden>검색 유형</label>
-                                                <select class="form-control" id="search-type" name="searchType">
-                                                    <option>제목</option>
-                                                    <option>본문</option>
-                                                    <option>id</option>
-                                                    <option>닉네임</option>
-                                                    <option>해시태그</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-8 col-md-6 col-sm-12 p-0">
-                                                <label for="search-value" hidden>검색어</label>
-                                                <input type="text" placeholder="검색어..." class="form-control" id="search-value" name="searchValue" />
-                                            </div>
-                                            <div class="col-lg-1 col-md-3 col-sm-12 p-0">
-                                                <button type="submit" class="btn btn-base">
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        stroke-width="2"
-                                                        stroke-linecap="round"
-                                                        stroke-linejoin="round"
-                                                        class="feather feather-search"
-                                                    >
-                                                        <circle cx="11" cy="11" r="8"></circle>
-                                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div> -->
-                </div>
-
-                <div class="row">
                     <table class="table" id="article-table">
                         <thead>
                             <tr class="table-head-text">
@@ -65,49 +17,54 @@
                             </tr>
                         </thead>
                         <tbody class="table-head-text">
-                            <tr>
-                                <td class="title kakao-regular"><a>첫글</a></td>
-                                <td class="user-name kakao-regular">김재경</td>
-                                <td class="created-at kakao-regular"><time>2024-05-10</time></td>
-                                <td class="hit kakao-regular">10</td>
-                            </tr>
-                            <tr>
-                                <td class="title kakao-regular"><a>두번째글</a></td>
-                                <td class="user-name kakao-regular">이현수</td>
-                                <td class="created-at kakao-regular"><time>2024-05-10</time></td>
-                                <td class="hit kakao-regular">9</td>
-                            </tr>
-                            <tr>
-                                <td class="title kakao-regular"><a>세번째글</a></td>
-                                <td class="user-name kakao-regular">홍길동</td>
-                                <td class="created-at kakao-regular"><time>2024-05-10</time></td>
-                                <td class="hit kakao-regular">8</td>
+                            <tr v-for="article in sortedHotCommunityList" :key="article.communityId">
+                                <td class="title kakao-regular">
+                                    <router-link :to="`/community/view/${article.communityId}`" @click="setCommunity(article)">
+                                        {{ article.title }}
+                                    </router-link>
+                                </td>
+                                <td class="user-name kakao-regular">{{ article.name }}</td>
+                                <td class="created-at kakao-regular"><time>{{ formatDate(article.regDt) }}</time></td>
+                                <td class="hit kakao-regular">{{ article.readCount }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <!-- <div class="row">
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <a class="btn btn-primary me-md-2" role="button" id="write-article">글쓰기</a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <nav id="pagination" aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
-                </div> -->
             </div>
         </div>
     </div>
 </template>
-<script setup></script>
-<style scope>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { useLandingStore } from '@/stores/landingStore.js'
+import { useCommunityStore } from '@/stores/communityStore.js'
+
+const { landingStore, getTopThreeCommunityList } = useLandingStore()
+const { communityStore } = useCommunityStore()
+
+const hotCommunityList = ref([])
+
+onMounted(async () => {
+    await getTopThreeCommunityList()
+    hotCommunityList.value = landingStore.hotCommunityList
+})
+
+const sortedHotCommunityList = computed(() => {
+    return hotCommunityList.value.slice().sort((a, b) => b.readCount - a.readCount)
+})
+
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' }
+    return new Date(dateString).toLocaleDateString('ko-KR', options)
+}
+
+function setCommunity(article) {
+    communityStore.community = article
+}
+</script>
+
+<style scoped>
 .table-head-text {
     color: #222;
     font-size: 1.2rem;

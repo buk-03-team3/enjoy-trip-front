@@ -55,11 +55,12 @@ const route = useRoute()
 const router = useRouter()
 
 const { communityId } = route.params
-const { communityStore, getCommunityDetail, deleteCommunity } = useCommunityStore()
+const { communityStore, getCommunityDetail, deleteCommunity, hitCommunity } = useCommunityStore()
 const { authStore } = useAuthStore()
 
 onMounted(() => {
     getCommunity()
+    hitCommunity();
 })
 
 const getCommunity = () => {
