@@ -1,4 +1,9 @@
 <script setup>
+import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
+import { useRouter } from 'vue-router'
+const meetingStore = useMeetingStoreVer1(); 
+const router = useRouter()
+
 defineProps({
     meeting: {
         type: Object,
@@ -14,10 +19,19 @@ function formatDate(dateString) {
     const day = String(date.getDate()).padStart(2, '0')
     return `${year}년 ${month}월 ${day}일`
 }
+
+const getDetail = async (meetingId) => {
+
+    await meetingStore.getDetail(meetingId)
+    // console.log(meetingStore.getDetail(meetingId));
+    console.log(meetingStore.meeting, 'meeting')
+    await router.push({ name: 'meeting-view' })
+}
+
 </script>
 
 <template>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6" @click="getDetail(meeting.meetingId)">
         <div class="blog-item">
             <div class="blog-img">
                 <div class="blog-img-inner">

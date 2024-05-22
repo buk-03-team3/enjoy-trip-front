@@ -16,6 +16,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     })
     const page = ref(1)
 
+    const meeting = ref()
+
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
     const loadItems = async () => {
         try {
@@ -46,5 +48,23 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
-    return { loadItems, page, meetingList }
+    const getDetail = async (meetingId) => {
+        console.log(meetingId, 'meetingID')
+        //동시성 문제가 있을 수도 있기 때문에 back에서 데이터를 가져오는 작업 있어야 함
+        // userId만 떼서 활용
+        try {
+            let { data } = await http.get(`/meeting/posts/${meetingId}`)
+            console.log(data)
+            if (data.result == 'success') {
+                console.log('소모임 상세보기 성공 ')
+                meeting.value = data.meetingDto
+            } else {
+                console.log('소모임 상세보기 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { loadItems, page, meetingList, getDetail, meeting }
 })
