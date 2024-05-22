@@ -35,7 +35,9 @@ const moveWrite = () => {
         } else {
         $state.complete();
       }
-    };
+};
+
+
 </script>
 
 <style scoped>

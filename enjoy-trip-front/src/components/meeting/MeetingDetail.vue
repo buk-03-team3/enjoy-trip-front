@@ -34,7 +34,7 @@
                     <div class="divider mt-3 mb-3"></div>
                     <div class="d-flex justify-content-end">
                         <button  v-if="meetingStore.meeting.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
-                        <button  v-if="meetingStore.meeting.sameUser || meetingStore.meeting.admin" type="button" class="btn btn-outline-danger mb-3 ms-1 ms-2" @click="onDeleteArticle">삭제</button>
+                        <button  v-if="meetingStore.meeting.sameUser || meetingStore.meeting.admin" type="button" class="btn btn-outline-danger mb-3 ms-1 ms-2" @click="ondeleteMeeting(meetingStore.meeting.meetingId)">삭제</button>
                         <button type="button" class="btn btn-outline-primary mb-3  ms-2" @click="moveList">목록</button>
                         <button v-if="!meetingStore.meeting.sameUser" type="button" class="btn btn-outline-primary mb-3  ms-2" @click="join">참여하기</button>
                     </div>
@@ -57,4 +57,9 @@ function moveList() {
     router.push({ name: 'meeting-list' })
 }
 
+const ondeleteMeeting = (meetingId) => {
+    meetingStore.deleteMeeting(meetingId);
+    alert("모임이 삭제되었습니다.");
+    moveList();
+}
 </script>

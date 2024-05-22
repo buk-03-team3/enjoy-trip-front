@@ -66,5 +66,23 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
-    return { loadItems, page, meetingList, getDetail, meeting }
+    const deleteMeeting = async (meetingId) => {
+        try {
+            let { data } = await http.delete(`/meeting/posts/${meetingId}`)
+            console.log(data)
+            if (data.result == 'success') {
+                console.log('소모임 삭제 성공')
+                meeting.value = ''
+                meetingList.length = 0
+                listOption.offset = 0
+                loadItems()
+            } else {
+                console.log('소모임 삭제 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting }
 })
