@@ -1,30 +1,19 @@
 <template>
-    <!-- Header Start -->
-    <!-- <div class="container-fluid bg-breadcrumb">
-        <div class="container text-center py-5" style="max-width: 900px">
-            <h3 class="text-white display-3 mb-4">소모임 페이지</h3>
-            <ol class="breadcrumb justify-content-center mb-0"></ol>
-        </div>
-    </div> -->
-    <!-- Header End -->
-
-    <!-- Blog Start -->
     <div class="container-fluid blog container py-4">
-        <!-- <div class="container py-5"> -->
-        <div class="mx-auto text-center mb-5 content" style="max-width: 900px">
-            <h5 class="section-title px-3 kakao-bold">meeting</h5>
-            <h1 class="mb-4 kakao-bold">소모임</h1>
-            <!-- <p class="mb-0 kakao-regular">여행 후기, 질문 글을 올려주세요.</p> -->
-        </div>
         <div class="row g-4 justify-content-center">
             <MeetingListItem v-for="(meeting, index) in meetings" :key="index" :meeting="meeting" />
         </div>
     </div>
-    <!-- Blog End -->
 </template>
 
 <script setup>
 import MeetingListItem from './content/MeetingListItem.vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const moveWrite = () => {
+    router.push({ name: 'meeting-write' })
+}
 
 const meetings = [
     {

@@ -1,8 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingPage from '@/components/landing/LandingPage.vue'
 import TravelPage from '@/components/travel/TravelPage.vue'
-import UserInfoPage from '@/components/user/UserInfoPage.vue'
-import MeetingPage from '@/components/meeting/MeetingPage.vue'
 import KakaoMap from '@/components/map/KakaoMap.vue'
 import LoginPage from '@/components/user/LoginPage.vue'
 import RegisterPage from '@/components/user/RegisterPage.vue'
@@ -38,7 +36,30 @@ const router = createRouter({
         {
             path: '/meeting',
             name: 'meeting',
-            component: MeetingPage
+            component: () => import('@/views/TheMeetingView.vue'),
+            redirect: { name: 'meeting-list' },
+            children: [
+                {
+                    path: 'list',
+                    name: 'meeting-list',
+                    component: () => import('@/components/meeting/MeetingList.vue')
+                },
+                {
+                    path: 'view/:meetingId',
+                    name: 'meeting-view',
+                    component: () => import('@/components/meeting/MeetingDetail.vue')
+                },
+                {
+                    path: 'write',
+                    name: 'meeting-write',
+                    component: () => import('@/components/meeting/MeetingWrite.vue')
+                },
+                {
+                    path: 'modify/:meetingId',
+                    name: 'meeting-modify',
+                    component: () => import('@/components/meeting/MeetingModify.vue')
+                }
+            ]
         },
         {
             path: '/community',
