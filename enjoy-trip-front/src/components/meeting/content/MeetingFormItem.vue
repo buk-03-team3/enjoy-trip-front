@@ -64,6 +64,10 @@ function detectRemovedImages(currentContent) {
     return currentImages
 }
 
+function removeImageAttributes(content) {
+    return content.replace(/<img([^>]*)\s(width="[^"]*")\s(height="[^"]*")([^>]*)>/g, '<img$1$4>');
+}
+
 const ckeditor = CKEditor.component
 const editor = ClassicEditor
 const editorConfig = {
@@ -138,6 +142,7 @@ function onSubmit() {
     } else if (contentErrMsg.value) {
         alert(contentErrMsg.value)
     } else {
+        meetingStore.meeting.content = removeImageAttributes(meetingStore.meeting.content);
         props.type === 'regist' ? writeArticle() : updateArticle()
     }
 }
