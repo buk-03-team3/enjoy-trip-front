@@ -12,10 +12,8 @@
 import MeetingListItem from './content/MeetingListItem.vue'
 import { useRouter } from 'vue-router'
 import InfiniteLoading from 'vue-infinite-loading'
-import { ref, onMounted } from 'vue'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useAuthStore } from '@/stores/authStore'
-import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const { authStore } = useAuthStore()

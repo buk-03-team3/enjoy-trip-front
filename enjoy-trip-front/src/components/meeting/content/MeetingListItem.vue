@@ -10,7 +10,7 @@ defineProps({
         required: true
     },
     no: {
-        type: Text,
+        type: Boolean,
         required: false
     }
 })
@@ -21,9 +21,6 @@ function formatDate(dateString) {
     const month = String(date.getMonth() + 1).padStart(2, '0')
     const day = String(date.getDate()).padStart(2, '0')
     return `${year}년 ${month}월 ${day}일`
-}
-function format1(string) {
-    meeting.addr1
 }
 
 const getDetail = async (meetingId) => {

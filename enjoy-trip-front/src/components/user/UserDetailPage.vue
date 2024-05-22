@@ -90,7 +90,7 @@ onMounted(async () => {
     await getSpecificUserCommunity(authStore.userId)
     await getSidoList()
     await meetingStore.getSpecificUserMeeting(authStore.userId)
-    console.log(toRaw(meetingStore.myMeetingList).value, 'meeting')
+    await meetingStore.getMyMeeting(authStore.userId)
 })
 
 // 시, 도를 선택하면 해당 시, 도에 속한 구, 군 가져오기
@@ -297,6 +297,7 @@ const uploadProfileImage = async (files) => {
                         role="tab"
                         aria-controls="myParticipatedMeetings"
                         aria-selected="false"
+                        @click="changeActiveTab('myMeetings2')"
                     >
                         내가 참여하는 소모임
                     </button>
@@ -323,8 +324,10 @@ const uploadProfileImage = async (files) => {
                 </div>
 
                 <!-- My Participated Meetings Tab -->
-                <div class="tab-pane fade post-section" id="myParticipatedMeetings" role="tabpanel" aria-labelledby="myParticipatedMeetings-tab">
-                    <!-- My Participated Meetings Content -->
+                <div class="d-flex tab-pane fade post-section" id="myParticipatedMeetings" role="tabpanel" aria-labelledby="myParticipatedMeetings-tab" v-show="activeTab === 'myMeetings2'">
+                    <div class="meeting-container" v-for="meeting in meetingStore.myMeetingList2.value">
+                        <MeetingListItem :meeting="meeting" :no="true" />
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import http from '@/common/axios-config.js'
 export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const meetingList = reactive([])
     const myMeetingList = reactive([])
+    const myMeetingList2 = reactive([])
     const searchOptions = reactive({
         searchTitle: '',
         searchAddr: '',
@@ -56,10 +57,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
                 meetingList.push(...data.list)
                 listOption.offset += listOption.limit
             } else {
-                console.log('소모임 목록 조회 실패')
                 return false
             }
-            console.log('소모임 목록 조회 성공')
             if (data.list.length > listOption.limit) return false
             return true
         } catch (error) {
@@ -75,12 +74,9 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             let { data } = await http.get(`/meeting/posts/${meetingId}`)
             console.log(data)
             if (data.result == 'success') {
-                console.log('소모임 상세보기 성공 ')
                 meeting.value = data.meetingDetail.meetingDto
                 participants.value = data.meetingDetail.partiList
                 console.log(participants.value)
-            } else {
-                console.log('소모임 상세보기 실패')
             }
         } catch (error) {
             console.error(error)
@@ -120,7 +116,6 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             let { data } = await http.delete(`/meeting/posts/${meetingId}`)
             console.log(data)
             if (data.result == 'success') {
-                console.log('소모임 삭제 성공')
                 meeting.value = ''
                 meetingList.length = 0
                 listOption.offset = 0
@@ -147,10 +142,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             let { data } = await http.post(`/participants/join`, oneParti)
             console.log(data)
             if (data.result == 'success') {
-                console.log('소모임 가입 성공')
                 alert('모임에 가입되었습니다!!')
             } else {
-                console.log('소모임 가입 실패')
                 alert('가입에 실패했습니다.')
             }
         } catch (error) {
@@ -172,10 +165,29 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
 
                 myMeetingList.value = processedMeetingList
             } else {
-                console.log('나의 소모임 목록 조회 실패')
                 return false
             }
-            console.log('소모임 목록 조회 성공')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const getMyMeeting = async (userId) => {
+        try {
+            let { data } = await http.get(`/meeting/my-meeting/${userId}`)
+            if (data.result == 'success') {
+                page.value += 1
+                const processedMeetingList = data.meetingList.map((meeting) => {
+                    return {
+                        ...meeting,
+                        firstImage: meeting.firstImage ? meeting.firstImage : ''
+                    }
+                })
+
+                myMeetingList2.value = processedMeetingList
+            } else {
+                return false
+            }
         } catch (error) {
             console.error(error)
         }
@@ -195,5 +207,21 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         meeting.value.thumbnailUrl = ''
     }
 
-    return { loadItems, page, meetingList, myMeetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting, registMeeting, modifyMeeting, clearMeeting, getSpecificUserMeeting }
+    return {
+        loadItems,
+        page,
+        meetingList,
+        myMeetingList,
+        myMeetingList2,
+        getDetail,
+        meeting,
+        deleteMeeting,
+        participants,
+        joinMeeting,
+        registMeeting,
+        modifyMeeting,
+        clearMeeting,
+        getSpecificUserMeeting,
+        getMyMeeting
+    }
 })
