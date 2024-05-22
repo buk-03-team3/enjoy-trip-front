@@ -78,6 +78,21 @@ export const useCommunityStore = defineStore('communityStore', () => {
             console.error(error)
         }
     }
+
+    const hitCommunity = async () => {
+        try {
+            await http.put(`/community/hit/${communityStore.community.communityId}`).then((response) => {
+                if (response.status == 200) {
+                    return 'success'
+                } else {
+                    return 'fail'
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const clearCommunity = () => {
         communityStore.community.category = ''
         communityStore.community.userId = 0
@@ -87,5 +102,5 @@ export const useCommunityStore = defineStore('communityStore', () => {
         communityStore.community.content = ''
     }
 
-    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity }
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity, hitCommunity }
 })
