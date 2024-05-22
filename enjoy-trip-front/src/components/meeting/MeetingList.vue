@@ -2,8 +2,7 @@
     <div class="container-fluid blog my-3">
         <a href="#" class="kakao-regular btn btn-primary bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
         <div class="row g-4 justify-content-center">
-            <MeetingListItem v-for="(meeting, index) in meetingStore.meetingList" 
-            :key="index" :meeting="meeting"  :data-num="index + 1"/> 
+            <MeetingListItem v-for="(meeting, index) in meetingStore.meetingList" :key="index" :meeting="meeting" :data-num="index + 1" :no="false" />
         </div>
     </div>
     <InfiniteLoading @infinite="infiniteHandler" />
@@ -12,39 +11,34 @@
 <script setup>
 import MeetingListItem from './content/MeetingListItem.vue'
 import { useRouter } from 'vue-router'
-import InfiniteLoading from 'vue-infinite-loading';
-import { ref, onMounted } from 'vue';
+import InfiniteLoading from 'vue-infinite-loading'
+import { ref, onMounted } from 'vue'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useAuthStore } from '@/stores/authStore'
 import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const { authStore } = useAuthStore()
-const meetingStore = useMeetingStoreVer1();
+const meetingStore = useMeetingStoreVer1()
 
 const moveWrite = () => {
     meetingStore.clearMeeting()
     meetingStore.infiniteHandler
     meetingStore.meeting.userId = authStore.userId
     meetingStore.meeting.userName = authStore.name
-    
-    router.push({ name: 'meeting-write' }) 
+
+    router.push({ name: 'meeting-write' })
 }
 
-
-    const infiniteHandler = async ($state) => {
-        const hasMore = await meetingStore.loadItems();
-        console.log(meetingStore.meetingList)
-        if (hasMore) {
-           
-        $state.loaded();
-        
-        } else {
-        $state.complete();
-      }
-};
-
-
+const infiniteHandler = async ($state) => {
+    const hasMore = await meetingStore.loadItems()
+    console.log(meetingStore.meetingList)
+    if (hasMore) {
+        $state.loaded()
+    } else {
+        $state.complete()
+    }
+}
 </script>
 
 <style scoped>

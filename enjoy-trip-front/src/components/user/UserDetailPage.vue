@@ -1,15 +1,23 @@
 <script setup>
 import { useAuthStore } from '@/stores/authStore'
 import { useCommunityStore } from '@/stores/communityStore'
-import { useRouter } from 'vue-router'
 import { useTravelStore } from '@/stores/travelStore'
+import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
+
+import { useRouter } from 'vue-router'
+
 import http from '@/common/axios-config.js'
-import { ref, onMounted, watch } from 'vue'
+
+import { ref, onMounted, watch, toRaw } from 'vue'
+
 import UserFavoriteContent from './content/UserFavoriteContent.vue'
 import CommunityListItem from '../community/item/CommunityListItem.vue'
+import MeetingListItem from '../meeting/content/MeetingListItem.vue'
 
 const { authStore, setUpdate } = useAuthStore()
 const { communityStore, getSpecificUserCommunity } = useCommunityStore()
+const meetingStore = useMeetingStoreVer1()
+
 const router = useRouter()
 const isEditMode = ref(false)
 const originalData = ref({}) // 수정하기 전의 데이터를 저장할 변수
@@ -56,7 +64,6 @@ const updateUser = async () => {
 }
 
 const activeTab = ref('myPosts')
-const communityList = ref(communityStore.communityList)
 
 const changeActiveTab = (value) => {
     activeTab.value = value
@@ -82,6 +89,8 @@ const { getSidoList, getGugunList } = travelStore
 onMounted(async () => {
     await getSpecificUserCommunity(authStore.userId)
     await getSidoList()
+    await meetingStore.getSpecificUserMeeting(authStore.userId)
+    console.log(toRaw(meetingStore.myMeetingList).value, 'meeting')
 })
 
 // 시, 도를 선택하면 해당 시, 도에 속한 구, 군 가져오기
@@ -249,12 +258,32 @@ const uploadProfileImage = async (files) => {
             <!-- User Tab Section -->
             <ul class="nav nav-tabs" id="userTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="myPosts-tab" data-bs-toggle="tab" data-bs-target="#myPosts" type="button" role="tab" aria-controls="myPosts" aria-selected="true" @click="changeActiveTab('myPosts')">
+                    <button
+                        class="nav-link active"
+                        id="myPosts-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#myPosts"
+                        type="button"
+                        role="tab"
+                        aria-controls="myPosts"
+                        aria-selected="true"
+                        @click="changeActiveTab('myPosts')"
+                    >
                         내가 쓴 커뮤니티 글
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="myMeetings-tab" data-bs-toggle="tab" data-bs-target="#myMeetings" type="button" role="tab" aria-controls="myMeetings" aria-selected="false">
+                    <button
+                        class="nav-link"
+                        id="myMeetings-tab"
+                        data-bs-toggle="tab"
+                        data-bs-target="#myMeetings"
+                        type="button"
+                        role="tab"
+                        aria-controls="myMeetings"
+                        aria-selected="false"
+                        @click="changeActiveTab('myMeetings')"
+                    >
                         내가 모집하는 소모임
                     </button>
                 </li>
@@ -287,8 +316,10 @@ const uploadProfileImage = async (files) => {
                 </div>
 
                 <!-- My Meetings Tab -->
-                <div class="tab-pane fade post-section" id="myMeetings" role="tabpanel" aria-labelledby="myMeetings-tab">
-                    <!-- My Meetings Content -->
+                <div class="d-flex tab-pane fade post-section" id="myMeetings" role="tabpanel" aria-labelledby="myMeetings-tab" v-show="activeTab === 'myMeetings'">
+                    <div class="meeting-container" v-for="meeting in meetingStore.myMeetingList.value">
+                        <MeetingListItem :meeting="meeting" :no="true" />
+                    </div>
                 </div>
 
                 <!-- My Participated Meetings Tab -->
@@ -301,6 +332,18 @@ const uploadProfileImage = async (files) => {
 </template>
 
 <style>
+.meeting-container {
+    flex: 1 1 calc(33.333% - 16px); /* 3개씩 배치하기 위한 너비 설정, 16px는 여백 고려 */
+    box-sizing: border-box;
+    margin: 8px; /* 여백 설정 */
+}
+
+#myMeetings .d-flex.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px; /* 요소 간의 간격 */
+}
 
 .input-text-color {
     color: black;

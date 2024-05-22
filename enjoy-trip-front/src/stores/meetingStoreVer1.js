@@ -4,6 +4,7 @@ import http from '@/common/axios-config.js'
 
 export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const meetingList = reactive([])
+    const myMeetingList = reactive([])
     const searchOptions = reactive({
         searchTitle: '',
         searchAddr: '',
@@ -157,6 +158,29 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
+    const getSpecificUserMeeting = async (userId) => {
+        try {
+            let { data } = await http.get(`/meeting/write/${userId}`)
+            if (data.result == 'success') {
+                page.value += 1
+                const processedMeetingList = data.meetingList.map((meeting) => {
+                    return {
+                        ...meeting,
+                        firstImage: meeting.firstImage ? meeting.firstImage : ''
+                    }
+                })
+
+                myMeetingList.value = processedMeetingList
+            } else {
+                console.log('나의 소모임 목록 조회 실패')
+                return false
+            }
+            console.log('소모임 목록 조회 성공')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const clearMeeting = () => {
         meeting.value.meetingId = 0
         meeting.value.userId = 0
@@ -171,5 +195,5 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         meeting.value.thumbnailUrl = ''
     }
 
-    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting, registMeeting, modifyMeeting, clearMeeting }
+    return { loadItems, page, meetingList, myMeetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting, registMeeting, modifyMeeting, clearMeeting, getSpecificUserMeeting }
 })
