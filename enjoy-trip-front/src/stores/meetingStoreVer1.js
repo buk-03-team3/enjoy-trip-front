@@ -16,13 +16,25 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     })
     const page = ref(1)
 
-    const meeting = ref()
+    const meeting = ref({
+        meetingId: 0,
+        userId: 0,
+        userName: '',
+        title: '',
+        content: '',
+        meetingPassword: '',
+        attractionId: 0,
+        meetingStartDate: '',
+        meetingEndDate: '',
+        thumbnailUrl: '',
+        userProfileImageUrl: ''
+    })
+
     const participants = ref([''])
     const oneParti = reactive({
-        meetingId : '',
+        meetingId: '',
         userId: '',
-        authority:''
-
+        authority: ''
     })
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
     const loadItems = async () => {
@@ -74,6 +86,34 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
+    const registMeeting = async (meeting) => {
+        try {
+            await http.post(`/meeting/posts`, meeting).then((response) => {
+                if (response.status == 200) {
+                    return 'success'
+                } else {
+                    return 'fail'
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const modifyMeeting = async (meeting) => {
+        try {
+            await http.put(`/meeting/${meeting.meetingId}`, meeting).then((response) => {
+                if (response.status == 200) {
+                    return 'success'
+                } else {
+                    return 'fail'
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const deleteMeeting = async (meetingId) => {
         try {
             let { data } = await http.delete(`/meeting/posts/${meetingId}`)
@@ -92,31 +132,44 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
-    // 소모임 참여하기 
-    const joinMeeting = async (userId) =>{
+    // 소모임 참여하기
+    const joinMeeting = async (userId) => {
         try {
             //만약 현재 detail로 열어놓은 소모임에 비밀번호가 있으면 권한은 write, 아니면 read (임시로직)
-            oneParti.authority = meeting.value.meetingPassword == null ? "READ" : "WRITE"
-            //이 소모임에 가입하는 대상은 지금 로그인한 사용자 
-            oneParti.userId = userId;
+            oneParti.authority = meeting.value.meetingPassword == null ? 'READ' : 'WRITE'
+            //이 소모임에 가입하는 대상은 지금 로그인한 사용자
+            oneParti.userId = userId
             //현재 소모임의 아이디
-            oneParti.meetingId = meeting.value.meetingId;
+            oneParti.meetingId = meeting.value.meetingId
 
-            console.log(oneParti);
-            let { data } = await http.post(`/participants/join`,oneParti)
+            console.log(oneParti)
+            let { data } = await http.post(`/participants/join`, oneParti)
             console.log(data)
             if (data.result == 'success') {
                 console.log('소모임 가입 성공')
-                alert("모임에 가입되었습니다!!")
-
+                alert('모임에 가입되었습니다!!')
             } else {
                 console.log('소모임 가입 실패')
-                alert("가입에 실패했습니다.")
+                alert('가입에 실패했습니다.')
             }
         } catch (error) {
             console.error(error)
         }
     }
 
-    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting }
+    const clearMeeting = () => {
+        meeting.value.meetingId = 0
+        meeting.value.userId = 0
+        meeting.value.userName = ''
+        meeting.value.userProfileUrl = ''
+        meeting.value.title = ''
+        meeting.value.content = ''
+        meeting.value.meetingPassword = ''
+        meeting.value.attractionId = 0
+        meeting.value.meetingStartDate = ''
+        meeting.value.meetingEndDate = ''
+        meeting.value.thumbnailUrl = ''
+    }
+
+    return { loadItems, page, meetingList, getDetail, meeting, deleteMeeting, participants, joinMeeting, registMeeting, modifyMeeting, clearMeeting }
 })

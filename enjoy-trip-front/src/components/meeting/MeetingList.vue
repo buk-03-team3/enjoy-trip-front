@@ -14,16 +14,23 @@ import MeetingListItem from './content/MeetingListItem.vue'
 import { useRouter } from 'vue-router'
 import InfiniteLoading from 'vue-infinite-loading';
 import { ref, onMounted } from 'vue';
-import {useMeetingStoreVer1} from '@/stores/meetingStoreVer1'
+import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
+import { useAuthStore } from '@/stores/authStore'
 import { storeToRefs } from 'pinia'
 
 const router = useRouter()
+const { authStore } = useAuthStore()
 const meetingStore = useMeetingStoreVer1();
 
 const moveWrite = () => {
-    router.push({ name: 'meeting-write' })
+    meetingStore.clearMeeting()
     meetingStore.infiniteHandler
+    meetingStore.meeting.userId = authStore.userId
+    meetingStore.meeting.userName = authStore.name
+    
+    router.push({ name: 'meeting-write' }) 
 }
+
 
     const infiniteHandler = async ($state) => {
         const hasMore = await meetingStore.loadItems();
