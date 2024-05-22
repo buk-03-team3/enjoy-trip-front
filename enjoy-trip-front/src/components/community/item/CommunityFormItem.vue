@@ -12,7 +12,7 @@ import { Table, TableColumnResize, TableToolbar } from '@ckeditor/ckeditor5-tabl
 import { TextTransformation } from '@ckeditor/ckeditor5-typing'
 import { Alignment } from '@ckeditor/ckeditor5-alignment'
 import { Image, ImageCaption, ImageStyle, ImageToolbar, ImageUpload, ImageResize } from '@ckeditor/ckeditor5-image'
-import UploadAdapter, { deleteImageFromServer } from '../../../api/uploadAdapter.js'
+import UploadAdapter, { deleteImageFromServer } from '../../../api/communityUploadAdapter.js'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 
 import { ref, watch } from 'vue'
