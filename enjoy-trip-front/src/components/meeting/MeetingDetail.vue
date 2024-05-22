@@ -31,14 +31,24 @@
                     <div style="color: #222; font-size: 1.2vmax; border: 1px solid; " class="bm-hanna-air" v-html="meetingStore.meeting.content"></div>
                     <div style="color: #222; font-size: 1.8vmax; border: 1px solid; " >목적지: {{meetingStore.meeting.addr1}}</div>
                     <div style="color: #222; font-size: 1.8vmax; border: 1px solid; " >기간: {{formatDate(meetingStore.meeting.meetingStartDate)}} 부터 {{ formatDate(meetingStore.meeting.meetingEndDate) }} 까지</div>
+                    <div class="mt-3" style="color: #222; font-size: 1.5vmax;" >함께 하는 사람들 {{partiCount }}/{{meetingStore.meeting.maxPeople }}</div>
                     <div class="divider mt-3 mb-3"></div>
+                    <!--해당 모임에 참여 중인 인원들 -->
+                    <div class="row">
+                        <div  v-for="(participant, index) in meetingStore.participants" :key="index"  class="col-xl-4 col-md-4 col-sm-6 mb-4"> 
+                        <ParticipantsItem :participant="participant" /> 
+                    </div> 
+                    </div>
+
+
+                    <!-- 끝 -->
                     <div class="d-flex justify-content-end">
                         <button  v-if="editable() | meetingStore.meeting.sameUser " 
                         type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
                         <button  v-if="meetingStore.meeting.sameUser |  meetingStore.meeting.admin" type="button" class="btn btn-outline-danger mb-3 ms-1 ms-2" @click="ondeleteMeeting(meetingStore.meeting.meetingId)">삭제</button>
                         <button type="button" class="btn btn-outline-primary mb-3  ms-2" @click="moveList">목록</button>
-                        <button v-if="!alreadyParticipants() & !meetingStore.meeting.sameUser" type="button" class="btn btn-outline-primary mb-3  ms-2" @click="join">참여하기</button>
-                        
+                        <button v-if="!alreadyParticipants() & !meetingStore.meeting.sameUser &!isMax()" type="button" class="btn btn-outline-primary mb-3  ms-2" @click="join">참여하기</button>
+                        <button type="button" class="btn btn-outline-warning mb-3  ms-2" v-if="isMax()">모집정원이 다 찼습니다.</button>
                     </div>
                 </div>
             </div>
@@ -48,12 +58,13 @@
 
 <script setup>
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
+import ParticipantsItem from './content/ParticipantsItem.vue'
 import { storeToRefs } from 'pinia'
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import {useAuthStore} from '@/stores/authStore.js'
-
 import { formatDate } from '../../api/util.js'
+
 const meetingStore = useMeetingStoreVer1();
 const router = useRouter()
 const partiCount = ref('');
@@ -73,6 +84,7 @@ const ondeleteMeeting = (meetingId) => {
 onMounted(() => {
     if(meetingStore.participants==null) return;
     partiCount.value = meetingStore.participants.length;
+
 
 })
 
@@ -100,6 +112,16 @@ const join =  async() => {
     meetingStore.joinMeeting(authStore.userId);
     moveList();
 }
+
+// 소모임 소속 참여자 수가 최대 인원에 달했을 때 
+const isMax = () =>{
+    if(partiCount.value >= meetingStore.meeting.maxPeople){
+        console.log(partiCount.value);
+        return true;
+    }
+    return false;
+}
+
 </script>
 
 <style scoped>

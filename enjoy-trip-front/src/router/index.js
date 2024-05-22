@@ -130,6 +130,18 @@ const router = createRouter({
             path: '/recommend',
             name: 'recommend',
             component: () => import('@/components/recommend/RecommendComponent.vue')
+        },
+        {
+            path:'/meetingDetail',
+            name:'meeting-detail',
+            component: () => import('@/components/meeting/MeetingDetail.vue'),
+            children: [
+                {
+                    path: 'list',
+                    name: 'participant-list',
+                    component: () => import('@/components/meeting/content/ParticipantsItem.vue')
+                }
+            ]
         }
     ]
 })
