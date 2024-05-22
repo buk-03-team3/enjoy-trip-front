@@ -2,10 +2,12 @@
 import BoardFormItem from './item/BoardFormItem.vue'
 import { useNoticeStore } from '@/stores/noticeStore'
 import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/authStore';
 const noticeStore = useNoticeStore();
 const { notice } = storeToRefs(noticeStore)
+const { authStore } = useAuthStore()
 notice.value = {
-    'userId': ' ',
+    'userId': authStore.userId,
     'title': ' ',
     'content': ' '
 };

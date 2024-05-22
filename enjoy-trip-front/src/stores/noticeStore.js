@@ -197,5 +197,20 @@ export const useNoticeStore = defineStore('noticeStore', () => {
         }
     }
 
-    return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert, noticeUpdate, searchList }
+
+       const hitNotice = async () => {
+           try {
+               await http.put(`/notice/hit/${notice.value.noticeId}`).then((response) => {
+                   if (response.status == 200) {
+                       return 'success'
+                   } else {
+                       return 'fail'
+                   }
+               })
+           } catch (error) {
+               console.error(error)
+           }
+       }
+
+       return { noticeList, notices, noticeDetail, notice, noticeDelete, noticeInsert, noticeUpdate, searchList, hitNotice }
 })

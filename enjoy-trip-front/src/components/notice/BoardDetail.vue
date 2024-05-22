@@ -1,7 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { detailArticle, deleteArticle } from '@/api/board'
 import { useNoticeStore } from '@/stores/noticeStore'
 import { formatDate } from "@/api/util"
 import { storeToRefs } from 'pinia'
@@ -14,11 +13,7 @@ const { noticeId } = route.params
 const{notice} = storeToRefs(noticeStore) 
 
 const getArticle =async () => {
-    // const { articleno } = route.params;
-        console.log(noticeId + '번글 얻으러 가자!!!')
-   await noticeStore.noticeDetail(noticeId);
-
-    
+   await noticeStore.noticeDetail(noticeId);    
 }
 
 function moveList() {
@@ -30,15 +25,17 @@ function moveModify() {
 }
 
 function onDeleteArticle() {
-    // const { articleno } = route.params;
-    console.log(noticeId + '번글 삭제하러 가자!!!')
     //delete 함수 호출
     noticeStore.noticeDelete(noticeId)
     // delete 성공하면 list로 이동 moveList() 
     moveList();
 }
 
-getArticle()
+onMounted(() => {
+    noticeStore.hitNotice()
+    getArticle()
+})
+
 </script>
 
 <template>
