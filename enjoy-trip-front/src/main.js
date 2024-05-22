@@ -4,6 +4,7 @@ import { createPersistedStatePlugin } from './plugin/piniaPluginPersistedState'
 import CKEditor from '@ckeditor/ckeditor5-vue'
 import App from './App.vue'
 import router from './router'
+import InfiniteLoading from 'vue-infinite-loading'
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -12,9 +13,11 @@ pinia.use(createPersistedStatePlugin())
 app.use(pinia)
 app.use(router)
 app.use(CKEditor)
+app.use(InfiniteLoading)
 app.mount('#app')
 
 export function formatDate(dateString) {
+    console.log(dateString)
     const date = new Date(dateString)
     const year = String(date.getFullYear()).slice(-2)
     const month = String(date.getMonth() + 1).padStart(2, '0')

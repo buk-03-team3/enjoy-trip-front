@@ -158,8 +158,6 @@ watch(
     }
 )
 
-initMap()
-
 // 페이지네이션 관련 로직
 
 const markersPerPage = 5
