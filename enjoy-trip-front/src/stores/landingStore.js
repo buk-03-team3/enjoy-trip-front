@@ -25,10 +25,10 @@ export const useLandingStore = defineStore('landingStore', () => {
 
     const getTopThreeAttractionList = async () => {
         try {
-            const { data } = await http.get(`/attraction/attractionListTop`)
+            const { data } = await http.get(`/travel/travelListTop`)
             console.log(data)
             if (data.result == 'success') {
-                landingStore.hotAttractionList = data.attractionList
+                landingStore.hotAttractionList = data.travelList
                 console.log('인기 관광지 목록 조회 성공')
             } else {
                 console.log('인기 관광지 목록 조회 실패')
