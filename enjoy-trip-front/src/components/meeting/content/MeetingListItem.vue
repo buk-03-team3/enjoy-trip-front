@@ -42,7 +42,7 @@ const getDetail = async (meetingId) => {
                 </div>
                 <div class="blog-info d-flex align-items-center border border-start-0 border-end-0 thumb-up-chat">
                     <a href="#" class="btn-hover flex-fill text-center text-white border-end py-2">
-                        <i class="fa fa-thumbs-up text-primary me-2"></i> ??
+                        <i class="fa fa-thumbs-up text-primary me-2"></i>모집 인원: {{ meeting.maxPeople }}명
                     </a>
                     <a href="#" class="btn-hover flex-fill text-center text-white py-2">
                         <i class="fa fa-comments text-primary me-2"></i>{{ meeting.userName }}
@@ -57,10 +57,11 @@ const getDetail = async (meetingId) => {
                 <small class="flex-fill text-center py-2">
                     <i class="fa fa-calendar-alt text-primary me-2"></i>종료일: {{ formatDate(meeting.meetingEndDate) }}
                 </small>
-                <br />
+                <br>
                 <small class="flex-fill text-center py-2">
                     <i class="fa fa-calendar-alt text-primary me-2"></i>목적지: {{ meeting.addr1 }}
                 </small>
+                
                 <br />
                 <hr />
                 <a href="#" class="h4 kakao-regular">{{ meeting.title }}</a>
