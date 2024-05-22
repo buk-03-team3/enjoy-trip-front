@@ -1,5 +1,6 @@
 <template>
-    <div class="container-fluid blog container py-4">
+    <div class="container-fluid blog my-3">
+        <a href="#" class="kakao-regular btn btn-primary bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
         <div class="row g-4 justify-content-center">
             <MeetingListItem v-for="(meeting, index) in meetings" :key="index" :meeting="meeting" />
         </div>
@@ -63,5 +64,9 @@ const meetings = [
 }
 .content {
     padding-top: 2vmax; /* NavBar height */
+}
+
+.bottom-blank {
+    margin-bottom: 1.5vmax;
 }
 </style>
