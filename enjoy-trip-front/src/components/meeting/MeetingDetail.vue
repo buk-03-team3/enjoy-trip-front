@@ -145,7 +145,10 @@ const isMax = () =>{
 
 //소모임 탈퇴하기
 const withdraw = () => {
-    console.log(meetingStore.meeting)
+    meetingStore.withdrawParticipant(authStore.userId, meetingStore.meeting.meetingId)
+    alert("소모임에서 탈퇴했습니다.")
+    moveList();
+
 }
 </script>
 
