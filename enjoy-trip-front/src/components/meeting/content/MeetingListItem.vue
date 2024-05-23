@@ -2,6 +2,7 @@
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+
 const meetingStore = useMeetingStoreVer1()
 const router = useRouter()
 

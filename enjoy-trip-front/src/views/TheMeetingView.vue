@@ -1,4 +1,5 @@
-<script setup></script>
+<script setup>
+import MeetingSearchBar from '../components/meeting/content/MeetingSearchBar.vue'</script>
 
 <template>
     <div class="container text-center mt-3 content">
@@ -8,6 +9,7 @@
             <h1 class="mb-4 kakao-bold">소모임</h1>
             <!-- <p class="mb-0 kakao-regular">여행 후기, 질문 글을 올려주세요.</p> -->
         </div>
+        <MeetingSearchBar></MeetingSearchBar>
         <router-view></router-view>
     </div>
 </template>

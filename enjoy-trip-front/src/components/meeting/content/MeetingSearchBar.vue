@@ -12,25 +12,37 @@
             <button @click="showInput(5)" :class="['custom-button', { active: searchOptions.meetingStartDate || activeButton === 5 }]" class="ms-2">시작일</button>
             <button @click="showInput(6)" :class="['custom-button', { active: searchOptions.meetingEndDate || activeButton === 6 }]" class="ms-2">종료일</button>
         </div>
-        <div class="container">
-        <input v-if="activeButton === 1" type="text" class="custom-input show" v-model="searchOptions.searchTitle" placeholder="관광지 이름으로 검색">
-        <input v-if="activeButton === 2" type="text" class="custom-input show" v-model="searchOptions.searchAddr" placeholder="주소로 검색">
-        <input v-if="activeButton === 3" type="text" class="custom-input show" v-model="searchOptions.maxPeople" placeholder="최대 인원">
-        <div  v-if="activeButton === 4" type="text" class="show custom-input" >
-           <button v-if="activeButton === 4" v-bind:class="['password-button custom-button', { active: searchOptions.meetingPassword }]"
-            @click="searchOptions.meetingPassword = !searchOptions.meetingPassword"> {{ searchOptions.meetingPassword ? '비밀방' : '일반방' }}</button>
-        </div>        
-        <div  v-if="activeButton === 5" type="text" class="custom-input show col-md-3" >
-            <label for="userid" class="form-label">시작일</label>
-            <VueDatePicker v-model="formatStartDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+        <div class="container" >
+            <div class="flex-container">
+                <input v-if="activeButton === 1" type="text" class="custom-input" v-model="searchOptions.searchTitle" placeholder="관광지 이름으로 검색">
+        <input v-if="activeButton === 2" type="text" class="custom-input" v-model="searchOptions.searchAddr" placeholder="주소로 검색">
+        <input v-if="activeButton === 3" type="text" class="custom-input" v-model="searchOptions.maxPeople" placeholder="최대 인원">
+
+        <div v-if="activeButton === 4" class="custom-input">
+          <button v-if="activeButton === 4" v-bind:class="['password-button custom-button', { active: searchOptions.meetingPassword }]"
+            @click="searchOptions.meetingPassword = !searchOptions.meetingPassword">
+            {{ searchOptions.meetingPassword ? '비밀방' : '일반방' }}
+          </button>
+        </div>
+        <div v-if="activeButton === 5" class="custom-input">
+          <label for="userid" class="form-label">시작일</label>
+          <VueDatePicker v-model="formatStartDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
         </div>
 
-        <div v-if="activeButton ===6" type="text" class="custom-input show col-md-3">
-                <label for="userid" class="form-label">종료일</label>
-                <VueDatePicker v-model="formatEndDate" v-if="activeButton === 6" type="text" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
-         </div>       
+        <div v-if="activeButton === 6" class="custom-input">
+          <label for="userid" class="form-label">종료일</label>
+          <VueDatePicker v-model="formatEndDate" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+        </div>    
     </div>
-            <button class="btn btn-primary" @click="search">검색</button>
+      <div>
+        <button class="custom-search-button" @click="search">검색</button>
+
+        
+        
+
+
+      </div>
+    </div>
 
 
 
@@ -108,6 +120,7 @@ body {
         .button-container {
             display: flex;
             gap: 10px;
+            justify-content: flex-end; 
         }
 
         .custom-button {
@@ -124,6 +137,17 @@ body {
             color: white;
         }
 
+        .custom-search-button{
+            display: flex;
+      justify-content: flex-end; 
+            margin-top: 20px;
+            padding: 10px 17px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: rgb(81, 189, 165);
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
          .password-button.active {
             background-color: rgba(105, 22, 160, 0.719);
             color: white;
@@ -137,11 +161,12 @@ body {
             border: 1px solid #ccc;
             border-radius: 10px; /* 입력 필드의 모서리를 덜 깎음 */
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 안쪽 그림자 */
+            flex: 1; /* 입력 필드가 가능한 넓은 공간을 차지하도록 설정 */
+      margin-right: 10px; /* 검색 버튼과의 간격 */
         }
 
         .custom-password {
              margin-top: 20px;
-            width: calc(100% - 60px - 20px); /* 세 개의 버튼이 차지하는 너비와 간격을 계산 */
             max-width: 600px; /* 최대 너비를 설정하여 화면에 맞추기 */
             padding: 10px;
     
@@ -152,4 +177,14 @@ body {
         .custom-input.show {
             display: block;
         }
+
+      .flex-container {
+      display: flex;
+      justify-content: flex-end; 
+
+    }
+
+    .custom-search-button {
+      margin-left: auto; /* 검색 버튼이 입력 필드 바로 옆에 위치하도록 설정 */
+    }
 </style>
