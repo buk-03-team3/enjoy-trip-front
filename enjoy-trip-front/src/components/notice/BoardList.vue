@@ -63,7 +63,7 @@ getArticleList()
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="row align-self-center mb-2">
+                <div class="row align-self-center mb-2" >
                     <div class="col-md-2 text-start">
                         <button type="button" class="btn btn-outline-primary btn-sm" @click="moveWrite">글쓰기</button>
                     </div>
@@ -77,7 +77,7 @@ getArticleList()
                         </form>
                     </div>
                 </div>
-                <table class="table table-hover bm-hanna-air" style="font-size: 1.2vmax ">
+                <table class="table table-hover bm-hanna-air" style="color:black; font-size: 1.2vmax ">
                     <thead>
                         <tr class="text-center">
                             <th scope="col">글번호</th>
