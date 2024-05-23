@@ -276,9 +276,6 @@ const getPageNumbers = () => {
 
 <style scoped>
 /* 추가적인 스타일링은 여기에 */
-body {
-    background-color: #f8f9fa;
-}
 
 .kakao-map-size {
     width: 100%;

@@ -13,7 +13,7 @@ travelStore.getSidoList();
         <h1 class="mb-4 kakao-bold">관광지 조회</h1></div>
     <div class="container-fluid search-bar position-relative" >
         <div class="container">
-            <div class="position-relative rounded-pill mb-3 align-items-center mx-auto p-3" style="background: rgba(19, 53, 123, 0.8)">
+            <div class="position-relative rounded-pill mb-3 align-items-center mx-auto p-3" style="background: #444">
                 <div class="row">
                     <div class="col md-4">
                         <select v-model="travelStore.sidoObj" class="form-select btn btn-dark rounded-pill dropdown-togglecontentsButton kakao-regular" type="button" aria-expanded="false">

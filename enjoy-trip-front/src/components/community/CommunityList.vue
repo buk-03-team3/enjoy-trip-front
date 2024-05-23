@@ -91,12 +91,11 @@ const moveWrite = () => {
 <style type="text/css" scope>
 body {
     margin-top: 20px;
-    background-color: #eee;
 }
 
 .card {
     margin-bottom: 24px;
-    box-shadow: 0 2px 3px #e4e8f0;
+    box-shadow: 0 2px 3px #FFFCF6;
 }
 
 .card {

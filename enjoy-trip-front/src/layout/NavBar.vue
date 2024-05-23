@@ -2,7 +2,7 @@
     <div class="container-fluid position-relative p-0 non-padding">
         <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0 non-padding">
             <a href="" class="navbar-brand p-0">
-                <h1 class="m-0 kakao-regular">
+                <h1 class="m-0 kakao-bold ">
                     <i><img src="../../assets/img/ssafy_logo.png" alt="Logo" width="125" height="125" /></i>Enjoy Trip
                 </h1>
             </a>
