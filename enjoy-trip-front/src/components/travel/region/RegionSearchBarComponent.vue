@@ -13,10 +13,10 @@ travelStore.getSidoList()
     </div>
     <div class="container-fluid search-bar position-relative">
         <div class="container">
-            <div class="position-relative rounded-pill mb-3 align-items-center mx-auto p-3" style="background: white">
+            <div class="position-relative rounded-pill mb-3 align-items-center mx-auto p-3" style="background: #F3F4F1">
                 <div class="row">
                     <div class="col md-4">
-                        <select style="color:black; font-size: 1.4vmax; border: 2px solid black;" v-model="travelStore.sidoObj" class="form-select btn btn-white rounded-pill dropdown-togglecontentsButton kakao-regular" type="button" aria-expanded="false">
+                        <select style="color:black; font-size: 1.2vmax; border: 2px solid black;" v-model="travelStore.sidoObj" class="form-select btn btn-white rounded-pill dropdown-togglecontentsButton kakao-regular" type="button" aria-expanded="false">
                             <option value="" disabled selected>시도</option>
                             <option v-for="sido in travelStore.sidoList" :value="sido" :key="sido.sidoCode" v-bind="travelStore.sidoName">{{ sido.sidoName }}</option>
                         </select>
@@ -28,7 +28,7 @@ travelStore.getSidoList()
                             class="form-select btn btn-white rounded-pill dropdown-toggle contentsButton kakao-regular"
                             type="button"
                             aria-expanded="false"
-                            style="color:black; font-size: 1.4vmax; border: 2px solid black;"
+                            style="color:black; font-size: 1.2vmax; border: 2px solid black;"
                         >
                             <option value="" disabled selected>구군</option>
                             <option v-for="gugun in travelStore.gugunList" :value="gugun" :key="gugun.gugunCode">{{ gugun.gugunName }}</option>
@@ -114,6 +114,8 @@ travelStore.getSidoList()
                     음식점🍖
                 </div>
             </div>
+            <button onclick="#" style="font-size:1.2vmax; background-color: #222; color:white" type="button" class="bm-hanna-air btn col md-4" @click="travelStore.searchTravel()">검색</button>
+
             <hr style="border: none; border-top: 5px solid black;" />
         </div>
     </div>

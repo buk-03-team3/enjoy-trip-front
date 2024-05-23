@@ -91,7 +91,7 @@ const checkPassword = () => {
                 </div>
             </div>
 
-            <div class="blog-content border border-top-0 rounded-bottom p-4">
+            <div class="blog-content border border-top-0 rounded-bottom p-4 bm-hanna-air">
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>출발일: {{ formatDate(meeting.meetingStartDate) }} </small>
                 <br />
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>종료일: {{ formatDate(meeting.meetingEndDate) }} </small>
@@ -122,14 +122,15 @@ const checkPassword = () => {
                 </div>
             </div>
 
-            <div class="blog-content border border-top-0 rounded-bottom p-4">
+            <div class="blog-content border border-top-0 rounded-bottom p-4 kakao-regular" style="text-align: left" >
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>출발일: {{ formatDate(meeting.meetingStartDate) }} </small>
                 <br />
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>종료일: {{ formatDate(meeting.meetingEndDate) }} </small>
                 <br />
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>목적지: {{ meeting.addr1 }} </small>
                 <br />
-                <hr />
+                <div style="border-bottom: 1px solid black;"></div>
+                <br >
                 <a href="#" class="h4 kakao-regular">{{ meeting.title }}</a>
             </div>
         </div>
