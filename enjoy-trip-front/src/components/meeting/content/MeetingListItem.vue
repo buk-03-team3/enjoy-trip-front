@@ -120,8 +120,8 @@ const checkPassword = () => {
                     </div>
                 </div>
                 <div class="blog-info d-flex align-items-center border border-start-0 border-end-0 thumb-up-chat" style="color: black">
-                    <a href="#" class="btn-hover flex-fill text-center  border-end py-2" style="color: black"> <i class="bi bi-people-fill"></i>모집 인원: {{ meeting.maxPeople }}명 </a>
-                    <a href="#" class="btn-hover flex-fill text-center  py-2" style="color: black"> <i class="bi bi-person-circle "></i>{{ meeting.userName }} </a>
+                    <a href="#" class="btn-hover flex-fill text-center  border-end py-2" style="color: black"> <i class="bi bi-people-fill"></i>&nbsp;모집 인원: {{ meeting.maxPeople }}명 </a>
+                    <a href="#" class="btn-hover flex-fill text-center  py-2" style="color: black"> <i class="bi bi-person-circle "></i>&nbsp;{{ meeting.userName }} </a>
                 </div>
             </div>
 
