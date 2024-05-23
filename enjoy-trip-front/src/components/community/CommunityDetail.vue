@@ -55,7 +55,7 @@ const route = useRoute()
 const router = useRouter()
 
 const { communityId } = route.params
-const { communityStore, getCommunityDetail, deleteCommunity, hitCommunity } = useCommunityStore()
+const { communityStore, getCommunityDetail, deleteCommunity, hitCommunity, deleteCommunityImage } = useCommunityStore()
 const { authStore } = useAuthStore()
 
 onMounted(() => {
@@ -75,8 +75,29 @@ function moveModify() {
     router.push({ name: 'community-modify', params: { communityId } })
 }
 
-function onDeleteArticle() {
-    deleteCommunity(communityId)
+const onDeleteCommunityImage = async () => {
+    // meeting.content에서 이미지 URL 추출
+    const content = communityStore.community.content
+    const imageUrls = [...content.matchAll(/<img[^>]+src="([^">]+)"/g)].map((match) => match[1])
+
+    // URL에서 파일 이름만 추출
+    const fileNames = imageUrls
+        .map((url) => {
+            const match = url.match(/community\/([^/]+)$/)
+            return match ? match[1] : null
+        })
+        .filter((fileName) => fileName !== null) // null 값 필터링
+
+    // 각 이미지 URL을 삭제
+    for (const fileName of fileNames) {
+        console.log(fileName)
+        await deleteCommunityImage(fileName)
+    }
+}
+
+async function onDeleteArticle() {
+    await onDeleteCommunityImage()
+    await deleteCommunity(communityId)
     moveList()
 }
 </script>

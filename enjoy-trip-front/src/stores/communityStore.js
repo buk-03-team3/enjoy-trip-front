@@ -117,5 +117,17 @@ export const useCommunityStore = defineStore('communityStore', () => {
         }
     }
 
-    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity, hitCommunity, getSpecificUserCommunity }
+    const deleteCommunityImage = async (imageUrl) => {
+        try {
+            let { data } = await http.get(`/community/delete-image/${imageUrl}`)
+            console.log(data)
+            if (data.result == 'success') {
+                console.log("이미지 삭제 성공")
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    return { communityStore, getCommunityList, getCommunityDetail, deleteCommunity, registCommunity, modifyCommunity, clearCommunity, hitCommunity, getSpecificUserCommunity, deleteCommunityImage }
 })

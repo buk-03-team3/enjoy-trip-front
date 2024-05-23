@@ -132,7 +132,7 @@ const ondeleteMeetingImage = async () => {
 
 const ondeleteMeeting = async (meetingId) => {
     await ondeleteMeetingImage()
-    //await meetingStore.deleteMeeting(meetingId);
+    await meetingStore.deleteMeeting(meetingId);
     alert('모임이 삭제되었습니다.')
     moveList()
 }
