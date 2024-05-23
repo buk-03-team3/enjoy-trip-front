@@ -3,16 +3,16 @@
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div>
-                    <img v-if="participant.userProfileImageUrl !== 'default'" :src="participant.userProfileImageUrl" alt="User Profile Image" class="avatar-md rounded-circle" />
+                    <img v-if="participant.userProfileImageUrl != 'default'" :src="participant.userProfileImageUrl" alt="User Profile Image" class="avatar-md rounded-circle" />
                     <img v-else src="@/assets/default-user.png" alt="User Profile Image" class="avatar-md rounded-circle" />
                 </div>
                 <div class="flex-1 ms-3">
                     <h5 class="font-size-16 mb-1 t-left" style="padding-top: 0.5vmax">
                         <p class="text-dark kakao-regular" style="margin-left: 5px; margin-bottom: 0; border-bottom: 1px solid; border-top: 1px solid; width: fit-content">{{ participant.name }}</p>
                     </h5>
-                    <span class="mb-0 t-left">&nbsp;{{ participant.email }}</span>
-                    &nbsp;
-                    <span class="badge, mb-0, t-left">{{ participant.authority }}</span>
+                    <span class="mb-0">&nbsp;{{ participant.email }}</span>
+                    <br/>
+                    <span class="badge badge-question mb-0 t-left">{{ participant.authority }}</span>
                 </div>
             </div>
             </div>
@@ -136,6 +136,8 @@ a {
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: 0.75rem;
+    border: solid;
+    border-width: medium;
+    border-radius: 25%;
 }
 </style>
