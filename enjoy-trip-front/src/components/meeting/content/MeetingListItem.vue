@@ -1,6 +1,7 @@
 <script setup>
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 const meetingStore = useMeetingStoreVer1()
 const router = useRouter()
 
@@ -12,6 +13,10 @@ defineProps({
     no: {
         type: Boolean,
         required: false
+    },
+    dataNum: {
+        type: Number,
+        required: true
     }
 })
 
@@ -23,17 +28,58 @@ function formatDate(dateString) {
     return `${year}년 ${month}월 ${day}일`
 }
 
+let auth = false
 
 const getDetail = async (meetingId) => {
     await meetingStore.getDetail(meetingId)
     // console.log(meetingStore.getDetail(meetingId));
-    console.log(meetingStore.meeting, 'meeting')
+    if(meetingStore.meeting.meetingPassword == '' || meetingStore.meeting.meetingPassword == 'null' || meetingStore.meeting.meetingPassword == null){
+        auth = true;
+    }
+
+    if (auth == true) {
+        closeModal()
+        await router.push({ name: 'meeting-view' })
+    } else if (meetingStore.meeting.meetingPassword != null || meetingStore.meeting.meetingPassword != '') {
+        openModal()
+    } else {
+        closeModal()
+        await router.push({ name: 'meeting-view' })
+        
+    }
+}
+
+const getDetailAuth = async (meetingId) => {
+    await meetingStore.getDetail(meetingId)
     await router.push({ name: 'meeting-view' })
+}
+
+const isModalOpen = ref(false)
+const passwordInputValue = ref('')
+
+const openModal = () => {
+    isModalOpen.value = true
+}
+
+const closeModal = () => {
+    isModalOpen.value = false
+}
+
+const checkPassword = () => {
+    if (meetingStore.meeting.meetingPassword == passwordInputValue.value) {
+        auth = true
+        passwordInputValue.value = ''
+        getDetailAuth(meetingStore.meeting.meetingId)
+        closeModal()
+    } else {
+        alert('참여코드가 불일치 합니다.')
+        closeModal()
+    }
 }
 </script>
 
 <template>
-    <div class="col-lg-10 col-md-8" @click="getDetail(meeting.meetingId)" v-if="no">
+    <div class="col-lg-10 col-md-8" @click="getDetailAuth(meeting.meetingId)" v-if="no">
         <div class="blog-item">
             <div class="blog-img">
                 <div class="blog-img-inner">
@@ -64,7 +110,6 @@ const getDetail = async (meetingId) => {
             <div class="blog-img">
                 <div class="blog-img-inner">
                     <img class="img-fluid w-100 rounded-top" :src="meeting.firstImage" alt="Image" v-if="meeting.firstImage != ''" />
-
                     <img class="img-fluid w-100 rounded-top" src="../../../assets/default-attraction.jpg" alt="Image" v-else />
                     <div class="blog-icon">
                         <a href="#" class="my-auto"><i class="fas fa-link fa-2x text-white"></i></a>
@@ -88,6 +133,19 @@ const getDetail = async (meetingId) => {
             </div>
         </div>
     </div>
+
+    <div :class="['modal-container', { show: isModalOpen }]" @click="closeModal" v-if="!no">
+        <div class="modal-window" @click.stop>
+            <div class="card-container">
+                <h2 class="kakao-bold" style="padding-bottom: 2vmax">비밀방 입장</h2>
+                <div class="d-flex col-md-8">
+                    <input type="password" class="col-md-8 form-control" v-model="passwordInputValue" placeholder="참여코드 입력" style="color: black" />
+                    <div class="col-md-1"></div>
+                    <button @click="checkPassword" class="col-md-4 btn kakao-bold" style="background-color: #fee500; color: black; border-color: #fee500">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped>
@@ -95,5 +153,43 @@ const getDetail = async (meetingId) => {
     background-color: rgba(255, 255, 255, 0.5); /* 배경 색상과 투명도 조정 */
     backdrop-filter: blur(5px); /* 배경 흐림 효과 */
     color: rgba(0, 0, 0, 0.8); /* 글꼴 색상과 투명도 조정 */
+}
+
+.modal-container {
+    z-index: -100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: visible;
+    transition: 0.3s;
+}
+
+.modal-container.show {
+    opacity: 1;
+    visibility: visible;
+    z-index: 100;
+}
+
+.modal-window {
+    z-index: 100;
+    position: relative;
+    background: #ffffff;
+    color: #000000;
+    padding: 48px 40px;
+    width: 350px;
+    height: 200px;
+    border-radius: 12px;
+}
+
+.search-result-button-text {
+    color: white;
+    font-size: 0.9vmax;
+    border-radius: 30px;
 }
 </style>
