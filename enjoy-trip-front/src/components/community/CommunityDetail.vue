@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="background-color: white;border-radius:100px; border: 1px solid black;">
+    <div class="container" style="background-color: white; border-radius: 100px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
         <div class="row justify-content-center ">
             <div class="col-lg-10">
                 <h2 class="bm-hanna-pro"style="padding-top: 3.5vmax;  text-align: left;">
@@ -21,7 +21,7 @@
                             />
                             <img v-else src="@/assets/default-user.png" alt="User Profile Image" class="avatar-md rounded-circle" />
                             <p class="ms-3 mb-0 bm-hanna-pro">
-                                <span style="color: #222; font-size: 2vmax;">{{ communityStore.community.title }}</span> <br />
+                                <span style="color: #222; font-size: 1.6vmax;">{{ communityStore.community.title }}</span> <br />
                             </p>
                             <p class="ms-auto mb-0">
                                 <span>{{ formatDate(communityStore.community.regDt) }} 작성</span>
@@ -35,7 +35,7 @@
                     <div style="border-bottom: 2px solid #666; width:100%" />
                     <!-- <div class="col-md-4 align-self-center text-end">댓글 : 17</div> -->
                     <div class="divider mb-3"></div>
-                    <div style="color: black; font-size: 1.2vmax; " class="kakao-bold" v-html="communityStore.community.content"></div>
+                    <div style="color: black; font-size: 1.2vmax; " class="bm-eulji" v-html="communityStore.community.content"></div>
                     <div class="divider mt-3 mb-3"></div>
                     <div class="d-flex justify-content-end">
                         <button v-if="communityStore.community.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
