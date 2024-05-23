@@ -127,6 +127,7 @@ a {
 }
 
 .badge {
+    margin-top:5%;
     display: inline-block;
     padding: 0.25em 0.6em;
     font-size: 75%;
@@ -137,6 +138,6 @@ a {
     vertical-align: baseline;
     border: solid;
     border-width: medium;
-    border-radius: 25%;
+    border-radius: 15px;
 }
 </style>

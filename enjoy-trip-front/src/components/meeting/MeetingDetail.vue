@@ -299,6 +299,7 @@ a {
 
 .badge {
     display: inline-block;
+    margin-top: 5%;
     padding: 0.25em 0.6em;
     font-size: 75%;
     font-weight: 500;
@@ -308,6 +309,6 @@ a {
     vertical-align: baseline;
     border: solid;
     border-width: medium;
-    border-radius: 25%;
+    border-radius: 20px;
 }
 </style>
