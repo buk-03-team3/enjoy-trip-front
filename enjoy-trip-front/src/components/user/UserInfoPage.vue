@@ -43,7 +43,7 @@
                                 <button class="btn btn-danger w-100 py-3" type="button" id="btnSignout">Sign out</button>
                             </div>
                             <div class="col-6">
-                                <button class="btn btn-primary w-100 py-3" type="button" id="btnUpdate">Update</button>
+                                <button class="btn btn-dark w-100 py-3" type="button" id="btnUpdate">Update</button>
                             </div>
                         </div>
                     </form>

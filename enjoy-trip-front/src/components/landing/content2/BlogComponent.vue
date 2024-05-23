@@ -28,7 +28,7 @@
                             <p class="mb-3">김재경</p>
                             <a href="#" class="h4">김재경</a>
                             <p class="my-3">어쩌구저쩌구</p>
-                            <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More</a>
+                            <a href="#" class="btn btn-dark rounded-pill py-2 px-4">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                             <p class="mb-3">이현수</p>
                             <a href="#" class="h4">이현수</a>
                             <p class="my-3">어쩌구저쩌구</p>
-                            <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More</a>
+                            <a href="#" class="btn btn-dark rounded-pill py-2 px-4">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                             <p class="mb-3">레츠고</p>
                             <a href="#" class="h4">레츠고</a>
                             <p class="my-3">어쩌구저쩌구</p>
-                            <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Read More</a>
+                            <a href="#" class="btn btn-dark rounded-pill py-2 px-4">Read More</a>
                         </div>
                     </div>
                 </div>

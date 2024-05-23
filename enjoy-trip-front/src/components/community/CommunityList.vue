@@ -51,7 +51,7 @@ const moveWrite = () => {
 <template>
     <div class="container my-3">
         <div>
-            <a href="#" class="btn btn-primary" @click="moveWrite()"><i class="bx bx-plus me-1"></i> 글쓰기</a>
+            <a href="#" class="btn btn-dark" @click="moveWrite()"><i class="bx bx-plus me-1"></i> 글쓰기</a>
         </div>
         <div class="row align-items-center">
             <div class="col-md-6">
@@ -67,7 +67,7 @@ const moveWrite = () => {
                 <div class="mx-auto text-center" style="max-width: 900px">
                     <div class="position-relative mx-auto">
                         <input class="form-control border-primary rounded-pill w-100 py-3 ps-4 pe-5" type="text" placeholder="검색어 입력" v-model="param.word" />
-                        <button type="button" class="btn btn-primary rounded-pill position-absolute top-0 end-0 py-2 px-4 mt-2 me-2" @click="getArticleList">검색</button>
+                        <button type="button" class="btn btn-dark rounded-pill position-absolute top-0 end-0 py-2 px-4 mt-2 me-2" @click="getArticleList">검색</button>
                     </div>
                 </div>
             </div>

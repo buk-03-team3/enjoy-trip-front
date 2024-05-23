@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid blog my-3">
-        <a href="#" class="kakao-regular btn btn-primary bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
+        <a href="#" class="kakao-regular btn btn-dark bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
         <div class="row g-4 justify-content-center">
             <MeetingListItem v-for="(meeting, index) in meetingStore.meetingList" :key="index" :meeting="meeting" :data-num="index + 1" :no="false" />
         </div>

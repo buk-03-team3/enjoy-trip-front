@@ -31,8 +31,7 @@
                     <div id="navbarCollapse" class="nav-item collapse dropdown navbar-collapse">
                         <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">{{ updatedName }} 님</a>
                         <div class="dropdown-menu m-0">
-                            <RouterLink to="/user/info"
-                                ><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
+                            <RouterLink to="/user/info"><a href="#" class="dropdown-item"><i class="fas fa-cog me-2"></i> 마이페이지</a></RouterLink
                             >
                             <a type="button" @click="userLogout" class="dropdown-item"><i class="fas fa-power-off me-2"></i> 로그아웃</a>
                         </div>
