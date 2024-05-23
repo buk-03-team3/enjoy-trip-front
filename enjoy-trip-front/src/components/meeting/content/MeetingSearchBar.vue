@@ -8,7 +8,7 @@
             <button @click="showInput(1)" :class="['custom-button', { active: searchOptions.searchTitle !='' || activeButton===1}] " class="ms-2">관광지</button>
             <button @click="showInput(2)" :class="['custom-button', { active: searchOptions.searchAddr !='' || activeButton === 2 }]" class="ms-2"> 주소</button>
             <button @click="showInput(3)" :class="['custom-button', { active: searchOptions.maxPeople !='' || activeButton === 3 }]" class="ms-2">인원</button>
-            <button @click="showInput(4)" :class="['custom-button', { active: searchOptions.hasPassword || activeButton === 4 }]" class="ms-2">공개범위</button>
+            <button @click="showInput(4)" :class="['custom-button', { active: searchOptions.meetingPassword || activeButton === 4 }]" class="ms-2">공개범위</button>
             <button @click="showInput(5)" :class="['custom-button', { active: searchOptions.meetingStartDate || activeButton === 5 }]" class="ms-2">시작일</button>
             <button @click="showInput(6)" :class="['custom-button', { active: searchOptions.meetingEndDate || activeButton === 6 }]" class="ms-2">종료일</button>
         </div>
@@ -17,8 +17,8 @@
         <input v-if="activeButton === 2" type="text" class="custom-input show" v-model="searchOptions.searchAddr" placeholder="주소로 검색">
         <input v-if="activeButton === 3" type="text" class="custom-input show" v-model="searchOptions.maxPeople" placeholder="최대 인원">
         <div  v-if="activeButton === 4" type="text" class="show custom-input" >
-           <button v-if="activeButton === 4" v-bind:class="['password-button custom-button', { active: searchOptions.hasPassword }]"
-            @click="searchOptions.hasPassword = !searchOptions.hasPassword"> {{ searchOptions.hasPassword ? '비밀방' : '일반방' }}</button>
+           <button v-if="activeButton === 4" v-bind:class="['password-button custom-button', { active: searchOptions.meetingPassword }]"
+            @click="searchOptions.meetingPassword = !searchOptions.meetingPassword"> {{ searchOptions.meetingPassword ? '비밀방' : '일반방' }}</button>
         </div>        
         <div  v-if="activeButton === 5" type="text" class="custom-input show col-md-3" >
             <label for="userid" class="form-label">시작일</label>
@@ -68,7 +68,7 @@ const endFormat = (date) => {
         searchAddr: '',
         meetingStartDate: '',
         meetingEndDate: '',
-        hasPassword: '',
+        meetingPassword: '',
         maxPeople: ''
     })
 

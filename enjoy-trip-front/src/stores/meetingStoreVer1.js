@@ -7,7 +7,6 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const myMeetingList = reactive([])
     const myMeetingList2 = reactive([])
     const searchOptions = reactive({
-        isSearch: 'false',
         searchTitle: '',
         searchAddr: '',
         meetingStartDate: '',
@@ -59,7 +58,6 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
     const loadItems = async (searchOptions) => {
         let url
-
         if (isEmptyOptions(searchOptions)) {
             url = `/meeting/posts`
             url += `?limit=${listOption.limit}&offset=${listOption.offset}`
@@ -102,7 +100,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             if (data.result == 'success') {
                 meeting.value = data.meetingDetail.meetingDto
                 participants.value = data.meetingDetail.partiList
-                console.log(participants.value)
+                console.log(participants.value, 'partiData')
             }
         } catch (error) {
             console.error(error)

@@ -31,7 +31,8 @@ const moveWrite = () => {
 }
 
 const infiniteHandler = async ($state) => {
-    const hasMore = await meetingStore.loadItems()
+    console.log(meetingStore.searchOptions)
+    const hasMore = await meetingStore.loadItems(meetingStore.searchOptions)
     console.log(meetingStore.meetingList)
     if (hasMore) {
         $state.loaded()

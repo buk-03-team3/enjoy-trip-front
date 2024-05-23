@@ -21,7 +21,8 @@
 </template>
 
 <script setup>
-// defineProps({ participant: Object });
+
+defineProps({ participant: Object });
 
 </script>
 
