@@ -31,7 +31,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         meetingStartDate: '',
         meetingEndDate: '',
         thumbnailUrl: '',
-        userProfileImageUrl: ''
+        userProfileImageUrl: '',
+        maxPeople: 0
     })
 
     const participants = ref([''])
@@ -123,7 +124,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
 
     const modifyMeeting = async (meeting) => {
         try {
-            await http.put(`/meeting/${meeting.meetingId}`, meeting).then((response) => {
+            await http.put(`/meeting/posts`, meeting).then((response) => {
                 if (response.status == 200) {
                     return 'success'
                 } else {

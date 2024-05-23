@@ -78,7 +78,7 @@
                 <div class="mb-3"></div>
                     <!-- 끝 -->
                     <div class="d-flex justify-content-end">
-                        <button v-if="editable() | meetingStore.meeting.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
+                        <button v-if="editable() | meetingStore.meeting.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify(meetingStore.meeting.meetingId)">수정</button>
                         <button
                             v-if="meetingStore.meeting.sameUser | meetingStore.meeting.admin"
                             type="button"
@@ -115,6 +115,10 @@ const { authStore } = useAuthStore()
 function moveList() {
     console.log(meetingStore.meeting.content)
     router.push({ name: 'meeting-list' })
+}
+
+function moveModify(meetingId) {
+    router.push({ name: 'meeting-modify', params: { meetingId } })
 }
 
 const ondeleteMeetingImage = async () => {

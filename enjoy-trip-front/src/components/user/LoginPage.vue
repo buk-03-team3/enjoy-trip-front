@@ -87,7 +87,7 @@ const login = async () => {
             <p class="kakao-regular login-form-field-text">패스워드</p>
             <div class="input__block">
                 <input type="password" placeholder="비밀번호" class="input login-form-input-text kakao-regular" id="password" v-model="authStore.password" />
-                <a href="#" @click.prevent="openModal">비밀번호 잃어버림?</a>
+                <a href="#" @click.prevent="openModal">비밀번호 찾기</a>
             </div>
             <div style="display: flex">
                 <button type="button" class="signin__btn kakao-regular" @click="login">로그인</button>
