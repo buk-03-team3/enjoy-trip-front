@@ -139,7 +139,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             oneParti.meetingId = meeting.value.meetingId
 
             console.log(oneParti)
-            let { data } = await http.post(`/participants/join`, oneParti)
+            let { data } = await http.post(`/participants`, oneParti)
             console.log(data)
             if (data.result == 'success') {
                 alert('모임에 가입되었습니다!!')
