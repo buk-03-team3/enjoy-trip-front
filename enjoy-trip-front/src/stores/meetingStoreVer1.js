@@ -111,6 +111,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
+    //모임 삭제
     const deleteMeeting = async (meetingId) => {
         try {
             let { data } = await http.delete(`/meeting/posts/${meetingId}`)
@@ -193,6 +194,25 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
+    const withdrawParticipant = async (userId, meetingId) => {
+        const url = `/participants/${userId}/${meetingId}`
+
+        try {
+            let { data } = await http.delete(url)
+            console.log(data)
+            if (data.result == 'success') {
+                meeting.value = ''
+                meetingList.length = 0
+                listOption.offset = 0
+                loadItems()
+            } else {
+                console.log('소모임 탈퇴 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     const clearMeeting = () => {
         meeting.value.meetingId = 0
         meeting.value.userId = 0
@@ -222,6 +242,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         modifyMeeting,
         clearMeeting,
         getSpecificUserMeeting,
-        getMyMeeting
+        getMyMeeting,
+        withdrawParticipant
     }
 })
