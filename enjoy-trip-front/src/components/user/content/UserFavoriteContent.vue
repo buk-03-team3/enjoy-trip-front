@@ -3,9 +3,9 @@
     <div class="col-lg-12 kakao-bold">나의 관심 여행지:</div>
     <div class="col-lg-12">
       <ul v-if="favoriteStore.favoriteList.length > 0">
-        <li v-for="favorite in favoriteStore.favoriteList" :key="favorite.id">
+        <li class="kakao-bold" v-for="favorite in favoriteStore.favoriteList" :key="favorite.id">
           {{ favorite.attractionName }}
-          <button @click="deleteFavorite(favorite.favoritesId)">X</button>
+          <button class="btn btn-danger mb-2 " @click="deleteFavorite(favorite.favoritesId)">x</button>
         </li>
       </ul>
       <p v-else>즐겨찾기 내역이 없습니다.</p>

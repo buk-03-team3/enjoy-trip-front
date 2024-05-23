@@ -1,6 +1,6 @@
 <script setup>
 import {useRecommendStore} from '@/stores/recommendStore'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import RecommendSilder from './RecommendSilder.vue';
 const recommendStore = useRecommendStore();
 recommendStore.recommendWithUserAddr();
@@ -25,6 +25,10 @@ recommendStore.recommendWithFavoriteContent();
             "mlevel": "6"
 */
 
+onMounted(()=>{
+    recommendStore.recommendWithFavoriteContent();
+    console.log(recommendStore.recommendListWithFavoriteContent);
+})
 </script>
 
 <template>

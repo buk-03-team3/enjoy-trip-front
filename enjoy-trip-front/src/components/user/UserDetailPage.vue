@@ -248,10 +248,11 @@ const uploadProfileImage = async (files) => {
                                 <button v-if="isEditMode" class="btn btn-dark w-100 py-3" type="button" id="btnCancel" @click="cancelUpdate">취소하기</button>
                                 <button v-else class="btn btn-dark w-100 py-3" type="button" id="btnHome" @click="home">홈</button>
                             </div>
-                            <UserFavoriteContent />
+
                         </div>
                     </form>
                 </div>
+               <div class="" style="margin-left:auto"> <UserFavoriteContent /></div> 
             </div>
         </div>
         <div class="container py-5">

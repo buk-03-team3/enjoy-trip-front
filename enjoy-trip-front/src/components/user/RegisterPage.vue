@@ -109,9 +109,10 @@ const register = async () => {
                 <br />
                 <p class="kakao-regular sign-form-field-text">비밀번호</p>
                 <div class="input__block">
-                    <input type="password" placeholder="비밀번호" class="input login-form-input-text kakao-regular" id="password" v-model="password" />
+                    <input type="password" placeholder="비밀번호" value="Abcd!2345"
+                    class="input login-form-input-text kakao-regular" id="password" v-model="password" />
                 </div>
-                <p class="kakao-regular sign-form-field-text">비밀번호 확인</p>
+                <p  value="Abcd!2345" class="kakao-regular sign-form-field-text">비밀번호 확인</p>
                 <div class="input__block">
                     <input type="password" placeholder="비밀번호 확인" class="input login-form-input-text kakao-regular" id="check-password" v-model="checkPassword" />
                 </div>
