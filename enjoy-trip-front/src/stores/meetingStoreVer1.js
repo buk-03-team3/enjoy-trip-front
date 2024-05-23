@@ -34,8 +34,8 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
 
     const participants = ref([''])
     const oneParti = reactive({
-        meetingId: '',
-        userId: '',
+        meetingId: 0,
+        userId: 0,
         authority: ''
     })
     //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
@@ -201,12 +201,25 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
             let { data } = await http.delete(url)
             console.log(data)
             if (data.result == 'success') {
-                meeting.value = ''
+                clearMeeting()
                 meetingList.length = 0
                 listOption.offset = 0
                 loadItems()
             } else {
                 console.log('소모임 탈퇴 실패')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+
+    const deleteMeetingImage = async (imageUrl) => {
+        try {
+            let { data } = await http.get(`/meeting/delete-image/${imageUrl}`)
+            console.log(data)
+            if (data.result == 'success') {
+                console.log("이미지 삭제 성공")
             }
         } catch (error) {
             console.error(error)
@@ -243,6 +256,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         clearMeeting,
         getSpecificUserMeeting,
         getMyMeeting,
-        withdrawParticipant
+        withdrawParticipant,
+        deleteMeetingImage
     }
 })

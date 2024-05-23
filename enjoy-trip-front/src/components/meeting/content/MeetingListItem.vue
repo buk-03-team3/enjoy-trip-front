@@ -209,7 +209,7 @@ const checkPassword = () => {
 }
 
 .lock-icon {
-    font-size: 2rem;
+    font-size: 4rem;
     color: white;
 }
 </style>
