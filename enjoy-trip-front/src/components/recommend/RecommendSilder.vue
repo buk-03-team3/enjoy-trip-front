@@ -43,7 +43,7 @@ const modules = [Pagination, Navigation]
         </template>
     </swiper>
     
-    <h1 class="mb-4 kakao-bold text-center">회원님이 좋아하는 컨텐츠</h1>
+    <!-- <h1 class="mb-4 kakao-bold text-center">회원님이 좋아하는 컨텐츠</h1>
     <div style="border-bottom: 2px solid grey; width:96%; margin-left: 2%"/>
     <swiper autoplay="5000" ref="{swiperRef}" :slidesPerView="5" :centeredSlides="false" :spaceBetween="30" :pagination="false" :navigation="true" :modules="modules" class="mySwiper">
         <template v-for="(recommendElement, index) in recommendStore.recommendListWithFavoriteContent" :key="index">
@@ -56,5 +56,5 @@ const modules = [Pagination, Navigation]
                 </div>
             </swiper-slide>
         </template>
-    </swiper>
+    </swiper> -->
 </template>
