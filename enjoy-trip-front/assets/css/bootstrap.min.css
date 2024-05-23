@@ -74,8 +74,8 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #757575;
-    background-color: #FFFCF6;
+    color: dark;
+    background-color: #FBF8F3;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     /* animation: changeBackgroundColor 30s infinite; 애니메이션 반복 설정 */
@@ -83,7 +83,6 @@ body {
 hr {
     margin: 1rem 0;
     color: inherit;
-    background-color: currentColor;
     border: 0;
     opacity: 0.25;
 }
@@ -2037,7 +2036,7 @@ textarea.form-control-lg {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #757575;
+    color: black;
     background-color: #fff;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
     background-repeat: no-repeat;

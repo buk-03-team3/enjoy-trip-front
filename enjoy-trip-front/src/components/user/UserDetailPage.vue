@@ -157,7 +157,7 @@ const uploadProfileImage = async (files) => {
 </script>
 
 <template>
-    <div class="container-fluid contact bg-light py-5">
+    <div class="container-fluid contact py-5">
         <div class="container py-5">
             <div class="content"></div>
             <div class="text-center mt-3 content">

@@ -1,52 +1,3 @@
-@keyframes changeBackgroundColor2 {
-    0% {
-        background-color: #e1f1ff;
-    } /* 초기 배경색 설정 */
-    23% {
-        background-color: #e1f1ff;
-    } /* 0%에서 2.3초 후까지 #4B89DC 색상 유지 */
-    33% {
-        background-color: #fff2d3;
-    } /* 2.3초부터 3.3초까지 #666 색상으로 변경 */
-    56% {
-        background-color: #fff2d3;
-    } /* 3.3초부터 5.6초까지 #666 색상 유지 */
-    66% {
-        background-color: #dfffdd;
-    } /* 5.6초부터 6.6초까지 pink 색상으로 변경 */
-    99% {
-        background-color: #e1f1ff;
-    } /* 6.6초부터 9.9초까지 pink 색상 유지 */
-
-    /* 100% {
-        background-color: #4b89dc;
-    } 9.9초부터 10초까지 #4B89DC 색상 유지 */
-}
-
-@keyframes changeBackgroundColor3 {
-    0% {
-        background-color: #f0f5fa;
-    } /* 초기 배경색 설정 */
-    23% {
-        background-color: #f0f5fa;
-    } /* 0%에서 2.3초 후까지 #4B89DC 색상 유지 */
-    33% {
-        background-color: #fff9ea;
-    } /* 2.3초부터 3.3초까지 #666 색상으로 변경 */
-    56% {
-        background-color: #fff9ea;
-    } /* 3.3초부터 5.6초까지 #666 색상 유지 */
-    66% {
-        background-color: #f1faf0;
-    } /* 5.6초부터 6.6초까지 pink 색상으로 변경 */
-    99% {
-        background-color: #f0f5fa;
-    } /* 6.6초부터 9.9초까지 pink 색상 유지 */
-
-    /* 100% {
-        background-color: #4b89dc;
-    } 9.9초부터 10초까지 #4B89DC 색상 유지 */
-}
 @font-face {
     font-family: 'KakaoBold';
     src: url('../font/KakaoBold.ttf');
@@ -67,7 +18,7 @@
 }
 @font-face {
     font-family: 'BmHannaPro';
-    src: url('../font/BMHannaPro.ttf');
+    src: url('../font/BMHANNAPro.ttf');
     font-weight: normal;
     font-style: normal;
 }

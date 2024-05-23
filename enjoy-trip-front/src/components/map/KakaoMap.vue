@@ -213,29 +213,28 @@ const getPageNumbers = () => {
 </script>
 
 <template>
-    <div class="mx-auto text-center mb-5 mt-5" style="max-width: 900px">
-        <h5 class="section-title px-3 kakao-bold">🎠</h5>
+    <div class="d-flex mx-auto text-center mb-5 mt-5 gap-4" style="max-width: 900px; width: fit-content;">
+        <input type="text" class="form-control kakao-bold"style="width: 18vmax; height: max-content; text-align: center" v-model="travelStore.searchKeyword" placeholder="검색어를 입력하세요" />
+                <button @click="search" class="form-control btn kakao-bold" style="background-color: #fee500; color: black; border-color: #fee500; width:6vmax">검색</button>
     </div>
 
-    <div class="" style="width: fit-content">
-        <div class="search-container mb-4">
-            <div class="input-group" style="width: 25%; margin-left: 8%">
-                <input type="text" class="form-control kakao-bold" v-model="travelStore.searchKeyword" placeholder="검색어를 입력하세요" />
-                <button @click="search" class="btn kakao-bold" style="background-color: #fee500; color: black; border-color: #fee500">검색</button>
-            </div>
-        </div>
+    <div class="" >
+        
     </div>
     <div class="result-container mx-auto" style="position: relative">
         <div class="search-result-container" style="position: absolute">
-            <div id="map" class="d-flex" style="width: 1400px; height: 600px"></div>
+            <div id="map" class="d-flex" style="width: 90vmax; height: 35vmax"></div>
         </div>
 
-        <div class="resultBox fiexd-size" style="position: absolute" v-if="travelStore.travelList.length > 0">
+        <div class="resultBox fiexd-size" style="position: absolute; " v-if="travelStore.travelList.length > 0">
+            <h4 style="margin-top:0.8vmax;" class="bm-hanna-pro">검색 결과</h4>
+            <hr style="margin: auto; border: none; border-bottom: 2px solid black"/>
             <ul id="searchResults" class="list-group">
-                <li class="list-group-item py-3 mr-3 kakao-regular d-flex align-items-center" v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index">
+                <li class="list-group-item py-3 mr-3 bm-hanna-air d-flex align-items-center" style="text-align:left; font-size: 0.9vmax;" v-for="(mapList, index) in getMarkersForPage(currentPage)" :key="index">
                     <!-- 이미지를 왼쪽에 배치 -->
                     <div>
-                        <img :src="mapList.firstImage" style="width: 100px; height: 50px; margin-right: 20px" />
+                        <img src="../../assets/default-attraction.jpg" style="width: 100px; height: 50px; margin-right: 20px" v-if="mapList.firstImage == ''"/>
+                        <img :src="mapList.firstImage" style="width: 100px; height: 50px; margin-right: 20px" v-else/>
                     </div>
                     <!-- 나머지 div들을 오른쪽에 배치 -->
                     <div class="ml-3">
@@ -300,11 +299,13 @@ const getPageNumbers = () => {
 }
 
 .resultBox {
-    height: 600px;
-    width: 400px;
+    border: 2px solid black;
+    height: 35vmax;
+    width: 25vmax;
     z-index: 3;
     overflow: auto;
     background-color: white;
+    overflow: hidden;
 }
 
 #searchResults .list-group {
@@ -352,7 +353,7 @@ const getPageNumbers = () => {
     border-bottom: 2px solid #ccc;
     border-right: 1px solid #ccc;
     overflow: hidden;
-    background: #fff;
+    background: white;
 }
 .wrap .info:nth-child(1) {
     border: 0;
@@ -361,7 +362,7 @@ const getPageNumbers = () => {
 .info .title {
     padding: 5px 0 0 10px;
     height: 30px;
-    background: #eee;
+    background: white;
     border-bottom: 1px solid #ddd;
     font-size: 18px;
     font-weight: bold;
