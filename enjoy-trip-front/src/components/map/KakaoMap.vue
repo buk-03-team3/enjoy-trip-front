@@ -3,10 +3,12 @@ import { useTravelStore } from '@/stores/travelStore'
 import { useFavoriteStore } from '@/stores/favoriteStore'
 import { useAuthStore } from '@/stores/authStore'
 import { ref, computed, watch, onMounted, reactive } from 'vue'
+import { useRoute } from 'vue-router'
 
 const travelStore = useTravelStore()
 const { authStore } = useAuthStore()
 const { favoriteStore, deleteFavorite, addFavorite, getFavoriteList } = useFavoriteStore()
+const route = useRoute()
 
 const toggleFavorite = async (attractionId, attractionName) => {
     const isFavorite = favoriteStore.favoriteList.some((item) => item.attractionId === attractionId)
@@ -120,10 +122,13 @@ onMounted(() => {
     // getFavoriteList(authStore.userId)
     travelStore.travelList = '' 
     positions = '';
-    travelStore.searchKeyword = ''
+    travelStore.searchKeyword = route.query.searchWord == null ? ''  : route.query.searchWord
     travelStore.sidoObj = ''
     travelStore.gugunObj=''
-
+    console.log('Search Word:', travelStore.searchKeyword)
+    if (travelStore.searchKeyword != null) {
+        search();
+    }
     if (window.kakao && window.kakao.maps) {
         initMap()
     } else {
