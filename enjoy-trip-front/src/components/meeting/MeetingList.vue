@@ -1,6 +1,8 @@
 <template>
     <div class="container-fluid blog my-3">
         <a href="#" class="kakao-regular btn btn-dark bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
+        <!-- 대충 여기쯤 검색 옵션들-->
+
         <div class="row g-4 justify-content-center">
             <MeetingListItem v-for="(meeting, index) in meetingStore.meetingList" :key="index" :meeting="meeting" :data-num="index + 1" :no="false" />
         </div>
@@ -14,7 +16,7 @@ import { useRouter } from 'vue-router'
 import InfiniteLoading from 'vue-infinite-loading'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useAuthStore } from '@/stores/authStore'
-
+import { onMounted } from 'vue';
 const router = useRouter()
 const { authStore } = useAuthStore()
 const meetingStore = useMeetingStoreVer1()
@@ -37,6 +39,16 @@ const infiniteHandler = async ($state) => {
         $state.complete()
     }
 }
+
+const search = async () => {
+    meetingStore.listOption.offset = 0;
+    meetingStore.loadItems();
+}
+
+onMounted(() => {
+    console.log(meetingStore.meetingList);
+    meetingStore.listOption.offset = 0;
+})
 </script>
 
 <style scoped>

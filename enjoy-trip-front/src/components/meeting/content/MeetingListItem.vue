@@ -112,9 +112,9 @@ const checkPassword = () => {
                     <img class="img-fluid w-100 rounded-top" :src="meeting.firstImage" alt="Image" v-if="meeting.firstImage !== ''" />
                     <img class="img-fluid w-100 rounded-top" src="../../../assets/default-attraction.jpg" alt="Image" v-else />
                     
-                    <div v-if="meeting.meetingPassword.length > 0" class="blur-overlay">
+                    <!-- <div v-if="meeting.meetingPassword.length > 0" class="blur-overlay">
                         <i class="bi bi-lock-fill lock-icon"></i>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="blog-info d-flex align-items-center border border-start-0 border-end-0 thumb-up-chat">
                     <a href="#" class="btn-hover flex-fill text-center text-white border-end py-2"> <i class="fa fa-thumbs-up text-primary me-2"></i>모집 인원: {{ meeting.maxPeople }}명 </a>

@@ -1,4 +1,4 @@
-import { ref, reactive } from 'vue'
+import { ref, reactive, isRef } from 'vue'
 import { defineStore } from 'pinia'
 import http from '@/common/axios-config.js'
 
@@ -7,10 +7,13 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
     const myMeetingList = reactive([])
     const myMeetingList2 = reactive([])
     const searchOptions = reactive({
+        isSearch: 'false',
         searchTitle: '',
         searchAddr: '',
         meetingStartDate: '',
-        meetingEndDate: ''
+        meetingEndDate: '',
+        meetingPassword: '',
+        maxPeople: ''
     })
     const listOption = reactive({
         limit: 10,
@@ -38,16 +41,38 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         userId: 0,
         authority: ''
     })
-    //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
-    const loadItems = async () => {
-        try {
-            let url = `/meeting/posts`
-            url += `?limit=${listOption.limit}&offset=${listOption.offset}`
-            url += `&searchTitle=${searchOptions.searchTitle}`
-            url += `&searchAddr=${searchOptions.searchAddr}`
-            url += `&meetingStartDate=${searchOptions.meetingStartDate}`
-            url += `&meetingEndDate=${searchOptions.meetingEndDate}`
 
+    //검색 옵션이 존재하는지 확인...
+    function isEmptyOptions(options) {
+        let flag = true
+        for (const key in options) {
+            if (options.hasOwnProperty(key)) {
+                if (options[key] != '') {
+                    flag = false
+                }
+            }
+        }
+        if (flag) return true
+        return false
+    }
+
+    //무한스크롤 + 10개씩 데이터 가져오기 ( limit 10 으로 해뒀음)
+    const loadItems = async (searchOptions) => {
+        let url
+
+        if (isEmptyOptions(searchOptions)) {
+            url = `/meeting/posts`
+            url += `?limit=${listOption.limit}&offset=${listOption.offset}`
+        } else {
+            url = `/meeting/posts/search`
+            url += `?limit=${listOption.limit}&offset=${listOption.offset}`
+            url += `&searchTitle=${searchOptions.searchTitle}&searchAddr=${searchOptions.searchAddr}`
+            url += `&meetingStartDate=${searchOptions.meetingStartDate}&meetingEndDate=${searchOptions.meetingEndDate}`
+            url += `&maxPeople=${searchOptions.maxPeople}&meetingPassword=${searchOptions.meetingPassword}`
+        }
+        // console.log(searchOptions)
+        // console.log(isEmptyOptions(searchOptions))
+        try {
             let { data } = await http.get(url)
             console.log(url)
             console.log(data)
@@ -56,6 +81,7 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
                 page.value += 1
                 meetingList.push(...data.list)
                 listOption.offset += listOption.limit
+                console.log(meetingList, 'meetingListdd')
             } else {
                 return false
             }
@@ -213,13 +239,12 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         }
     }
 
-
     const deleteMeetingImage = async (imageUrl) => {
         try {
             let { data } = await http.get(`/meeting/delete-image/${imageUrl}`)
             console.log(data)
             if (data.result == 'success') {
-                console.log("이미지 삭제 성공")
+                console.log('이미지 삭제 성공')
             }
         } catch (error) {
             console.error(error)
@@ -240,6 +265,10 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         meeting.value.thumbnailUrl = ''
     }
 
+    const clearList = () => {
+        meetingList.length = 0
+    }
+
     return {
         loadItems,
         page,
@@ -257,6 +286,9 @@ export const useMeetingStoreVer1 = defineStore('meetingStoreVer1', () => {
         getSpecificUserMeeting,
         getMyMeeting,
         withdrawParticipant,
-        deleteMeetingImage
+        deleteMeetingImage,
+        searchOptions,
+        listOption,
+        clearList
     }
 })

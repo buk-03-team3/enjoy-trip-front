@@ -17,13 +17,11 @@
             </div>
             </div>
         </div>
+
 </template>
 
 <script setup>
-defineProps({ participant: Object });
-
-import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
-import { ref, onMounted } from 'vue';
+// defineProps({ participant: Object });
 
 </script>
 
