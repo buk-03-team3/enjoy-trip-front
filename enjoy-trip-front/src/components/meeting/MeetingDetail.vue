@@ -45,7 +45,7 @@
                     <div class="container row" >
                         <!-- 글 작성자 !! -->
                         <div class="card col-xl-4 col-md-4 col-sm-6 mb-5 " style="box-shadow: 0px 6px 10px 2px rgba(0, 0, 0, 0.1);">
-                            <div class="card-body" >
+                            <div class="card-body mb-4" >
                                 <div class="d-flex align-items-center"  >
                                     <div>
                                         <img

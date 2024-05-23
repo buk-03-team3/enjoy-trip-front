@@ -1,6 +1,6 @@
 <template>
     <div class="card " style="box-shadow: 0px 6px 10px 2px rgba(0, 0, 0, 0.1);">
-        <div class="card-body">
+        <div class="card-body ">
             <div class="d-flex align-items-center">
                 <div>
                     <img v-if="participant.userProfileImageUrl != 'default'" :src="participant.userProfileImageUrl" alt="User Profile Image" class="avatar-md rounded-circle" />
