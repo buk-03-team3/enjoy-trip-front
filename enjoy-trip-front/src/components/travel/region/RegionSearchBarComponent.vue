@@ -38,7 +38,7 @@ travelStore.getSidoList()
             </div>
 
             <hr style="border: none; border-top: 5px solid black;" />
-            <div class="row contentType mb-3 pb-3 kakao-bold gap-2 justify-content-between" style="border-radius: 10%; font-size: 1vmax">
+            <div class="row contentType mb-3 pb-3 kakao-bold gap-2 justify-content-between" style="border-radius: 25%; font-size: 1vmax">
                 <div
                     class="col-md-2 contents-items d-flex justify-content-center align-items-center"
                     :class="{ selected: travelStore.selectContent[12] }"
@@ -126,9 +126,14 @@ travelStore.getSidoList()
 <style scoped>
 .contents-items {
     
-    border: black solid 2px;
-    border-radius: 25%;
-    font-size: 1.2vmax
+    border: black solid 3px;
+    border-radius: 25px;
+    font-size: 1.4vmax
+}
+
+.hover{
+    background-color: black;
+    color: white;
 }
 .selected {
     background-color: black;
