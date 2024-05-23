@@ -1,10 +1,11 @@
 <template>
-    <div class="container">
+    <div class="container" style="background-color: white; border-radius: 30px; border-style: hidden;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);" >
         <div class="row justify-content-center">
             <div class="col-lg-10 text-start">
                 <div class="row">
-                    <div>
-                        <div class="d-flex align-items-center">
+                    <div > 
+                        <div class="d-flex align-items-center mt-5" style="border-style: inset; border-radius: 25px; padding:20px; background-color: aliceblue;">
                             <img
                                 v-if="meetingStore.meeting.userProfileImageUrl !== 'default'"
                                 :src="meetingStore.meeting.userProfileImageUrl"
@@ -12,35 +13,40 @@
                                 class="avatar-md rounded-circle"
                             />
                             <img v-else src="@/assets/default-user.png" alt="User Profile Image" class="avatar-md rounded-circle" />
-                            <p class="uesrName">{{ meetingStore.meeting.userName }}</p>
+                            <p class="uesrName ms-3 mb-0  bm-hanna-pro" style="border-right-style: "> {{ meetingStore.meeting.userName }}  </p>
 
                             <p class="ms-3 mb-0 bm-hanna-pro">
-                                <span style="color: #222; font-size: 2vmax">{{ meetingStore.meeting.title }}</span> <br />
+                                <span style="color: #222; font-size: 2vmax"> 🛬 {{ meetingStore.meeting.title }}</span> <br />
                             </p>
-                            <p class="ms-auto mb-0">
+                            <p class="ms-auto mb-0 bm-hanna-pro">
                                 <span>{{ formatDate(meetingStore.meeting.regDate) }} 작성</span>
                                 <br />
                                 <!-- <span style="text-align: right">조회 : {{ communityStore.community.readCount }}</span> -->
                             </p>
                         </div>
                         <br />
+                        
                     </div>
                     <hr />
                     <!-- <div class="col-md-4 align-self-center text-end">댓글 : 17</div> -->
                     <div class="divider mb-3"></div>
-                    <div style="color: #222; font-size: 1.2vmax; border: 1px solid" class="bm-hanna-air" v-html="meetingStore.meeting.content"></div>
-                    <div style="color: #222; font-size: 1.8vmax; border: 1px solid">목적지: {{ meetingStore.meeting.addr1 }}</div>
-                    <div style="color: #222; font-size: 1.8vmax; border: 1px solid">
-                        기간: {{ formatDate(meetingStore.meeting.meetingStartDate) }} 부터 {{ formatDate(meetingStore.meeting.meetingEndDate) }} 까지
+                    <div style="font-size: 1.8vmax" class="bm-hanna-air" v-html="meetingStore.meeting.content"></div>
+                    <div class="divier mb-3"></div>
+                    
+                    <div class="bm-hanna-air" style="color: #222;  font-size: 1.3vmax; font-style: italic;">목적지: {{ meetingStore.meeting.addr1 }}</div>
+                    <div class="bm-hanna-air" style="color: #222; font-size: 1.3vmax; font-style: italic">
+                        기간: {{ formatDate(meetingStore.meeting.meetingStartDate) }} ~ {{ formatDate(meetingStore.meeting.meetingEndDate) }} 까지 여행 예정
                     </div>
-                    <div class="mt-3" style="color: #222; font-size: 1.5vmax">함께 하는 사람들 {{ partiCount + 1 }}/{{ meetingStore.meeting.maxPeople }}</div>
-                    <div class="divider mt-3 mb-3"></div>
+                    <div class="container mt-3" style="background-color: aliceblue; border-radius: 25px;">
+                    <div class="ms-3 mt-3 bm-hanna-air" style="color: #222; font-size: 1.8vmax">현재 참여자 ({{ partiCount + 1 }}/{{ meetingStore.meeting.maxPeople }})</div>
+                    <div class="divider ms-3  mt-3 mb-3"></div>
+                    
                     <!--해당 모임에 참여 중인 인원들 -->
-                    <div class="row">
+                    <div class="container row" >
                         <!-- 글 작성자 !! -->
-                        <div class="card col-xl-4 col-md-4 col-sm-6 mb-4">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
+                        <div class="card col-xl-4 col-md-4 col-sm-6 mb-5 " style="box-shadow: 0px 6px 10px 2px rgba(0, 0, 0, 0.1);">
+                            <div class="card-body" >
+                                <div class="d-flex align-items-center"  >
                                     <div>
                                         <img
                                             v-if="meetingStore.meeting.userProfileImageUrl != 'default'"
@@ -68,7 +74,8 @@
                             <ParticipantsItem :participant="participant" />
                         </div>
                     </div>
-
+                </div>
+                <div class="mb-3"></div>
                     <!-- 끝 -->
                     <div class="d-flex justify-content-end">
                         <button v-if="editable() | meetingStore.meeting.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>

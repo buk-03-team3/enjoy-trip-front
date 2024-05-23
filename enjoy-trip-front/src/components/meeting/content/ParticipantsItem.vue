@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card " style="box-shadow: 0px 6px 10px 2px rgba(0, 0, 0, 0.1);">
         <div class="card-body">
             <div class="d-flex align-items-center">
                 <div>
@@ -39,7 +39,6 @@ a {
 .t-left {
     text-align: left;
 }
-
 .card {
     position: relative;
     display: flex;
@@ -51,7 +50,6 @@ a {
     border: 1px solid #eff0f2;
     border-radius: 1rem;
 }
-
 .avatar-md {
     height: 4rem;
     width: 4vmax;
