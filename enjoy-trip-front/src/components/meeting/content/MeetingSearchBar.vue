@@ -22,14 +22,12 @@
         </div>        
         <div  v-if="activeButton === 5" type="text" class="custom-input show col-md-3" >
             <label for="userid" class="form-label">시작일</label>
-            <VueDatePicker 
-             v-model="searchOptions.meetingStartDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+            <VueDatePicker v-model="formatStartDate" :format="startFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
         </div>
 
         <div v-if="activeButton ===6" type="text" class="custom-input show col-md-3">
                 <label for="userid" class="form-label">종료일</label>
-                <VueDatePicker  v-if="activeButton === 6" type="text" 
-                v-model="searchOptions.meetingEndDate"  :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
+                <VueDatePicker v-model="formatEndDate" v-if="activeButton === 6" type="text" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
          </div>       
     </div>
             <button class="btn btn-primary" @click="search">검색</button>
@@ -43,6 +41,8 @@ import {ref, onMounted, reactive} from 'vue'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useRouter } from 'vue-router'
 const router = useRouter()
+const formatStartDate = ref('')
+const formatEndDate = ref('')
 // DatePicker
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
@@ -51,14 +51,16 @@ const startFormat = (date) => {
     const day = date.getDate()
     const month = date.getMonth() + 1
     const year = date.getFullYear()
-
+    formatStartDate.value = `${year}-${month}-${day}`
+    searchOptions.meetingStartDate = formatStartDate;
     return `${year}년 ${month}월 ${day}일`
 }
 const endFormat = (date) => {
     const day = date.getDate()
     const month = date.getMonth() + 1
     const year = date.getFullYear()
-
+    formatEndDate.value = `${year}-${month}-${day}`
+    searchOptions.meetingEndDate = formatEndDate;
     return `${year}년 ${month}월 ${day}일`
 }
 
