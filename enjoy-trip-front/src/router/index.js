@@ -154,6 +154,7 @@ router.beforeEach(async (to, from, next) => {
         next(); // 화이트리스트에 있는 경로는 인증 확인을 건너뜁니다.
     } else {
         const isAuthenticated = await auth();
+        console.log(isAuthenticated)
         if (!isAuthenticated) {
             alert("로그인 먼저 해주세요")
             next({ name: 'login' });

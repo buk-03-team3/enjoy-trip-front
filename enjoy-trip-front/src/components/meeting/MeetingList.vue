@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid blog my-3">
-        <a href="#" class="kakao-regular btn btn-dark bottom-blank" @click="moveWrite()"><i class="bx me-1"></i>모집하기</a>
+        <a tpye="button" href="#" class="kakao-regular btn btn-dark bottom-blank" @click="moveWrite()">모집하기</a>
         <!-- 대충 여기쯤 검색 옵션들-->
 
         <div class="row g-4 justify-content-center">
@@ -17,17 +17,24 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useAuthStore } from '@/stores/authStore'
 import { onMounted } from 'vue';
+
+import auth from '@/api/auth.js'
 const router = useRouter()
 const { authStore } = useAuthStore()
 const meetingStore = useMeetingStoreVer1()
 
-const moveWrite = () => {
-    meetingStore.clearMeeting()
-    meetingStore.infiniteHandler
-    meetingStore.meeting.userId = authStore.userId
-    meetingStore.meeting.userName = authStore.name
+const moveWrite = async () => {
+    const isAuthenticated = await auth();
+    
+    if (isAuthenticated) {
+        meetingStore.clearMeeting();
+        meetingStore.meeting.userId = authStore.userId;
+        meetingStore.meeting.userName = authStore.name;
 
-    router.push({ name: 'meeting-write' })
+        router.push({ name: 'meeting-write' });
+    } else {
+        router.push({ name: 'login' });
+    }
 }
 
 const infiniteHandler = async ($state) => {

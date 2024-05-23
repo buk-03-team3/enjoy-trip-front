@@ -8,7 +8,6 @@ export function createPersistedStatePlugin() {
                 return
             }
             localStorage.setItem(storeId, JSON.stringify(state))
-            console.log(storeId)
         })
 
 

@@ -55,7 +55,7 @@ function detectRemovedImages(currentContent) {
 }
 
 function removeImageAttributes(content) {
-    return content.replace(/<img([^>]*)\s(width="[^"]*")\s(height="[^"]*")([^>]*)>/g, '<img$1$4>');
+    return content.replace(/<img([^>]*)\s(width="[^"]*")\s(height="[^"]*")([^>]*)>/g, '<img$1$4>')
 }
 
 const ckeditor = CKEditor.component
@@ -120,7 +120,7 @@ watch(
     () => community.content,
     (value) => {
         let len = value.length
-        if (len == 0 || len > 500) {
+        if (len == 0 || len > 5000) {
             contentErrMsg.value = '내용을 확인해 주세요!!!'
         } else contentErrMsg.value = ''
     },
@@ -133,7 +133,7 @@ function onSubmit() {
     } else if (contentErrMsg.value) {
         alert(contentErrMsg.value)
     } else {
-        community.content = removeImageAttributes(community.content);
+        community.content = removeImageAttributes(community.content)
         props.type === 'regist' ? writeArticle() : updateArticle()
     }
 }
@@ -260,7 +260,7 @@ const selectCategory = (category) => {
 }
 .select-menu .options {
     position: absolute; /* 변경 */
-    
+
     overflow-y: auto;
     max-height: 12rem;
     padding: 10px;

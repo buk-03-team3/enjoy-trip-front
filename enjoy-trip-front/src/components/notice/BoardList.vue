@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import {useNoticeStore} from '@/stores/noticeStore'
+import { useNoticeStore } from '@/stores/noticeStore'
 import { storeToRefs } from 'pinia'
 // import { listArticle } from '@/api/board.js' // 실제 API 호출 대신 주석 처리
 
@@ -9,7 +9,9 @@ import VSelect from '../commons/VSelect.vue'
 import BoardListItem from './item/BoardListItem.vue'
 import PageNavigation from '../commons/PageNavigation.vue'
 
-const  noticeStore  = useNoticeStore();
+import auth from '@/api/auth.js'
+
+const noticeStore = useNoticeStore()
 const router = useRouter()
 
 const selectOption = ref([
@@ -21,15 +23,12 @@ const selectOption = ref([
 
 const changeKey = (val) => {
     console.log('BoarList에서 선택한 조건 : ' + val)
-    noticeStore.notices.searchOption = val;
+    noticeStore.notices.searchOption = val
 }
-
-
 
 const getArticleList = () => {
     console.log('서버에서 글목록 얻어오자')
-    noticeStore.noticeList();
-
+    noticeStore.noticeList()
 }
 
 const onPageChange = (val) => {
@@ -38,37 +37,33 @@ const onPageChange = (val) => {
     getArticleList()
 }
 
-const moveWrite = () => {
-    noticeStore.notice.value ={
-        title: '',
-        content: '',
-        noticeId: '',
-        readCount: '',
-        regDate: '',
-        userId: '',
-        userName: '',
-        userProfileImageUrl: ''
+const moveWrite = async () => {
+    const isAuthenticated = await auth()
+
+    if (isAuthenticated) {
+        noticeStore.notice.value = {
+            title: '',
+            content: '',
+            noticeId: '',
+            readCount: '',
+            regDate: '',
+            userId: '',
+            userName: '',
+            userProfileImageUrl: ''
+        }
+        router.push({ name: 'article-write' })
+    } else {
+        router.push({ name: 'login' })
     }
-
-//     const movePage= (pageIndex) => {
-//       console.log("BoardMainVue : movePage : pageIndex : " + pageIndex);
-//       setBoardMovePage(pageIndex);
-//       getArticleList();
-//    }
-
-    router.push({ name: 'article-write' })
 }
-
-  getArticleList()
+getArticleList()
 </script>
 
 <template>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    글목록
-                </h2>
+                <h2 class="my-3 py-3 shadow-sm bg-light text-center">글목록</h2>
             </div>
             <div class="col-lg-10">
                 <div class="row align-self-center mb-2">
@@ -80,7 +75,7 @@ const moveWrite = () => {
                             <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
                             <div class="input-group input-group-sm">
                                 <input type="text" class="form-control" v-model="noticeStore.notices.searchWord" placeholder="검색어..." />
-                                <button class="btn btn-dark" type="button" @click="noticeStore.searchList ">검색</button>
+                                <button class="btn btn-dark" type="button" @click="noticeStore.searchList">검색</button>
                             </div>
                         </form>
                     </div>
@@ -100,7 +95,7 @@ const moveWrite = () => {
                     </tbody>
                 </table>
             </div>
-            <PageNavigation  @pageChange="onPageChange"></PageNavigation>
+            <PageNavigation @pageChange="onPageChange"></PageNavigation>
         </div>
     </div>
 </template>

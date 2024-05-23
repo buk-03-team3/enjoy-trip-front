@@ -7,7 +7,7 @@ import CommunityListItem from './item/CommunityListItem.vue'
 import PageNavigation from '../commons/PageNavigation.vue'
 
 const { communityStore, getCommunityList, clearCommunity } = useCommunityStore()
-const { authStore } = useAuthStore();
+const { authStore } = useAuthStore()
 
 const communityList = ref([])
 const currentPage = ref(1)
@@ -39,12 +39,18 @@ const onPageChange = (val) => {
 
 const router = useRouter()
 
-const moveWrite = () => {
-    clearCommunity()
-    communityStore.community.userId = authStore.userId
-    communityStore.community.name = authStore.name
-    communityStore.community.userProfileImageUrl = authStore.userProfileImageUrl
-    router.push({ name: 'community-write' })
+const moveWrite = async () => {
+    const isAuthenticated = await auth()
+
+    if (isAuthenticated) {
+        clearCommunity()
+        communityStore.community.userId = authStore.userId
+        communityStore.community.name = authStore.name
+        communityStore.community.userProfileImageUrl = authStore.userProfileImageUrl
+        router.push({ name: 'community-write' })
+    } else {
+        router.push({ name: 'login' })
+    }
 }
 </script>
 
@@ -95,7 +101,7 @@ body {
 
 .card {
     margin-bottom: 24px;
-    box-shadow: 0 2px 3px #FFFCF6;
+    box-shadow: 0 2px 3px #fffcf6;
 }
 
 .card {
