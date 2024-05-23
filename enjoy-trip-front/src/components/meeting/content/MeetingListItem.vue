@@ -78,7 +78,7 @@ const checkPassword = () => {
 </script>
 
 <template>
-    <div class="col-lg-10 col-md-8" @click="getDetailAuth(meeting.meetingId)" v-if="no" style="color: black">
+    <!-- <div class="col-lg-10 col-md-8" @click="getDetailAuth(meeting.meetingId)" v-if="no" style="color: black">
         <div class="blog-item">
             <div class="blog-img">
                 <div class="blog-img-inner">
@@ -103,8 +103,41 @@ const checkPassword = () => {
                 <a href="#" class="h4 kakao-regular">{{ meeting.title }}</a>
             </div>
         </div>
-    </div>
+    </div> -->
 
+    <div class="col-lg-3 col-md-6" @click="getDetail(meeting.meetingId)" style="color: black">
+        <div class="blog-item" style="color: black">
+            <div class="blog-img" style="color: black">
+                <div class="blog-img-inner" style="color: black">
+                    <img class="img-fluid w-100 rounded-top" :src="meeting.firstImage" alt="Image" v-if="meeting.firstImage !== ''" />
+                    <img class="img-fluid w-100 rounded-top" src="../../../assets/default-attraction.jpg" alt="Image" v-else />
+                    
+                    <div v-if="!meeting.meetingPassword == ''" class="blur-overlay">
+                        <i class="bi bi-lock-fill lock-icon"></i>
+                    </div>
+                    <div v-if="!meeting.meetingPassword == null" class="blur-overlay">
+                        <i class="bi bi-lock-fill lock-icon"></i>
+                    </div>
+                </div>
+                <div class="blog-info d-flex align-items-center border border-start-0 border-end-0 thumb-up-chat" style="color: black">
+                    <a href="#" class="btn-hover flex-fill text-center  border-end py-2" style="color: black"> <i class="bi bi-people-fill"></i>&nbsp;모집 인원: {{ meeting.maxPeople }}명 </a>
+                    <a href="#" class="btn-hover flex-fill text-center  py-2" style="color: black"> <i class="bi bi-person-circle "></i>&nbsp;{{ meeting.userName }} </a>
+                </div>
+            </div>
+
+            <div class="blog-content border border-top-0 rounded-bottom p-4 kakao-regular" style="text-align: left" >
+                <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt me-2"></i>출발일: {{ formatDate(meeting.meetingStartDate) }} </small>
+                <br />
+                <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt me-2"></i>종료일: {{ formatDate(meeting.meetingEndDate) }} </small>
+                <br />
+                <small class="flex-fill text-center py-2"> <i class="bi bi-flag-fill"></i> &nbsp;목적지: {{ meeting.addr1 }} </small>
+                <br />
+                <div style="border-bottom: 1px solid black;"></div>
+                <br >
+                <a href="#" class="h4 kakao-regular">{{ meeting.title }}</a>
+            </div>
+        </div>
+    </div>
 
     <div :class="['modal-container', { show: isModalOpen }]" @click="closeModal" v-if="!no">
         <div class="modal-window" @click.stop>

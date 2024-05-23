@@ -318,13 +318,14 @@ const uploadProfileImage = async (files) => {
                 </div>
 
                 <!-- My Meetings Tab -->
-                <div class="d-flex tab-pane fade post-section" id="myMeetings" role="tabpanel" aria-labelledby="myMeetings-tab" v-show="activeTab === 'myMeetings'">
-                    <div class="meeting-container" v-for="(meeting, index) in meetingStore.myMeetingList.value">
+                <div class="">
+                <div class="tab-pane fade post-section mb-2" id="myMeetings" role="tabpanel" aria-labelledby="myMeetings-tab" v-show="activeTab === 'myMeetings'">
+                    <div class="meeting-container " v-for="(meeting, index) in meetingStore.myMeetingList.value">
                         <MeetingListItem :meeting="meeting" :no="true" :data-num="index+1" />
                     </div>
                 </div>
-
-                My Participated Meetings Tab
+            </div>
+                <!-- My Participated Meetings Tab -->
                 <div class="d-flex tab-pane fade post-section" id="myParticipatedMeetings" role="tabpanel" aria-labelledby="myParticipatedMeetings-tab" v-show="activeTab === 'myMeetings2'">
                     <div class="meeting-container" v-for="(meeting, index) in meetingStore.myMeetingList2.value" >
                         <MeetingListItem :meeting="meeting" :no="true" :data-num="index+1" />
