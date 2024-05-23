@@ -126,7 +126,7 @@ onMounted(() => {
     travelStore.sidoObj = ''
     travelStore.gugunObj=''
     console.log('Search Word:', travelStore.searchKeyword)
-    if (travelStore.searchKeyword != null) {
+    if (travelStore.searchKeyword != null && travelStore.searchKeyword != '') {
         search();
     }
     if (window.kakao && window.kakao.maps) {
