@@ -1,15 +1,18 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <!-- <div class="col-lg-10">
-                <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    {{ communityStore.community.title }}
+    <div class="container" style="background-color: white;border-radius:100px; border: 1px solid black;">
+        <div class="row justify-content-center ">
+            <div class="col-lg-10">
+                <h2 class="bm-hanna-pro"style="padding-top: 3.5vmax;  text-align: left;">
+                    📜 {{ communityStore.community.communityId }}번째 게시글
                 </h2>
-            </div> -->
-            <div class="col-lg-10 text-start">
+            </div>
+            <hr />
+            
+            <div style="border-bottom: 2px solid #666; width:82%" />
+            <div class="col-lg-10 text-start" style="padding-top: 1.5vmax">
                 <div class="row">
                     <div>
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center" >
                             <img
                                 v-if="communityStore.community.userProfileImageUrl !== 'default'"
                                 :src="communityStore.community.userProfileImageUrl"
@@ -29,14 +32,15 @@
                         <br />
                     </div>
                     <hr />
+                    <div style="border-bottom: 2px solid #666; width:100%" />
                     <!-- <div class="col-md-4 align-self-center text-end">댓글 : 17</div> -->
                     <div class="divider mb-3"></div>
-                    <div style="color: #222; font-size: 1.2vmax; border: 1px solid; " class="bm-hanna-air" v-html="communityStore.community.content"></div>
+                    <div style="color: black; font-size: 1.2vmax; " class="kakao-bold" v-html="communityStore.community.content"></div>
                     <div class="divider mt-3 mb-3"></div>
                     <div class="d-flex justify-content-end">
                         <button v-if="communityStore.community.sameUser" type="button" class="btn btn-outline-success mb-3 ms-1" @click="moveModify">수정</button>
                         <button v-if="communityStore.community.sameUser" type="button" class="btn btn-outline-danger mb-3 ms-1" @click="onDeleteArticle">삭제</button>
-                        <button type="button" class="btn btn-outline-primary mb-3" @click="moveList">목록</button>
+                        &nbsp;<button type="button" class="btn btn-outline-primary mb-3" @click="moveList">목록</button>
                     </div>
                 </div>
             </div>
@@ -104,11 +108,11 @@ async function onDeleteArticle() {
 
 <style scoped>
 .avatar-md {
-    height: 4rem;
-    width: 4vmax;
+    height: 5rem;
+    width: 5vmax;
 }
 
 .rounded-circle {
-    border-radius: 50% !important;
+    border-radius: 50px !important;
 }
 </style>

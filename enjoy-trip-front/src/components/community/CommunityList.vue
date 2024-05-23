@@ -26,7 +26,6 @@ onMounted(() => {
 })
 
 const getArticleList = async () => {
-    console.log((3 - 1) * VITE_COMMUNITY_LIST_SIZE)
     await getCommunityList(VITE_COMMUNITY_LIST_SIZE, (currentPage.value - 1) * VITE_COMMUNITY_LIST_SIZE, param.value.word)
     communityList.value = communityStore.communityList
     totalPage.value = Math.ceil(communityStore.totalCount / VITE_COMMUNITY_LIST_SIZE) // 서버에서 받아오는 전체 글 개수
@@ -88,10 +87,6 @@ const moveWrite = async () => {
             </div>
         </div>
         <!-- card end -->
-
-        <!-- pagenation start -->
-        <PageNavigation :current-page="currentPage" :total-page="totalPage" @pageChange="onPageChange"></PageNavigation>
-        <!-- pagenation end -->
     </div>
 </template>
 
