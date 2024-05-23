@@ -23,6 +23,7 @@ function formatDate(dateString) {
     return `${year}년 ${month}월 ${day}일`
 }
 
+
 const getDetail = async (meetingId) => {
     await meetingStore.getDetail(meetingId)
     // console.log(meetingStore.getDetail(meetingId));
@@ -49,7 +50,7 @@ const getDetail = async (meetingId) => {
                 <br />
                 <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>종료일: {{ formatDate(meeting.meetingEndDate) }} </small>
                 <br />
-                <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>목적지: {{ meeting.attractionId }} </small>
+                <small class="flex-fill text-center py-2"> <i class="fa fa-calendar-alt text-primary me-2"></i>목적지: {{ meeting.addr1 }} </small>
 
                 <br />
                 <hr />

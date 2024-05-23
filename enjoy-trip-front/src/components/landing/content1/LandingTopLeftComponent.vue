@@ -12,11 +12,13 @@
                     <div class="row g-4">
                         <div class="col-md-6 col-lg-4" v-for="(attraction, index) in hotAttractionList" :key="attraction.attractionId">
                             <div class="national-item">
-                                <img :src="attraction.firstImage" class="img-fluid w-100 rounded" alt="Image" />
+
+                                <img src="../../../assets/default-attraction.jpg" class="img-fluid w-100 rounded" alt="Image"  v-if="attraction.firstImage == ''" />
+                                <img :src="attraction.firstImage" class="img-fluid w-100 rounded" alt="Image" v-else />
                                 <div class="national-content">
                                     <div class="national-info">
                                         <h5 class="text-white text-uppercase mb-2">{{ index + 1 }}위</h5>
-                                        <router-link :to="`/map`" class="btn-hover text-white">지도에서 확인하기</router-link>
+                                        <router-link :to="`/map?searchWord=${attraction.title}`"  class="btn-hover text-white">지도에서 확인하기</router-link>
                                     </div>
                                 </div>
                                 <div class="national-plus-icon">
