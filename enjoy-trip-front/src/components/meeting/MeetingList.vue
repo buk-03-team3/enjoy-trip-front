@@ -1,5 +1,6 @@
 <template>
     <div class="container-fluid blog my-3">
+        <MeetingSearchBar></MeetingSearchBar>
         <a tpye="button" href="#" class="kakao-regular btn btn-dark bottom-blank" @click="moveWrite()">모집하기</a>
         <!-- 대충 여기쯤 검색 옵션들-->
 
@@ -17,7 +18,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { useMeetingStoreVer1 } from '@/stores/meetingStoreVer1'
 import { useAuthStore } from '@/stores/authStore'
 import { onMounted } from 'vue';
-
+import MeetingSearchBar from './content/MeetingSearchBar.vue'
 import auth from '@/api/auth.js'
 const router = useRouter()
 const { authStore } = useAuthStore()

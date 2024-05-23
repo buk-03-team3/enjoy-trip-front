@@ -34,11 +34,8 @@
           <VueDatePicker v-model="formatEndDate" :format="endFormat" locale="kr" cancel-text="취소" select-text="선택"></VueDatePicker>
         </div>    
     </div>
-      <div>
-        <button class="custom-search-button" @click="search">검색</button>
-
-        
-        
+      <div class="flex-container mb-3">
+        <button class="custom-search-button " @click="search">검색</button>
 
 
       </div>
@@ -120,7 +117,7 @@ body {
         .button-container {
             display: flex;
             gap: 10px;
-            justify-content: flex-end; 
+            justify-content: center;
         }
 
         .custom-button {
@@ -139,7 +136,7 @@ body {
 
         .custom-search-button{
             display: flex;
-      justify-content: flex-end; 
+            justify-content: center;
             margin-top: 20px;
             padding: 10px 17px;
             border: 1px solid #ccc;
@@ -180,11 +177,8 @@ body {
 
       .flex-container {
       display: flex;
-      justify-content: flex-end; 
-
+      justify-content: center;
     }
 
-    .custom-search-button {
-      margin-left: auto; /* 검색 버튼이 입력 필드 바로 옆에 위치하도록 설정 */
-    }
+
 </style>
