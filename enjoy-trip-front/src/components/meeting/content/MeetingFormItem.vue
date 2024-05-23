@@ -65,7 +65,7 @@ function detectRemovedImages(currentContent) {
 }
 
 function removeImageAttributes(content) {
-    return content.replace(/<img([^>]*)\s(width="[^"]*")\s(height="[^"]*")([^>]*)>/g, '<img$1$4>');
+    return content.replace(/<img([^>]*)\s(width="[^"]*")\s(height="[^"]*")([^>]*)>/g, '<img$1$4>')
 }
 
 const ckeditor = CKEditor.component
@@ -129,7 +129,7 @@ watch(
     () => meetingStore.meeting.content,
     (value) => {
         let len = value.length
-        if (len == 0 || len > 1000) {
+        if (len == 0 || len > 3000) {
             contentErrMsg.value = '내용을 확인해 주세요!!!'
         } else contentErrMsg.value = ''
     },
@@ -142,7 +142,7 @@ function onSubmit() {
     } else if (contentErrMsg.value) {
         alert(contentErrMsg.value)
     } else {
-        meetingStore.meeting.content = removeImageAttributes(meetingStore.meeting.content);
+        meetingStore.meeting.content = removeImageAttributes(meetingStore.meeting.content)
         props.type === 'regist' ? writeArticle() : updateArticle()
     }
 }
@@ -312,19 +312,34 @@ const nextPage = () => {
                     <div class="d-flex flex-column">
                         <br />
                         <div class="d-flex justify-content-between mb-2">
-                            <button v-for="item in paginatedList.slice(0, 3)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
+                            <button
+                                v-for="item in paginatedList.slice(0, 3)"
+                                type="button"
+                                class="btn btn-dark search-result-button-text"
+                                @click="selectDestination(item.title, item.attractionId, item.firstImage)"
+                            >
                                 {{ item.title }}
                             </button>
                         </div>
                         <br />
                         <div class="d-flex justify-content-between mb-2">
-                            <button v-for="item in paginatedList.slice(3, 6)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
+                            <button
+                                v-for="item in paginatedList.slice(3, 6)"
+                                type="button"
+                                class="btn btn-dark search-result-button-text"
+                                @click="selectDestination(item.title, item.attractionId, item.firstImage)"
+                            >
                                 {{ item.title }}
                             </button>
                         </div>
                         <br />
                         <div class="d-flex justify-content-between">
-                            <button v-for="item in paginatedList.slice(6, 9)" type="button" class="btn btn-dark search-result-button-text" @click="selectDestination(item.title, item.attractionId, item.firstImage)">
+                            <button
+                                v-for="item in paginatedList.slice(6, 9)"
+                                type="button"
+                                class="btn btn-dark search-result-button-text"
+                                @click="selectDestination(item.title, item.attractionId, item.firstImage)"
+                            >
                                 {{ item.title }}
                             </button>
                         </div>

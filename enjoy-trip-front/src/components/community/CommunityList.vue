@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useCommunityStore } from '@/stores/communityStore'
 import CommunityListItem from './item/CommunityListItem.vue'
 import PageNavigation from '../commons/PageNavigation.vue'
+import auth from '@/api/auth.js'
 
 const { communityStore, getCommunityList, clearCommunity } = useCommunityStore()
 const { authStore } = useAuthStore()
