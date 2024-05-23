@@ -67,7 +67,7 @@ const moveWrite = () => {
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-                    <mark class="sky">글목록</mark>
+                    글목록
                 </h2>
             </div>
             <div class="col-lg-10">
